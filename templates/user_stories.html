@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load tz %}
+{% load filters %}
+
+{% block title %}
+  Tracequal - User Stories
+{% endblock title %}
+
+{% block links %}
+    <script src="{% static 'js/script.js' %}"></script>
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <link href="{% static 'user_stories.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock links %}
+
+{% block content %}
+    <div id="responsive-container" class="list-group container artifacts_container">
+        <div class="tq-backbar">
+            <div class="row align-items-center">
+                <div class="col-1 tq-back"><a href="{% url 'project' project_id=project.id %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
+            </div>
+        </div>
+        <div class="d-flex align-items-center">
+            <div>
+                <img src="{% static 'icons/icon-user_story.png' %}" alt="Custom Icon" class="icon img-fit"/>
+            </div>
+            <div class="ml-3">
+                <h1>User stories</h1>
+            </div>
+        </div>
+        {% if user_stories %}
+            {% for user_story in user_stories %}
+                <div class="list-group-item list-group-item-action artifact" style="position: relative;">
+                    <div class="d-flex align-items-center">
+                        <div class="number">{{ forloop.counter }}</div>
+                        <div class="ml-3">As {{ user_story.usr|determine_article }} <span class="field user">{{ user_story.usr }}</span>
+                        I want to <span class="field action">{{ user_story.actn }}</span>
+                        so that <span class="field purpose">{{ user_story.purpose }}</span>
+                        <small class="date">{{ user_story.date|date:"F j, Y h:i A" }}</small>
+                        <i class="fas fa-trash"></i>
+                            <i class="fas fa-edit"></i>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                There are no user stories.
+            </div>
+        {% endif %}
+        <div class="add"><i class="fas fa-plus"></i></div>
+    </div>
+{% endblock content%}

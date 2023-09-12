@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+  Tracequal - Projects
+{% endblock title %}
+
+{% block links %}
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <link href="{% static 'project.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock links %}
+
+{% block content %}
+
+    <div id="responsive-container" class="list-group container" style="position: relative; padding-top: 3.3em;">
+        <div class="tq-progress tq-progress-project">
+            <div class="row align-items-center">
+                <div class="col-1 tq-back"><a href="{% url 'index' %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
+                <div class="col-11">
+                    <div class="progress" role="progressbar" aria-valuenow="{{ total }}" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar progress-bar-striped" style="width: {{ total }}%; background-color: {{ colors.total }}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h1>{{ project.name }}</h1>
+        <h4>{{ project.description }}</h4>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-12">
+                    <a href="{% url 'user_stories' project_id=project.id %}"><div class="tq-category">
+                        <img src="{% static 'icons/icon-user_story.png' %}" alt="Custom Icon" class="icon"/><h5>User stories</h5>
+                    </div></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="{% url 'requirements' project_id=project.id %}"><div class="tq-category" data-tooltip="{{ progress.progress_requirements }} %">
+                        <img src="{% static 'icons/icon-requirements.png' %}" alt="Custom Icon" class="icon"/><h5>Requirements</h5>
+                        <h5><small class="percentage">{{ progress.progress_requirements|floatformat:0 }}%</small></h5>
+                        <div class="progress tq-progress-category" role="progressbar" aria-valuenow="{{ progress.progress_requirements }}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-bar-striped" style="width: {{ progress.progress_requirements }}%; background-color: {{ colors.r }}"></div>
+                        </div>
+                    </div></a>
+                </div>
+                <div class="col-md-6">
+                    <a href="{% url 'design' project_id=project.id %}"><div class="tq-category" data-tooltip="{{ progress.progress_design }} %">
+                        <img src="{% static 'icons/icon-design.png' %}" alt="Custom Icon" class="icon"/><h5>Design</h5>
+                        <h5><small class="percentage">{{ progress.progress_design|floatformat:0 }}%</small></h5>
+                        <div class="progress tq-progress-category" role="progressbar" aria-valuenow="{{ progress.progress_design }}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-bar-striped" style="width: {{ progress.progress_design }}%; background-color: {{ colors.d }}"></div>
+                        </div>
+                    </div></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="{% url 'code' project_id=project.id %}"><div class="tq-category" data-tooltip="{{ progress.progress_code }} %">
+                        <img src="{% static 'icons/icon-code.png' %}" alt="Custom Icon" class="icon"/><h5>Code</h5>
+                        <h5><small class="percentage">{{ progress.progress_code|floatformat:0 }}%</small></h5>
+                        <div class="progress tq-progress-category" role="progressbar" aria-valuenow="{{ progress.progress_code }}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-bar-striped" style="width: {{ progress.progress_code }}%; background-color: {{ colors.c }}"></div>
+                        </div>
+                    </div></a>
+                </div>
+                <div class="col-md-6">
+                    <a href="{% url 'tests' project_id=project.id %}"><div class="tq-category" data-tooltip="{{ progress.progress_tests }} %">
+                        <img src="{% static 'icons/icon-tests.png' %}" alt="Custom Icon" class="icon"/><h5>Tests</h5>
+                        <h5><small class="percentage">{{ progress.progress_tests|floatformat:0 }}%</small></h5>
+                        <div class="progress tq-progress-category" role="progressbar" aria-valuenow="{{ progress.progress_tests }}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-bar-striped" style="width: {{ progress.progress_tests }}%; background-color: {{ colors.t }}"></div>
+                        </div>
+                    </div></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content%}

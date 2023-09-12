@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+  Tracequal
+{% endblock title %}
+
+{% block links %}
+  <link href="{% static 'styles.css' %}" rel="stylesheet">
+  <!--<link href="{% static 'project.css' %}" rel="stylesheet">-->
+{% endblock links %}
+
+{% block boton %}
+  {% if authenticated %}
+    <a type="button" class="btn btn-light" href=".">Cerrar sesión</a>
+  {% else %}
+    <a type="button" class="btn btn-light" href=".">Iniciar sesión</a>
+  {% endif %}
+{% endblock boton %}
+
+{% block content %}
+
+  <div id="responsive-container" class="list-group container">
+    {% for project, total in projects%}
+      <a href="project/{{ project.id }}" class="list-group-item list-group-item-action proyecto">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1 accent">{{ project.name }}</h5>
+          <!--<small>3 days ago</small>-->
+        </div>
+        <p class="mb-1">{{ project.description }}</p>
+        <!--<small>&nbsp;</small>-->
+        <div class="progress tq-progress-category" role="progressbar" aria-valuenow="{{ total.total }}" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar progress-bar-striped" style="width: {{ total.total }}%; background-color: {{ total.color }}"></div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+
+{% endblock content%}

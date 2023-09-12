@@ -1,0 +1,39 @@
+strong{
+    font-size: 0.8em;
+}
+
+.text{
+    font-size: 0.8em;
+}
+
+.btn_not_tested{
+    color: black;
+    background-color: #f39c12;
+    border-color: #f39c12;
+    --bs-btn-active-bg: #d35400;
+    --bs-btn-active-border-color: #f39c12;
+}
+
+.btn_not_tested:hover{
+    background-color: #e67e22;
+    border-color: #f39c12;
+}
+
+.btn_pass{
+    background-color: #2ecc71;
+    border-color: #27ae60;
+}
+
+.div-boton{
+    width: 16em;
+}
+
+.application-date{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.hidden_content{
+    padding-bottom: 1em;
+}

@@ -1,0 +1,15 @@
+.icons{
+    position: absolute;
+    right: 4em;
+}
+
+.icons .fas{
+    transform: scale(1.5);
+    padding: 0 0.5em;
+    color: #16a085;
+}
+
+.icons .fas:hover{
+    color: #3498db;
+    cursor: pointer;
+}

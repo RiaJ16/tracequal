@@ -1,0 +1,189 @@
+.container{
+  width: 95%;
+  max-width: 900px;
+}
+
+#btn_login{
+  position: relative;
+  -ms-transform: translateY(-50%);
+  transform: translate(-50%, -50%);
+  left: 50%;
+  margin-top: 5%;
+}
+
+small{
+  color: gray;
+}
+
+body{
+  background-color: #ecf0f1;
+  background-image: url(background.png);
+}
+
+.navbar{
+  background-color: #10ac84 !important;
+}
+
+.accent{
+    color: #10ac84;
+}
+
+#responsive-container{
+    padding: 0.8em;
+    background-color: white;
+}
+
+.proyecto{
+    background-color: #ecf0f1;
+    position: relative;
+}
+
+.proyecto:hover{
+    background-color: #e0e0e0;
+}
+
+h1{
+    font-family: Verdana, Literata, serif;
+    color: #16a085;
+}
+
+h4{
+    font-family: Verdana, Literata, serif;
+    color: grey;
+}
+
+a{
+    color: black;
+    text-decoration: none;
+}
+
+.fas.fa-arrow-left:hover {
+    color: grey;
+    cursor: pointer;
+}
+
+.tq-backbar{
+    background-color: #1abc9c;
+    padding: 0.7rem;
+    border-radius: 5px 5px 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.project_name{
+    color: white;
+    font-size: 1em;
+    font-family: Verdana, Literata, serif;
+}
+
+.alert-danger{
+    border: 0.1em solid;
+    --bs-alert-bg: #fab1a0;
+}
+
+.add{
+    background-color: #e67e22;
+    border: 0.1em solid #f39c12;
+    position: fixed;
+    bottom: 1em;
+    margin: 0 0.5em 0.5em 0;
+    padding: 1.5em;
+    border-radius: 5em;
+    z-index: 1;
+    float: right;
+}
+
+.add:hover{
+    background-color: #d35400;
+    cursor: pointer;
+}
+
+.fas.fa-plus{
+    font-size: 2em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+.icon {
+    width: 80px;
+    height: 80px;
+    user-select: none;
+    pointer-events: none;
+}
+
+.number{
+    color: #bebebe;
+    font-size: 1.2em;
+    margin-right: 1em;
+}
+
+.artifacts_container{
+    position: relative;
+    padding: 3.3em 0.8em 4em 0.8em !important;
+}
+
+.fas.fa-trash{
+    color: #eb4d4b;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 0 0.5em 0.5em 0;
+}
+
+.fas.fa-trash:hover {
+    color: #c0392b;
+    cursor: pointer;
+}
+
+.fas.fa-edit{
+    color: #2980b9;
+    position: absolute;
+    bottom: 0;
+    right: 1.2em;
+    margin: 0 0.5em 0.5em 0;
+}
+
+.fas.fa-edit:hover {
+    color: #3498db;
+    cursor: pointer;
+}
+
+.date{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.artifact{
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+
+.icons{
+    position: absolute;
+    right: 4em;
+}
+
+.icons .fas{
+    transform: scale(1.5);
+    padding: 0 0.5em;
+    color: #16a085;
+}
+
+.icons .fas:hover{
+    color: #3498db;
+    cursor: pointer;
+}
+
+.hidden_content {
+    display: none;
+}
+
+.extra:hover{
+    cursor: pointer;
+}
