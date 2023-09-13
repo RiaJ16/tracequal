@@ -6,7 +6,7 @@ strong{
     font-size: 0.8em;
 }
 
-.btn_not_tested{
+.btn_inconclusive{
     color: black;
     background-color: #f39c12;
     border-color: #f39c12;
@@ -14,7 +14,7 @@ strong{
     --bs-btn-active-border-color: #f39c12;
 }
 
-.btn_not_tested:hover{
+.btn_inconclusive:hover{
     background-color: #e67e22;
     border-color: #f39c12;
 }

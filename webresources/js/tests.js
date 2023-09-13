@@ -10,11 +10,11 @@ $(document).ready(function() {
         menu.removeClass('btn_pass');
         menu.removeClass('btn-secondary');
         menu.removeClass('btn-danger');
-        menu.removeClass('btn_not_tested');
+        menu.removeClass('btn_inconclusive');
         switch(option){
             case 0:
                 verdict = "Not tested";
-                menu.addClass('btn_not_tested');
+                menu.addClass('btn-secondary');
                 break;
             case 1:
                 verdict = "Pass";
@@ -23,7 +23,7 @@ $(document).ready(function() {
                 break;
             case 2:
                 verdict = "Inconclusive";
-                menu.addClass('btn-secondary');
+                menu.addClass('btn_inconclusive');
                 break;
             case 3:
                 verdict = "Fail";

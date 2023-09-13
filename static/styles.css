@@ -136,7 +136,7 @@ a{
 }
 
 .fas.fa-trash:hover {
-    color: grey;
+    color: #c0392b;
     cursor: pointer;
 }
 
@@ -161,5 +161,29 @@ a{
 
 .artifact{
     padding-top: 2em;
-    padding-bottom: 1em;
+    padding-bottom: 2em;
+}
+
+.icons{
+    position: absolute;
+    right: 4em;
+}
+
+.icons .fas{
+    transform: scale(1.5);
+    padding: 0 0.5em;
+    color: #16a085;
+}
+
+.icons .fas:hover{
+    color: #3498db;
+    cursor: pointer;
+}
+
+.hidden_content {
+    display: none;
+}
+
+.extra:hover{
+    cursor: pointer;
 }
