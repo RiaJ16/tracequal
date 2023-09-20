@@ -11,7 +11,6 @@ def edit_user_story(request, project_id, us_id):
         form = UserStoryForm(request.POST, instance=us)
         if form.is_valid():
             form.save()
-            print(form.__dict__)
             return redirect('user_stories')
         else:
             raise Http404("Not valid")
