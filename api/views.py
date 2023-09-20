@@ -6,7 +6,7 @@ from .models import (Code, Design, Options, Progress, Project, Requirement,
 from utils.colors import calculate_gradient_color
 from utils.natural_language import determine_article
 
-from . import add
+from . import add, edit
 
 # Create your views here.
 
@@ -147,3 +147,7 @@ def tests(request, project_id):
 def add_user_story(request, project_id):
     return add.add_user_story(request, project_id)
 
+
+@project_required
+def edit_user_story(request, project_id, us_id):
+    return edit.edit_user_story(request, project_id, us_id)

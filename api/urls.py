@@ -11,5 +11,6 @@ urlpatterns = [
     path('design/', views.design, name='design'),
     path('code/', views.code, name='code'),
     path('tests/', views.tests, name='tests'),
-    path('add_user_story', views.add_user_story, name='add_user_story'),
+    path('user_stories/add/', views.add_user_story, name='add_user_story'),
+    path('user_stories/edit/<int:us_id>', views.edit_user_story, name='edit_user_story'),
 ]

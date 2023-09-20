@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('#add_another').click(function(){
+    $('#keep_editing').click(function(){
         let my_form = $('#form');
         let data = my_form.serialize();
         $.ajax({
@@ -8,18 +8,10 @@ $(document).ready(function(){
             data: data,
             success: function(response){
                 alert_appear(
-                    'The artifact was successfully added',
+                    'The artifact was successfully updated',
                     '.custom-alert.success',
                     2000,
                 );
-                my_form[0].reset();
-                let key_field = $('#key');
-                let new_max= parseInt(key_field.val()) + 1;
-                key_field.attr('value', new_max);
-                key_field.attr('min', new_max);
-                $('#role_p').html('.');
-                $('#action_p').html('.');
-                $('#benefit_p').html('.');
             },
             error: function(error){
                 alert_appear(

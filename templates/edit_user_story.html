@@ -1,16 +1,15 @@
 {% extends "base.html" %}
 
 {% load static %}
-{% load tz %}
 {% load filters %}
 
 {% block title %}
-  Tracequal - Add user story
+  Tracequal - Edit user story
 {% endblock title %}
 
 {% block links %}
     <script src="{% static 'js/user_story_form.js' %}"></script>
-    <script src="{% static 'js/add_user_story.js' %}"></script>
+    <script src="{% static 'js/edit_user_story.js' %}"></script>
     <link href="{% static 'styles.css' %}" rel="stylesheet">
     <link href="{% static 'user_stories.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -29,22 +28,22 @@
                 <img src="{% static 'icons/icon-user_story.png' %}" alt="Custom Icon" class="icon img-fit"/>
             </div>
             <div class="ml-3">
-                <h1>New user story</h1>
+                <h1>Edit user story</h1>
             </div>
         </div>
         <form id="form" method="post" class="form container">
             {% csrf_token %}
             {{ form }}
             <small>Preview:</small>
-            <div class="ml-3">As <span id="article_p">.</span>
-                <span id="role_p" class="field role">.</span>
-                I want to <span id="action_p" class="field action">.</span>
-                so that <span id="benefit_p" class="field benefit">.</span>.
+            <div class="ml-3">As <span id="article_p">{{ user_story.role|determine_article }}</span>
+                <span id="role_p" class="field role">{{ user_story.role }}</span>
+                I want to <span id="action_p" class="field action">{{ user_story.actn }}</span>
+                so that <span id="benefit_p" class="field benefit">{{ user_story.benefit }}</span>.
             </div>
             <br>
             <div id="buttons">
-                <button type="submit" class="btn btn-accent">Save</button>
-                <button type="button" class="btn btn-secondary" id="add_another">Save and add another</button>
+                <button type="submit" class="btn btn-accent">Update</button>
+                <button type="button" class="btn btn-secondary" id="keep_editing">Update and keep editing</button>
             </div>
         </form>
         <div class="custom-alert success">
