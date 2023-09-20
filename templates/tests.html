@@ -34,9 +34,8 @@
         {% if tests %}
             {% for test in tests %}
                 <div class="list-group-item list-group-item-action artifact" data-id="{{ forloop.counter }}">
+                    <small class="key">{{ prefix }}{{ test.key|stringformat:"02d" }}</small>
                     <small class="date">{{ test.date|date:"F j, Y h:i A" }}</small>
-                    <i class="fas fa-trash"></i>
-                    <i class="fas fa-edit"></i>
                     <div class="d-flex align-items-center">
                         <div class="number">{{ forloop.counter }}</div>
                         <div class="d-flex flex-column" style="position: relative;">
@@ -75,6 +74,8 @@
                             {% if test.document %}
                                 <a href="{{ test.document }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                             {% endif %}
+                            <i class="fas fa-edit"></i>
+                            <i class="fas fa-trash"></i>
                         </div>
                     </div>
                 </div>

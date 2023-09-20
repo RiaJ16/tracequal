@@ -4,7 +4,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #fff;
-    padding: 20px;
+    padding: .5em;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     z-index: 1;
 }
@@ -12,4 +12,11 @@
 .responsive-image img{
     max-width: 100%;
     height: auto;
+}
+
+@media (max-width: 768px) {
+    .floating-container {
+        width: 90%;
+        height: auto;
+    }
 }

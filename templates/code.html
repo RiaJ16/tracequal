@@ -32,9 +32,8 @@
         {% if code_artifacts %}
             {% for code_artifact in code_artifacts %}
                 <div class="list-group-item list-group-item-action artifact">
+                    <small class="key">{{ prefix }}{{ code_artifact.key|stringformat:"02d" }}</small>
                     <small class="date">{{ code_artifact.date|date:"F j, Y h:i A" }}</small>
-                    <i class="fas fa-trash"></i>
-                    <i class="fas fa-edit"></i>
                     <div class="d-flex align-items-center">
                         <div class="number">{{ forloop.counter }}</div>
                         <div class="ml-3">{{ code_artifact.name }}</div>
@@ -42,6 +41,8 @@
                             {% if code_artifact.document %}
                                 <a href="{{ code_artifact.document }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                             {% endif %}
+                            <i class="fas fa-edit"></i>
+                            <i class="fas fa-trash"></i>
                         </div>
                     </div>
                 </div>

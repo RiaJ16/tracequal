@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
+from functools import wraps
 
-from .models import (Code, Design, Progress, Project, Requirement,
+from .models import (Code, Design, Options, Progress, Project, Requirement,
                      Test, UserStory)
 from utils.colors import calculate_gradient_color
 from utils.natural_language import determine_article
@@ -8,6 +9,17 @@ from utils.natural_language import determine_article
 from . import add
 
 # Create your views here.
+
+
+def project_required(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        try:
+            project_id = request.session['selected_project']
+        except KeyError:
+            return redirect('index')  # Redirect if project is not selected
+        return view_func(request, project_id, *args, **kwargs)
+    return wrapper
 
 
 def project(request, project_id=None):
@@ -45,63 +57,78 @@ def project(request, project_id=None):
     return render(request, 'project.html', data)
 
 
-def user_stories(request):
+@project_required
+def user_stories(request, project_id):
+    user_stories_ = UserStory.objects.filter(
+        project_id=project_id).order_by('id')
     try:
-        project_id = request.session['selected_project']
-    except KeyError:
-        return redirect('index')
-    user_stories_ = UserStory.objects.filter(project_id=project_id)
-    articles = []
-    for user_story in user_stories_:
-        articles.append(determine_article(user_story.usr))
+        options = Options.objects.get(project_id=project_id)
+        prefix = options.prefix_us
+    except Options.DoesNotExist:
+        prefix = ''
     data = {
         'user_stories': user_stories_,
+        'prefix': prefix,
     }
     return render(request, 'user_stories.html', data)
 
 
-def requirements(request):
+@project_required
+def requirements(request, project_id):
+    requirements_ = Requirement.objects.filter(
+        project_id=project_id).order_by('id')
     try:
-        project_id = request.session['selected_project']
-    except KeyError:
-        return redirect('index')
-    requirements_ = Requirement.objects.filter(project_id=project_id)
+        options = Options.objects.get(project_id=project_id)
+        prefix = options.prefix_req
+    except Options.DoesNotExist:
+        prefix = ''
     data = {
         'requirements': requirements_,
+        'prefix': prefix,
     }
     return render(request, 'requirements.html', data)
 
 
-def design(request):
+@project_required
+def design(request, project_id):
+    design_artifacts = Design.objects.filter(
+        project_id=project_id).order_by('id')
     try:
-        project_id = request.session['selected_project']
-    except KeyError:
-        return redirect('index')
-    design_artifacts = Design.objects.filter(project_id=project_id)
+        options = Options.objects.get(project_id=project_id)
+        prefix = options.prefix_design
+    except Options.DoesNotExist:
+        prefix = ''
     data = {
         'design_artifacts': design_artifacts,
+        'prefix': prefix,
     }
     return render(request, 'design.html', data)
 
 
-def code(request):
+@project_required
+def code(request, project_id):
+    code_artifacts = Code.objects.filter(
+        project_id=project_id).order_by('id')
     try:
-        project_id = request.session['selected_project']
-    except KeyError:
-        return redirect('index')
-    code_artifacts = Code.objects.filter(project_id=project_id)
+        options = Options.objects.get(project_id=project_id)
+        prefix = options.prefix_code
+    except Options.DoesNotExist:
+        prefix = ''
     data = {
         'code_artifacts': code_artifacts,
+        'prefix': prefix,
     }
     return render(request, 'code.html', data)
 
 
-def tests(request):
+@project_required
+def tests(request, project_id):
+    tests_ = Test.objects.filter(project_id=project_id).order_by('id')
     try:
-        project_id = request.session['selected_project']
-    except KeyError:
-        return redirect('index')
-    tests_ = Test.objects.filter(project_id=project_id)
+        options = Options.objects.get(project_id=project_id)
+        prefix = options.prefix_test
+    except Options.DoesNotExist:
+        prefix = ''
     classes = {
         'pass': ['btn-success', 'btn_pass'],
         'inconclusive': ['btn_inconclusive'],
@@ -111,9 +138,12 @@ def tests(request):
     data = {
         'tests': tests_,
         'classes': classes,
+        'prefix': prefix,
     }
     return render(request, 'tests.html', data)
 
 
-def add_user_story(request):
-    return add.add_user_story(request)
+@project_required
+def add_user_story(request, project_id):
+    return add.add_user_story(request, project_id)
+

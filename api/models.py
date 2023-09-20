@@ -7,6 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from django.utils import timezone
 
 
 class Verdict(models.CharField):
@@ -17,7 +18,7 @@ class Verdict(models.CharField):
 class Project(models.Model):
     objects = None
     name = models.CharField()
-    date = models.DateField()
+    date = models.DateField(default=models.functions.Now)
     description = models.CharField()
 
     class Meta:
@@ -29,9 +30,9 @@ class Project(models.Model):
 
 
 class ArtifactBase(models.Model):
-    key = models.CharField()
-    name = models.CharField()
-    date = models.DateTimeField()
+    key = models.IntegerField(blank=True, null=True)
+    name = models.CharField(blank=True, default='')
+    date = models.DateTimeField(default=timezone.now)
     project = models.ForeignKey(Project, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
@@ -211,6 +212,19 @@ class Link(models.Model):
         db_table = 'link'
 
 
+class Options(models.Model):
+    project = models.OneToOneField('Project', models.DO_NOTHING, primary_key=True)
+    prefix_us = models.CharField(blank=True, null=True)
+    prefix_req = models.CharField(blank=True, null=True)
+    prefix_design = models.CharField(blank=True, null=True)
+    prefix_code = models.CharField(blank=True, null=True)
+    prefix_test = models.CharField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'options'
+
+
 class Progress(models.Model):
     project = models.OneToOneField('Project', models.DO_NOTHING, primary_key=True)
     progress_requirements = models.FloatField(blank=True, null=True)
@@ -262,16 +276,19 @@ class UserProject(models.Model):
 
 
 class UserStory(ArtifactBase):
-    usr = models.CharField()
+    role = models.CharField()
     actn = models.CharField()
-    purpose = models.CharField()
+    benefit = models.CharField()
 
     class Meta:
         managed = False
         db_table = 'user_story'
 
     def __str__(self):
-        return f"User story {self.id}: {self.usr}, {self.actn}, {self.purpose}"
+        pid = 0
+        if self.project:
+            pid = self.project.id
+        return f"User story {pid}{self.key:03d}: {self.role}, {self.actn}, {self.benefit}"
 
 
 class Usr(models.Model):

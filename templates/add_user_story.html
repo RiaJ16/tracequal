@@ -9,8 +9,9 @@
 {% endblock title %}
 
 {% block links %}
-    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/add_user_story.js' %}"></script>
     <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <link href="{% static 'user_stories.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 {% endblock links %}
 
@@ -19,15 +20,40 @@
     <div id="responsive-container" class="list-group container artifacts_container">
         <div class="tq-backbar">
             <div class="row align-items-center">
-                <div class="col-1 tq-back"><a href="{% url 'project'%}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
+                <div class="col-1 tq-back"><a href="{% url 'user_stories'%}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
             </div>
         </div>
         <div class="d-flex align-items-center">
             <div>
-                <img src="{% static 'icons/icon-requirements.png' %}" alt="Custom Icon" class="icon img-fit"/>
+                <img src="{% static 'icons/icon-user_story.png' %}" alt="Custom Icon" class="icon img-fit"/>
             </div>
             <div class="ml-3">
-                <h1>Requirements</h1>
+                <h1>New user story</h1>
+            </div>
+        </div>
+        <form id="form" method="post" class="form container">
+            {% csrf_token %}
+            {{ form }}
+            <small>Preview:</small>
+            <div class="ml-3">As <span id="article_p">.</span>
+                <span id="role_p" class="field role">.</span>
+                I want to <span id="action_p" class="field action">.</span>
+                so that <span id="benefit_p" class="field benefit">.</span>.
+            </div>
+            <br>
+            <div id="buttons">
+                <button type="submit" class="btn btn-accent">Save</button>
+                <button type="button" class="btn btn-secondary" id="add_another">Save and add another</button>
+            </div>
+        </form>
+        <div class="custom-alert success">
+            <div class="alert alert-success fade show" role="alert">
+                El artefacto se agregó con éxito.
+            </div>
+        </div>
+        <div class="custom-alert failure">
+            <div class="alert alert-danger fade show" role="alert">
+                Revisa que todos los campos hayan sido llenados correctamente.
             </div>
         </div>
     </div>
