@@ -58,7 +58,7 @@ a{
 }
 
 .fas.fa-arrow-left:hover {
-    color: grey;
+    color: #bbb;
     cursor: pointer;
 }
 
@@ -127,12 +127,21 @@ a{
     padding: 3.3em 0.8em 4em 0.8em !important;
 }
 
-.fas.fa-trash{
+.fas.fa-trash, .fas.fa-archive{
     color: #eb4d4b;
 }
 
-.fas.fa-trash:hover {
+.fas.fa-trash:hover, .fas.fa-archive:hover{
     color: #c0392b;
+    cursor: pointer;
+}
+
+.fas.fa-upload{
+    color: #27ae60;
+}
+
+.fas.fa-upload:hover {
+    color: #2ecc71;
     cursor: pointer;
 }
 
@@ -194,6 +203,12 @@ a{
     cursor: pointer;
 }
 
+.custom-alert-info{
+    color: #025e4c;
+    background-color: #8edece;
+    border-color: #16a085;
+}
+
 .btn-accent{
     color: white;
     background-color: #e67e22;
@@ -240,6 +255,10 @@ a{
     background-color: #1fa5b2;
 }
 
+.custom-alert.info{
+    border: 2px solid #1abc9c;
+}
+
 .custom-alert.failure{
     background-color: #c0392b;
 }
@@ -255,4 +274,39 @@ a{
 
 .form-control{
     margin: 0.3em 0;
+}
+
+.archive-goto .fas.fa-archive{
+    color: #e67e22;
+    font-size: 1.5em;
+    margin-left: .5em;
+}
+
+.archive-goto .fas.fa-archive:hover{
+    color: #d35400;
+}
+
+.confirmation-dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.confirmation-dialog .message {
+    margin-bottom: 10px;
+}
+
+.confirm-button, .cancel-button {
+    margin-right: 10px;
+}
+
+.confirm_buttons{
+    text-align: center;
 }

@@ -2,7 +2,7 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 
 from .forms import UserStoryForm
-from .models import Project, UserStory
+from .models import UserStory
 
 
 def edit_user_story(request, project_id, us_id):

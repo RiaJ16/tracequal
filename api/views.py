@@ -6,7 +6,7 @@ from .models import (Code, Design, Options, Progress, Project, Requirement,
 from utils.colors import calculate_gradient_color
 from utils.natural_language import determine_article
 
-from . import add, edit
+from . import add, archive, edit
 
 # Create your views here.
 
@@ -60,7 +60,7 @@ def project(request, project_id=None):
 @project_required
 def user_stories(request, project_id):
     user_stories_ = UserStory.objects.filter(
-        project_id=project_id).order_by('id')
+        project_id=project_id, archived=False).order_by('id')
     try:
         options = Options.objects.get(project_id=project_id)
         prefix = options.prefix_us
@@ -76,7 +76,7 @@ def user_stories(request, project_id):
 @project_required
 def requirements(request, project_id):
     requirements_ = Requirement.objects.filter(
-        project_id=project_id).order_by('id')
+        project_id=project_id, archived=False).order_by('id')
     try:
         options = Options.objects.get(project_id=project_id)
         prefix = options.prefix_req
@@ -92,7 +92,7 @@ def requirements(request, project_id):
 @project_required
 def design(request, project_id):
     design_artifacts = Design.objects.filter(
-        project_id=project_id).order_by('id')
+        project_id=project_id, archived=False).order_by('id')
     try:
         options = Options.objects.get(project_id=project_id)
         prefix = options.prefix_design
@@ -108,7 +108,7 @@ def design(request, project_id):
 @project_required
 def code(request, project_id):
     code_artifacts = Code.objects.filter(
-        project_id=project_id).order_by('id')
+        project_id=project_id, archived=False).order_by('id')
     try:
         options = Options.objects.get(project_id=project_id)
         prefix = options.prefix_code
@@ -123,7 +123,8 @@ def code(request, project_id):
 
 @project_required
 def tests(request, project_id):
-    tests_ = Test.objects.filter(project_id=project_id).order_by('id')
+    tests_ = Test.objects.filter(
+        project_id=project_id, archived=False).order_by('id')
     try:
         options = Options.objects.get(project_id=project_id)
         prefix = options.prefix_test
@@ -151,3 +152,8 @@ def add_user_story(request, project_id):
 @project_required
 def edit_user_story(request, project_id, us_id):
     return edit.edit_user_story(request, project_id, us_id)
+
+
+@project_required
+def archive_user_story(request, project_id):
+    return archive.archive_user_story(request, project_id)

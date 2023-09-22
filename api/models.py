@@ -34,6 +34,7 @@ class ArtifactBase(models.Model):
     name = models.CharField(blank=True, default='')
     date = models.DateTimeField(default=timezone.now)
     project = models.ForeignKey(Project, models.DO_NOTHING, blank=True, null=True)
+    archived = models.BooleanField(default=False)
 
     class Meta:
         abstract = True
