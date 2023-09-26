@@ -205,7 +205,7 @@ a{
 
 .custom-alert-info{
     color: #025e4c;
-    background-color: #8edece;
+    background-color: #cdf0e9;
     border-color: #16a085;
 }
 
@@ -309,4 +309,20 @@ a{
 
 .confirm_buttons{
     text-align: center;
+}
+
+.archive-page .strikable{
+    text-decoration: line-through;
+}
+
+.archive-page .tq-backbar{
+    background-color: #7f8c8d;
+}
+
+.archive-page h1, .archive-page .key{
+    color: #535c68;
+}
+
+.archive-page .icon{
+    filter: grayscale(100%);
 }

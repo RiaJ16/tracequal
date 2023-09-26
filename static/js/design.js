@@ -3,7 +3,7 @@ $(document).ready(function(){
         event.preventDefault(); // Prevent the default behavior of the link
         let img_url = $(this).attr('data-rel');
         let container = $("#floating-container");
-        container.html("<img src='" + img_url + "' alt='description' />")
+        container.html("<a href='" + img_url + "' target='_blank'><img src='" + img_url + "' alt='description' /></a>");
         if (container.is(':hidden')){
             container.fadeIn();
         }

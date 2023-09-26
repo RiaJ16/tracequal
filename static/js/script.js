@@ -1,4 +1,5 @@
-$(document).ready(function() {
+$(document).ready(function(){
+
     $('.extra').on('click', function(event) {
         let id = $(this).data('id');
         let to_hide = $('#hidden_block_' + id);

@@ -58,7 +58,7 @@ a{
 }
 
 .fas.fa-arrow-left:hover {
-    color: grey;
+    color: #bbb;
     cursor: pointer;
 }
 
@@ -96,7 +96,7 @@ a{
 }
 
 .add:hover{
-    background-color: #d35400;
+    background-color: #f39c12;
     cursor: pointer;
 }
 
@@ -127,25 +127,26 @@ a{
     padding: 3.3em 0.8em 4em 0.8em !important;
 }
 
-.fas.fa-trash{
+.fas.fa-trash, .fas.fa-archive{
     color: #eb4d4b;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin: 0 0.5em 0.5em 0;
 }
 
-.fas.fa-trash:hover {
+.fas.fa-trash:hover, .fas.fa-archive:hover{
     color: #c0392b;
+    cursor: pointer;
+}
+
+.fas.fa-upload{
+    color: #27ae60;
+}
+
+.fas.fa-upload:hover {
+    color: #2ecc71;
     cursor: pointer;
 }
 
 .fas.fa-edit{
     color: #2980b9;
-    position: absolute;
-    bottom: 0;
-    right: 1.2em;
-    margin: 0 0.5em 0.5em 0;
 }
 
 .fas.fa-edit:hover {
@@ -156,7 +157,7 @@ a{
 .date{
     position: absolute;
     top: 0;
-    right: 0;
+    right: 0.5em;
 }
 
 .artifact{
@@ -166,16 +167,30 @@ a{
 
 .icons{
     position: absolute;
-    right: 4em;
+    right: 0;
+    bottom: 0;
+    margin: 0 0.5em 0.5em 0
 }
 
 .icons .fas{
-    transform: scale(1.5);
-    padding: 0 0.5em;
+    padding: 0 0.1em;
+}
+
+.icons .fas.fa-external-link-alt{
     color: #16a085;
 }
 
-.icons .fas:hover{
+.icons .fas.fa-image{
+    transform: scale(1.2);
+    color: #16a085;
+}
+
+.icons .fas.fa-external-link-alt:hover{
+    color: #3498db;
+    cursor: pointer;
+}
+
+.icons .fas.fa-image:hover{
     color: #3498db;
     cursor: pointer;
 }
@@ -186,4 +201,112 @@ a{
 
 .extra:hover{
     cursor: pointer;
+}
+
+.custom-alert-info{
+    color: #025e4c;
+    background-color: #8edece;
+    border-color: #16a085;
+}
+
+.btn-accent{
+    color: white;
+    background-color: #e67e22;
+    border-color: #e67e22;
+}
+
+.btn-accent:hover{
+    color: white;
+    background-color: #d35400;
+    border-color: #d35400;
+}
+
+.btn.btn-accent:active{
+    color: white;
+    background-color: #b74b04;
+    border-color: #b74b04;
+}
+
+#buttons{
+    float: right;
+}
+
+.key{
+    color: #16a085;
+    font-weight: bold;
+    position: absolute;
+    left: 1em;
+    top: 0;
+}
+
+.custom-alert{
+    position: fixed;
+    display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: .7em .7em 0 .7em;
+    box-shadow: 0 0 0.5em rgba(0,0,0,0.5);
+    z-index: 1;
+    border-radius: 5px;
+}
+
+.custom-alert.success{
+    background-color: #1fa5b2;
+}
+
+.custom-alert.info{
+    border: 2px solid #1abc9c;
+}
+
+.custom-alert.failure{
+    background-color: #c0392b;
+}
+
+@media (max-width: 768px) {
+    .icons {
+        font-size: 25pt;
+    }
+    .artifact{
+        padding-bottom: 4em;
+    }
+}
+
+.form-control{
+    margin: 0.3em 0;
+}
+
+.archive-goto .fas.fa-archive{
+    color: #e67e22;
+    font-size: 1.5em;
+    margin-left: .5em;
+}
+
+.archive-goto .fas.fa-archive:hover{
+    color: #d35400;
+}
+
+.confirmation-dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.confirmation-dialog .message {
+    margin-bottom: 10px;
+}
+
+.confirm-button, .cancel-button {
+    margin-right: 10px;
+}
+
+.confirm_buttons{
+    text-align: center;
 }
