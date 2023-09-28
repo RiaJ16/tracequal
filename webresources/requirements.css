@@ -1,3 +1,17 @@
 table{
     font-size: 0.9em;
 }
+
+.btn.sequence{
+    margin: 0.3em 0 0.3em 0.5em;
+}
+
+.step_number{
+    font-size: 1.7em;
+    margin-right: 0.5em;
+    color: #777;
+}
+
+.step_number.alt{
+    margin-left: 0.5em;
+}

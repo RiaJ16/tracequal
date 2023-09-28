@@ -1,7 +1,9 @@
+from collections import defaultdict
+
 from django.http import Http404
 from django.shortcuts import redirect, render
 
-from .forms import UserStoryForm
+from .forms import RequirementForm, UserStoryForm
 from .models import Project, UserStory
 
 
@@ -28,8 +30,26 @@ def add_user_story(request, project_id):
     return render(request, 'add_user_story.html', {'form': form})
 
 
-def add_requirement(request):
+def add_requirement(request, project_id):
     if request.method == 'POST':
-        pass
+        sequence = []
+        alt_sequence = defaultdict(list)
+        for key, item in request.POST.items():
+            if item and key.startswith('sequence'):
+                sequence.append(item)
+            if item and key.startswith('alt_sequence'):
+                step = key.split('alt_sequence')[1].split('.')[0]
+                alt_sequence[step].append(item)
+        final_dict = request.POST.copy()
+        final_dict['sequence'] = sequence
+        final_dict['alt_sequence'] = alt_sequence
+        form = RequirementForm(final_dict)
+        if form.is_valid():
+            form.save()
+            return redirect('requirements')
+        else:
+            raise Http404("Not valid")
     else:
-        return render(request, 'add_requirement.html')
+        form = RequirementForm()
+        form.fields['project'].initial = Project.objects.get(id=project_id)
+    return render(request, 'add_requirement.html', {'form': form})

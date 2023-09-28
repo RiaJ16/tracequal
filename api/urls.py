@@ -14,4 +14,5 @@ urlpatterns = [
     path('user_stories/add/', views.add_user_story, name='add_user_story'),
     path('user_stories/edit/<int:us_id>', views.edit_user_story, name='edit_user_story'),
     path('user_stories/archive/', views.archive_user_story, name='archive_user_story'),
+    path('requirements/add/', views.add_requirement, name='add_requirement'),
 ]

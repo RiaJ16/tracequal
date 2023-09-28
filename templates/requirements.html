@@ -66,14 +66,17 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>Alternative sequence</th>
+                                        <th>Alternative sequences</th>
                                         <td>
                                             <table class="table table-sm table-borderless" style="margin: 0">
                                                 <tbody>
-                                                    {% for step in requirement.alt_sequence %}
-                                                        <tr>
-                                                            <td><strong>1.{{ forloop.counter }}</strong>. {{ step }}</td>
-                                                        </tr>
+                                                    {% for key, list in requirement.alt_sequence.items %}
+                                                        <th>Alternative sequence {{ key }}</th>
+                                                        {% for step in list %}
+                                                            <tr>
+                                                                <td><strong>{{ key }}.{{ forloop.counter }}</strong>. {{ step }}</td>
+                                                            </tr>
+                                                        {% endfor %}
                                                     {% endfor %}
                                                 </tbody>
                                             </table>
@@ -105,6 +108,6 @@
                 There are no requirements.
             </div>
         {% endif %}
-        <div class="add"><i class="fas fa-plus"></i></div>
+        <a href="{% url 'add_requirement' %}"><div class="add"><i class="fas fa-plus"></i></div></a>
     </div>
 {% endblock content%}

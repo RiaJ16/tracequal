@@ -241,7 +241,7 @@ class Requirement(ArtifactBase):
     preconditions = models.CharField(blank=True, null=True)
     description = models.CharField(blank=True, null=True)
     sequence = ArrayField(models.CharField(max_length=150), blank=True, null=True)  # This field type is a guess.
-    alt_sequence = ArrayField(models.CharField(max_length=150), blank=True, null=True)  # This field type is a guess.
+    alt_sequence = models.JSONField(blank=True, null=True)
     postcondition = models.CharField(blank=True, null=True)
     notes = models.CharField(blank=True, null=True)
     document = models.CharField(blank=True, null=True)
