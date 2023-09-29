@@ -25,7 +25,7 @@ $(document).ready(function(){
         step.append('' +
             '<div class="d-flex">' +
                 '<span class="step_number alt">' + id + '.' + alt_id + '</span>' +
-                '<input type="text" name="alt_sequence'+id+'.'+alt_id+'" id="benefit" class="form-control">' +
+                '<input type="text" name="alt_sequence'+id+'.'+alt_id+'" class="form-control">' +
             '</div>'
         );
     });

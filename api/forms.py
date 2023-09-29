@@ -51,7 +51,7 @@ class RequirementForm(forms.ModelForm):
             'alt_sequence',
             'postcondition',
             'notes',
-            # 'document',
+            'document',
         ]
         widgets = {
             'key': forms.TextInput(attrs={
@@ -65,29 +65,38 @@ class RequirementForm(forms.ModelForm):
                 'placeholder': 'Name of the use case',
             }),
             'description': forms.TextInput(attrs={
-                'id': 'action',
+                'id': 'description',
                 'class': 'form-control',
-                'placeholder': '',
+                'placeholder': 'Briefly explain what is the purpose of this '
+                               'use case',
             }),
             'preconditions': forms.TextInput(attrs={
-                'id': 'benefit',
+                'id': 'preconditions',
                 'class': 'form-control',
-                'placeholder': '',
+                'placeholder': 'The initial state before the use case is '
+                               'executed',
             }),
             'sequence': forms.TextInput(attrs={
-                'id': 'benefit',
+                'id': 'seq',
                 'class': 'form-control',
-                'placeholder': '',
+                'placeholder': 'The sequence of steps',
             }),
             'postcondition': forms.TextInput(attrs={
-                'id': 'benefit',
+                'id': 'postcondition',
                 'class': 'form-control',
-                'placeholder': '',
+                'placeholder': 'The resulting state after the execution of '
+                               'the steps',
             }),
             'notes': forms.TextInput(attrs={
-                'id': 'benefit',
+                'id': 'notes',
                 'class': 'form-control',
-                'placeholder': '',
+                'placeholder': 'Any other comments about this use case',
+            }),
+            'document': forms.TextInput(attrs={
+                'id': 'document',
+                'class': 'form-control',
+                'placeholder': 'Link to an external file (e.g. '
+                               'https://docs.google.com/...)',
             }),
         }
         labels = {

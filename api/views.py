@@ -162,3 +162,13 @@ def archive_user_story(request, project_id):
 @project_required
 def add_requirement(request, project_id):
     return add.add_requirement(request, project_id)
+
+
+@project_required
+def edit_requirement(request, project_id, id):
+    return edit.edit_requirement(request, project_id, id)
+
+
+@project_required
+def archive_requirement(request, project_id):
+    return archive.archive_requirement(request, project_id)

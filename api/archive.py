@@ -3,27 +3,53 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 
-from .models import Artifact, Options, UserStory
+from .models import Artifact, Options, Requirement, UserStory
 
 
 def archive_user_story(request, project_id):
     if request.method == 'POST':
+        return archive_artifact(request, project_id)
+    else:
+        artifacts = UserStory.objects.filter(
+            project_id=project_id, archived=True).order_by('id')
+        artifacts_data = {
+            'key': 'user_stories',
+            'template': 'user_stories.html',
+            'artifacts': artifacts
+        }
+        return archive_artifact(request, project_id, artifacts_data)
+
+
+def archive_requirement(request, project_id):
+    if request.method == 'POST':
+        return archive_artifact(request, project_id)
+    else:
+        artifacts = Requirement.objects.filter(
+            project_id=project_id, archived=True).order_by('id')
+        artifacts_data = {
+            'key': 'requirements',
+            'template': 'requirements.html',
+            'artifacts': artifacts
+        }
+        return archive_artifact(request, project_id, artifacts_data)
+
+
+def archive_artifact(request, project_id, artifacts_data=None):
+    if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
-        us = Artifact.objects.get(id=data.get('id'))
-        us.archived = data.get('archive')
-        us.save()
+        artifact = Artifact.objects.get(id=data.get('id'))
+        artifact.archived = data.get('archive')
+        artifact.save()
         return JsonResponse({'message': 'Success'})
     else:
-        user_stories_ = UserStory.objects.filter(
-            project_id=project_id, archived=True).order_by('id')
         try:
             options = Options.objects.get(project_id=project_id)
             prefix = options.prefix_us
         except Options.DoesNotExist:
             prefix = ''
         data = {
-            'user_stories': user_stories_,
+            artifacts_data['key']: artifacts_data['artifacts'],
             'prefix': prefix,
             'archive': True,
         }
-        return render(request, 'user_stories.html', data)
+        return render(request, artifacts_data['template'], data)

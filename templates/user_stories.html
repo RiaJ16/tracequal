@@ -10,7 +10,7 @@
 
 {% block links %}
     <script src="{% static 'js/script.js' %}"></script>
-    <script src="{% static 'js/archive_user_story.js' %}"></script>
+    <script src="{% static 'js/archive_artifact.js' %}"></script>
     <link href="{% static 'styles.css' %}" rel="stylesheet">
     <link href="{% static 'user_stories.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -41,7 +41,7 @@
         </div>
         {% if user_stories %}
             {% for user_story in user_stories %}
-                <div id="us{{ user_story.id }}" class="list-group-item list-group-item-action artifact" style="position: relative;">
+                <div id="artifact{{ user_story.id }}" class="list-group-item list-group-item-action artifact" style="position: relative;">
                     <small class="key">{{ prefix }}{{ user_story.key|stringformat:"02d" }}</small>
                     <div class="d-flex align-items-center">
                         <div class="number">{{ forloop.counter }}</div>
@@ -75,7 +75,7 @@
     <div id="confirmation_dialog" class="confirmation-dialog custom-alert info">
         <div class="alert custom-alert-info fade show message">Are you sure you want to archive this artifact?</div>
         <div class="confirm_buttons">
-            <button id="confirm_button" class="confirm-button btn btn-accent">Yes</button>
+            <button id="confirm_button" class="confirm-button btn btn-accent" data-url="/user_stories/archive/">Yes</button>
             <button id="cancel_button" class="cancel-button btn btn-secondary">Cancel</button>
         </div>
     </div>

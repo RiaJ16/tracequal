@@ -1,8 +1,7 @@
-from collections import defaultdict
-
 from django.http import Http404
 from django.shortcuts import redirect, render
 
+from .common import dict_with_sequences
 from .forms import RequirementForm, UserStoryForm
 from .models import Project, UserStory
 
@@ -32,18 +31,7 @@ def add_user_story(request, project_id):
 
 def add_requirement(request, project_id):
     if request.method == 'POST':
-        sequence = []
-        alt_sequence = defaultdict(list)
-        for key, item in request.POST.items():
-            if item and key.startswith('sequence'):
-                sequence.append(item)
-            if item and key.startswith('alt_sequence'):
-                step = key.split('alt_sequence')[1].split('.')[0]
-                alt_sequence[step].append(item)
-        final_dict = request.POST.copy()
-        final_dict['sequence'] = sequence
-        final_dict['alt_sequence'] = alt_sequence
-        form = RequirementForm(final_dict)
+        form = RequirementForm(dict_with_sequences(request.POST))
         if form.is_valid():
             form.save()
             return redirect('requirements')

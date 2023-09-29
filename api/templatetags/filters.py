@@ -5,7 +5,10 @@ register = template.Library()
 
 @register.filter
 def get_dictionary_item(dictionary, key):
-    return dictionary.get(key)
+    try:
+        return dictionary.get(str(key))
+    except AttributeError:
+        return None
 
 
 @register.filter

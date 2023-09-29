@@ -18,13 +18,13 @@ $(document).ready(function(){
                     'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()
                 },
                 type: 'POST',
-                url: window.location.origin + '/user_stories/archive/',
+                url: window.location.origin + $(this).data('url'),
                 data: JSON.stringify({
                     'id': id,
                     'archive': archive,
                 }),
                 success: function (response){
-                    $('#us' + id).fadeOut();
+                    $('#artifact' + id).fadeOut();
                 },
                 error: function (error){
                 }

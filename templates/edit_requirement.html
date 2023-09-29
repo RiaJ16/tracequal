@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load filters %}
+
+{% block title %}
+  Tracequal - Edit requirement
+{% endblock title %}
+
+{% block links %}
+{#    <script src="{% static 'js/user_story_form.js' %}"></script>#}
+    <script src="{% static 'js/add_requirement.js' %}"></script>
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <link href="{% static 'requirements.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock links %}
+
+{% block content %}
+
+    <div id="responsive-container" class="list-group container artifacts_container">
+        <div class="tq-backbar">
+            <div class="row align-items-center">
+                <div class="col-1 tq-back"><a href="{% url 'requirements'%}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
+            </div>
+        </div>
+        <div class="d-flex align-items-center">
+            <div>
+                <img src="{% static 'icons/icon-requirements.png' %}" alt="Custom Icon" class="icon img-fit"/>
+            </div>
+            <div class="ml-3">
+                <h1>Edit requirement</h1>
+            </div>
+        </div>
+        <form id="form" method="post" class="form container">
+            {% csrf_token %}
+            {{ form.project }}
+            {{ form.key.label_tag }}
+            {{ form.key }}
+            {{ form.name.label_tag }}
+            {{ form.name }}
+            {{ form.description.label_tag }}
+            {{ form.description }}
+            {{ form.preconditions.label_tag }}
+            {{ form.preconditions }}
+            {{ form.sequence.label_tag }}
+            <div id="sequence">
+                {% if not requirement.sequence %}
+                    <div id="step1" data-id="0">
+                        <div class="d-flex">
+                            <span class="step_number">1</span>
+                            {{ form.sequence }}
+                            <button type="button" class="btn btn-accent ml-3 sequence add_step" data-id="1" data-toggle="tooltip" title="Add a step">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                            <button type="button" class="btn btn-warning ml-3 sequence add_alternative_step" data-id="1" data-toggle="tooltip" title="Add an alternative step">
+                                 <i class="fas fa-step-forward"></i>
+                            </button>
+                        </div>
+                    </div>
+                {% endif %}
+                {% for step in requirement.sequence %}
+                    <div id="step{{ forloop.counter }}" data-id="{{ requirement.alt_sequence|get_dictionary_item:forloop.counter|length }}">
+                        <div class="d-flex">
+                            <span class="step_number">{{ forloop.counter }}</span>
+                            <input type="text" name="sequence{{ forloop.counter }}" class="form-control" placeholder="" value="{{ step }}">
+                            {% if forloop.counter == 1 %}
+                                <button type="button" class="btn btn-accent ml-3 sequence add_step" data-id="{{ requirement.sequence|length }}" data-toggle="tooltip" title="Add a step">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            {% endif %}
+                            <button type="button" class="btn btn-warning ml-3 sequence add_alternative_step" data-id="{{ forloop.counter }}" data-toggle="tooltip" title="Add an alternative step">
+                                 <i class="fas fa-step-forward"></i>
+                            </button>
+                        </div>
+                        {% if requirement.alt_sequence|get_dictionary_item:forloop.counter %}
+                            {% for alt_step in requirement.alt_sequence|get_dictionary_item:forloop.counter %}
+                                <div class="d-flex">
+                                    <span class="step_number alt">{{ forloop.parentloop.counter }}.{{ forloop.counter }}</span>
+                                    <input type="text" name="alt_sequence{{ forloop.parentloop.counter }}.{{ forloop.counter }}" class="form-control" value="{{ alt_step }}">
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            {{ form.postcondition.label_tag }}
+            {{ form.postcondition }}
+            {{ form.notes.label_tag }}
+            {{ form.notes }}
+            {{ form.document.label_tag }}
+            {{ form.document }}
+            <br>
+            <div id="buttons">
+                <button type="submit" class="btn btn-accent">Update</button>
+                <button type="button" class="btn btn-secondary" id="keep_editing">Update and keep editing</button>
+            </div>
+        </form>
+        <div class="custom-alert success">
+            <div class="alert alert-success fade show message" role="alert">
+                El artefacto se agregó con éxito.
+            </div>
+        </div>
+        <div class="custom-alert failure">
+            <div class="alert alert-danger fade show message" role="alert">
+                Revisa que todos los campos hayan sido llenados correctamente.
+            </div>
+        </div>
+    </div>
+
+{% endblock content%}
