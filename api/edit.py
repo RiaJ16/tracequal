@@ -2,8 +2,8 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 
 from .common import dict_with_sequences
-from .forms import RequirementForm, UserStoryForm
-from .models import Requirement, UserStory
+from .forms import DesignForm, RequirementForm, UserStoryForm
+from .models import Design, Requirement, UserStory
 
 
 def edit_user_story(request, project_id, us_id):
@@ -37,3 +37,20 @@ def edit_requirement(request, project_id, id):
         form = RequirementForm(instance=requirement)
         data = {'form': form, 'requirement': requirement}
     return render(request, 'edit_requirement.html', data)
+
+
+def edit_design(request, project_id, design_id):
+    if request.method == 'POST':
+        design = Design.objects.get(id=design_id)
+        print(request.FILES)
+        form = DesignForm(request.POST, request.FILES, instance=design)
+        if form.is_valid():
+            form.save()
+            return redirect('design')
+        else:
+            raise Http404("Not valid")
+    else:
+        design = Design.objects.get(id=design_id, project_id=project_id)
+        form = DesignForm(instance=design)
+        data = {'form': form, 'design': design}
+    return render(request, 'edit_design.html', data)

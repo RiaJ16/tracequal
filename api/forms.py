@@ -1,5 +1,5 @@
 from django import forms
-from .models import Project, Requirement, UserStory
+from .models import Design, Project, Requirement, UserStory
 
 
 class UserStoryForm(forms.ModelForm):
@@ -108,3 +108,30 @@ class RequirementForm(forms.ModelForm):
             queryset=Project.objects.all(), widget=forms.HiddenInput())
         self.fields['alt_sequence'] = forms.JSONField(
             widget=forms.HiddenInput(), required=False)
+
+
+class DesignForm(forms.ModelForm):
+    class Meta:
+        model = Design
+        fields = [
+            'project',
+            'key',
+            'name',
+            'diagram',
+            'document',
+        ]
+        widgets = {
+            'key': forms.TextInput(attrs={
+                'id': 'key',
+                'class': 'form-control',
+                'type': 'number',
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['project'] = forms.ModelChoiceField(
+            queryset=Project.objects.all(), widget=forms.HiddenInput())
+        self.fields['name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['diagram'].widget.attrs.update({'class': 'form-control'})
+        self.fields['document'].widget.attrs.update({'class': 'form-control'})

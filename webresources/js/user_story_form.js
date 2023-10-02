@@ -14,15 +14,6 @@ $(document).ready(function(){
     });
 });
 
-function alert_appear(message, selector, ms){
-    let alert = $(selector);
-    $(selector+' .message').html(message)
-    alert.fadeIn();
-    setTimeout(function(){
-        alert.fadeOut();
-    }, ms);
-}
-
 function determine_article(user_input){
     let vowels = ['a', 'e', 'i', 'o'];
     if(vowels.some(vowel => user_input.toLowerCase().startsWith(vowel)))

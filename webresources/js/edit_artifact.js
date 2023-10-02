@@ -1,11 +1,14 @@
 $(document).ready(function(){
-    $('#keep_editing').click(function(){
-        let my_form = $('#form');
-        let data = my_form.serialize();
+    $('#keep_editing').click(function(event){
+        event.preventDefault();
+        let my_form = $('#form')[0];
+        let data = new FormData(my_form);
         $.ajax({
             type: 'POST',
             url: '',
             data: data,
+            processData: false,
+            contentType: false,
             success: function(response){
                 alert_appear(
                     'The artifact was successfully updated',

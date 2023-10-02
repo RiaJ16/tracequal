@@ -40,7 +40,7 @@
                         <div class="icons">
                             <a href="#" class="diagram_button" data-rel="{{ design_artifact.diagram.url }}"><i class="fas fa-image"></i></a>
                             <a href="{{ design_artifact.document }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
-                            <i class="fas fa-edit"></i>
+                            <a href="{% url 'edit_design' id=design_artifact.id %}"><i class="fas fa-edit"></i></a>
                             <i class="fas fa-trash"></i>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                 There are no design artifacts.
             </div>
         {% endif %}
-        <div class="add"><i class="fas fa-plus"></i></div>
+        <a href="{% url 'add_design' %}"><div class="add"><i class="fas fa-plus"></i></div></a>
     </div>
     <div id="floating-container" class="floating-container responsive-image" style="display:none;"></div>
 

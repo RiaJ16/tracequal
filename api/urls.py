@@ -17,4 +17,6 @@ urlpatterns = [
     path('requirements/add/', views.add_requirement, name='add_requirement'),
     path('requirements/edit/<int:id>', views.edit_requirement, name='edit_requirement'),
     path('requirements/archive/', views.archive_requirement, name='archive_requirement'),
+    path('design/add/', views.add_design, name='add_design'),
+    path('design/edit/<int:id>/', views.edit_design, name='edit_design'),
 ]
