@@ -103,13 +103,13 @@
                         {% if requirement.document %}
                             <a href="{{ requirement.document }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                         {% endif %}
-                    {% if requirement.archived %}
-                        <a href="javascript:void(0)" class="archive" data-id="{{ requirement.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
-                        <a href="javascript:void(0)" data-id="{{ requirement.id }}"><i class="fas fa-trash"></i></a>
-                    {% else %}
-                        <a href="{% url 'edit_requirement' id=requirement.id %}"><i class="fas fa-edit"></i></a>
-                        <a href="javascript:void(0)" class="archive" data-id="{{ requirement.id }}" data-archive="true"><i class="fas fa-archive"></i></a>
-                    {% endif %}
+                        {% if requirement.archived %}
+                            <a href="javascript:void(0)" class="archive" data-id="{{ requirement.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
+                            <a href="javascript:void(0)" data-id="{{ requirement.id }}"><i class="fas fa-trash"></i></a>
+                        {% else %}
+                            <a href="{% url 'edit_requirement' id=requirement.id %}"><i class="fas fa-edit"></i></a>
+                            <a href="javascript:void(0)" class="archive" data-id="{{ requirement.id }}" data-archive="true"><i class="fas fa-archive"></i></a>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

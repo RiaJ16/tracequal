@@ -42,7 +42,6 @@ def edit_requirement(request, project_id, id):
 def edit_design(request, project_id, design_id):
     if request.method == 'POST':
         design = Design.objects.get(id=design_id)
-        print(request.FILES)
         form = DesignForm(request.POST, request.FILES, instance=design)
         if form.is_valid():
             form.save()

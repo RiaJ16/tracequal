@@ -182,3 +182,8 @@ def add_design(request, project_id):
 @project_required
 def edit_design(request, project_id, id):
     return edit.edit_design(request, project_id, id)
+
+
+@project_required
+def archive_design(request, project_id):
+    return archive.archive_design(request, project_id)
