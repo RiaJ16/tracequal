@@ -62,7 +62,9 @@
                 There are no code artifacts.
             </div>
         {% endif %}
-        <a href="{% url 'add_code' %}"><div class="add"><i class="fas fa-plus"></i></div></a>
+        {% if not archive %}
+            <a href="{% url 'add_code' %}"><div class="add"><i class="fas fa-plus"></i></div></a>
+        {% endif %}
     </div>
 
     <div id="confirmation_dialog" class="confirmation-dialog custom-alert info">
