@@ -22,4 +22,5 @@ urlpatterns = [
     path('design/archive/', views.archive_design, name='archive_design'),
     path('code/add/', views.add_code, name='add_code'),
     path('code/edit/<int:id>/', views.edit_code, name='edit_code'),
+    path('code/archive/', views.archive_code, name='archive_code'),
 ]

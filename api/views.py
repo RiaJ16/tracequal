@@ -197,3 +197,8 @@ def add_code(request, project_id):
 @project_required
 def edit_code(request, project_id, id):
     return edit.edit_code(request, project_id, id)
+
+
+@project_required
+def archive_code(request, project_id):
+    return archive.archive_code(request, project_id)

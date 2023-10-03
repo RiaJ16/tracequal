@@ -4,21 +4,23 @@
 {% load tz %}
 
 {% block title %}
-  Tracequal - Code artifacts
+  Tracequal - Code artifacts {% if archive %}(archive){% endif %}
 {% endblock title %}
 
 {% block links %}
-    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/archive_artifact.js' %}"></script>
+{#    <script src="{% static 'js/script.js' %}"></script>#}
     <link href="{% static 'styles.css' %}" rel="stylesheet">
-    <link href="{% static 'code.css' %}" rel="stylesheet">
+{#    <link href="{% static 'code.css' %}" rel="stylesheet">#}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 {% endblock links %}
 
 {% block content %}
-    <div id="responsive-container" class="list-group container artifacts_container">
+    <div id="responsive-container" class="list-group container artifacts_container  {% if archive %}archive-page{% endif %}">
+        {% csrf_token %}
         <div class="tq-backbar">
             <div class="row align-items-center">
-                <div class="col-1 tq-back"><a href="{% url 'project' %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
+                <div class="col-1 tq-back"><a href="{% if archive %}{% url 'code' %} {% else %}{% url 'project' %}{% endif %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
             </div>
         </div>
         <div class="d-flex align-items-center">
@@ -26,23 +28,31 @@
                 <img src="{% static 'icons/icon-code.png' %}" alt="Custom Icon" class="icon img-fit"/>
             </div>
             <div class="ml-3">
-                <h1>Code</h1>
+                <h1>Code artifacts {% if archive %}(archive){% endif %}</h1>
             </div>
+            {% if not archive %}
+                <a href="{% url 'archive_code' %}" class="archive-goto"><i class="fas fa-archive"></i></a>
+            {% endif %}
         </div>
         {% if code_artifacts %}
             {% for code_artifact in code_artifacts %}
-                <div class="list-group-item list-group-item-action artifact">
+                <div id="artifact{{ code_artifact.id }}" class="list-group-item list-group-item-action artifact">
                     <small class="key">{{ prefix }}{{ code_artifact.key|stringformat:"02d" }}</small>
                     <small class="date">{{ code_artifact.date|date:"F j, Y h:i A" }}</small>
                     <div class="d-flex align-items-center">
                         <div class="number">{{ forloop.counter }}</div>
-                        <div class="ml-3">{{ code_artifact.name }}</div>
+                        <div class="ml-3 strikable">{{ code_artifact.name }}</div>
                         <div class="icons">
                             {% if code_artifact.document %}
                                 <a href="{{ code_artifact.document }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                             {% endif %}
-                            <a href="{% url 'edit_code' id=code_artifact.id %}"><i class="fas fa-edit"></i></a>
-                            <i class="fas fa-trash"></i>
+                            {% if code_artifact.archived %}
+                                <a href="javascript:void(0)" class="archive" data-id="{{ code_artifact.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
+{#                              <a href="javascript:void(0)" data-id="{{ code_artifact.id }}"><i class="fas fa-trash"></i></a>#}
+                            {% else %}
+                                <a href="{% url 'edit_code' id=code_artifact.id %}"><i class="fas fa-edit"></i></a>
+                                <a href="javascript:void(0)" class="archive" data-id="{{ code_artifact.id }}" data-archive="true"><i class="fas fa-archive"></i></a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -54,4 +64,13 @@
         {% endif %}
         <a href="{% url 'add_code' %}"><div class="add"><i class="fas fa-plus"></i></div></a>
     </div>
+
+    <div id="confirmation_dialog" class="confirmation-dialog custom-alert info">
+        <div class="alert custom-alert-info fade show message">Are you sure you want to archive this artifact?</div>
+        <div class="confirm_buttons">
+            <button id="confirm_button" class="confirm-button btn btn-accent" data-url="/requirements/archive/">Yes</button>
+            <button id="cancel_button" class="cancel-button btn btn-secondary">Cancel</button>
+        </div>
+    </div>
+
 {% endblock content%}

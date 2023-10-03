@@ -28,7 +28,7 @@
                 <img src="{% static 'icons/icon-design.png' %}" alt="Custom Icon" class="icon img-fit"/>
             </div>
             <div class="ml-3">
-                <h1>Design {% if archive %}(archive){% endif %}</h1>
+                <h1>Design artifacts {% if archive %}(archive){% endif %}</h1>
             </div>
             {% if not archive %}
                 <a href="{% url 'archive_design' %}" class="archive-goto"><i class="fas fa-archive"></i></a>
