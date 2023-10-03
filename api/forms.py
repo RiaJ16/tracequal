@@ -1,5 +1,5 @@
 from django import forms
-from .models import Design, Project, Requirement, UserStory
+from .models import Code, Design, Project, Requirement, UserStory
 
 
 class UserStoryForm(forms.ModelForm):
@@ -134,4 +134,24 @@ class DesignForm(forms.ModelForm):
             queryset=Project.objects.all(), widget=forms.HiddenInput())
         self.fields['name'].widget.attrs.update({'class': 'form-control'})
         self.fields['diagram'].widget.attrs.update({'class': 'form-control'})
+        self.fields['document'].widget.attrs.update({'class': 'form-control'})
+
+
+class CodeForm(forms.ModelForm):
+    class Meta:
+        model = Code
+        fields = [
+            'project',
+            'key',
+            'name',
+            'document',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['project'] = forms.ModelChoiceField(
+            queryset=Project.objects.all(), widget=forms.HiddenInput())
+        self.fields['name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['key'].widget.attrs.update(
+            {'id': 'key', 'class': 'form-control'})
         self.fields['document'].widget.attrs.update({'class': 'form-control'})

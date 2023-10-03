@@ -47,7 +47,7 @@
                             <a href="{{ design_artifact.document }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                             {% if design_artifact.archived %}
                                 <a href="javascript:void(0)" class="archive" data-id="{{ design_artifact.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
-                                <a href="javascript:void(0)" data-id="{{ design_artifact.id }}"><i class="fas fa-trash"></i></a>
+{#                                <a href="javascript:void(0)" data-id="{{ design_artifact.id }}"><i class="fas fa-trash"></i></a>#}
                             {% else %}
                                 <a href="{% url 'edit_design' id=design_artifact.id %}"><i class="fas fa-edit"></i></a>
                                 <a href="javascript:void(0)" class="archive" data-id="{{ design_artifact.id }}" data-archive="true"><i class="fas fa-archive"></i></a>
@@ -64,7 +64,9 @@
                 There are no design artifacts.
             </div>
         {% endif %}
-        <a href="{% url 'add_design' %}"><div class="add"><i class="fas fa-plus"></i></div></a>
+        {% if not archive %}
+            <a href="{% url 'add_design' %}"><div class="add"><i class="fas fa-plus"></i></div></a>
+        {% endif %}
     </div>
     <div id="floating-container" class="floating-container responsive-image" style="display:none;"></div>
 

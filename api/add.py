@@ -2,8 +2,8 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 
 from .common import dict_with_sequences
-from .forms import DesignForm, RequirementForm, UserStoryForm
-from .models import Design, Project, Requirement, UserStory
+from .forms import CodeForm, DesignForm, RequirementForm, UserStoryForm
+from .models import Code, Design, Project, Requirement, UserStory
 
 
 def add_user_story(request, project_id):
@@ -49,6 +49,23 @@ def add_design(request, project_id):
         form.fields['project'].initial = Project.objects.get(id=project_id)
     set_current_key(form, Design, project_id)
     return render(request, 'add_design.html', {'form': form})
+
+
+def add_code(request, project_id):
+    if request.method == 'POST':
+        form = CodeForm(request.POST)
+        print(request.POST)
+        if form.is_valid():
+            form.save()
+            print("ok")
+            return redirect('code')
+        else:
+            raise Http404("Not valid")
+    else:
+        form = CodeForm()
+        form.fields['project'].initial = Project.objects.get(id=project_id)
+    set_current_key(form, Code, project_id)
+    return render(request, 'add_code.html', {'form': form})
 
 
 def set_current_key(form, model, project_id):

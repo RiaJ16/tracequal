@@ -20,4 +20,5 @@ urlpatterns = [
     path('design/add/', views.add_design, name='add_design'),
     path('design/edit/<int:id>/', views.edit_design, name='edit_design'),
     path('design/archive/', views.archive_design, name='archive_design'),
+    path('code/add/', views.add_code, name='add_code'),
 ]
