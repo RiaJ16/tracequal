@@ -2,8 +2,8 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 
 from .common import dict_with_sequences
-from .forms import DesignForm, RequirementForm, UserStoryForm
-from .models import Design, Requirement, UserStory
+from .forms import CodeForm, DesignForm, RequirementForm, UserStoryForm
+from .models import Code, Design, Requirement, UserStory
 
 
 def edit_user_story(request, project_id, us_id):
@@ -18,7 +18,7 @@ def edit_user_story(request, project_id, us_id):
     else:
         us = UserStory.objects.get(id=us_id, project_id=project_id)
         form = UserStoryForm(instance=us)
-        data = {'form': form, 'user_story': us}
+    data = {'form': form, 'user_story': us}
     return render(request, 'edit_user_story.html', data)
 
 
@@ -35,7 +35,7 @@ def edit_requirement(request, project_id, id):
     else:
         requirement = Requirement.objects.get(id=id, project_id=project_id)
         form = RequirementForm(instance=requirement)
-        data = {'form': form, 'requirement': requirement}
+    data = {'form': form, 'requirement': requirement}
     return render(request, 'edit_requirement.html', data)
 
 
@@ -51,5 +51,21 @@ def edit_design(request, project_id, design_id):
     else:
         design = Design.objects.get(id=design_id, project_id=project_id)
         form = DesignForm(instance=design)
-        data = {'form': form, 'design': design}
+    data = {'form': form, 'design': design}
     return render(request, 'edit_design.html', data)
+
+
+def edit_code(request, project_id, code_id):
+    if request.method == 'POST':
+        code = Code.objects.get(id=code_id)
+        form = CodeForm(request.POST, instance=code)
+        if form.is_valid():
+            form.save()
+            return redirect('code')
+        else:
+            raise Http404("Not valid")
+    else:
+        code = Code.objects.get(id=code_id, project_id=project_id)
+        form = CodeForm(instance=code)
+    data = {'form': form, 'code': code}
+    return render(request, 'edit_code.html', data)

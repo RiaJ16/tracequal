@@ -54,7 +54,7 @@
                     <div class="icons">
                         {% if user_story.archived %}
                             <a href="javascript:void(0)" class="archive" data-id="{{ user_story.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
-                            <a href="javascript:void(0)" data-id="{{ user_story.id }}"><i class="fas fa-trash"></i></a>
+{#                            <a href="javascript:void(0)" data-id="{{ user_story.id }}"><i class="fas fa-trash"></i></a>#}
                         {% else %}
                             <a href="{% url 'edit_user_story' us_id=user_story.id %}"><i class="fas fa-edit"></i></a>
                             <a href="javascript:void(0)" class="archive" data-id="{{ user_story.id }}" data-archive="true"><i class="fas fa-archive"></i></a>
