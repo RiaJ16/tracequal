@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+  Tracequal - Add project
+{% endblock title %}
+
+{% block links %}
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <!--<link href="{% static 'project.css' %}" rel="stylesheet">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock links %}
+
+{% block boton %}
+  {% if authenticated %}
+    <a type="button" class="btn btn-light" href=".">Cerrar sesión</a>
+  {% else %}
+    <a type="button" class="btn btn-light" href=".">Iniciar sesión</a>
+  {% endif %}
+{% endblock boton %}
+
+{% block content %}
+
+    <div id="responsive-container" class="list-group container">
+        <div class="d-flex align-items-center">
+            <div>
+                <img src="{% static 'icons/icon-code.png' %}" alt="Custom Icon" class="icon img-fit"/>
+            </div>
+            <div class="ml-3">
+                <h1>New project</h1>
+            </div>
+        </div>
+        <form id="form" method="post" enctype="multipart/form-data" class="form container">
+            {% csrf_token %}
+            {{ form }}
+            {{ options_form }}
+            <br>
+            <div id="buttons">
+                <button type="submit" class="btn btn-accent">Save</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock content%}

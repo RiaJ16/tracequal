@@ -16,7 +16,6 @@ class Verdict(models.CharField):
 
 
 class Project(models.Model):
-    objects = None
     name = models.CharField()
     date = models.DateField(default=models.functions.Now)
     description = models.CharField()
@@ -215,11 +214,11 @@ class Link(models.Model):
 
 class Options(models.Model):
     project = models.OneToOneField('Project', models.DO_NOTHING, primary_key=True)
-    prefix_us = models.CharField(blank=True, null=True)
-    prefix_req = models.CharField(blank=True, null=True)
-    prefix_design = models.CharField(blank=True, null=True)
-    prefix_code = models.CharField(blank=True, null=True)
-    prefix_test = models.CharField(blank=True, null=True)
+    prefix_us = models.CharField(blank=True, null=True, default="US")
+    prefix_req = models.CharField(blank=True, null=True, default="UC")
+    prefix_design = models.CharField(blank=True, null=True, default="D")
+    prefix_code = models.CharField(blank=True, null=True, default="C")
+    prefix_test = models.CharField(blank=True, null=True, default="TC")
 
     class Meta:
         managed = False
@@ -228,10 +227,10 @@ class Options(models.Model):
 
 class Progress(models.Model):
     project = models.OneToOneField('Project', models.DO_NOTHING, primary_key=True)
-    progress_requirements = models.FloatField(blank=True, null=True)
-    progress_design = models.FloatField(blank=True, null=True)
-    progress_code = models.FloatField(blank=True, null=True)
-    progress_tests = models.FloatField(blank=True, null=True)
+    progress_requirements = models.FloatField(blank=True, null=True, default=0)
+    progress_design = models.FloatField(blank=True, null=True, default=0)
+    progress_code = models.FloatField(blank=True, null=True, default=0)
+    progress_tests = models.FloatField(blank=True, null=True, default=0)
 
     class Meta:
         db_table = 'progress'

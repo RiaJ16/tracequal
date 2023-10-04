@@ -33,13 +33,18 @@ body{
     background-color: white;
 }
 
-.proyecto{
+.project{
     background-color: #ecf0f1;
     position: relative;
+    padding-bottom: 2em;
 }
 
-.proyecto:hover{
+.project:hover{
     background-color: #e0e0e0;
+}
+
+.icons .fas.fa-cog{
+    color: #2980b9;
 }
 
 h1{

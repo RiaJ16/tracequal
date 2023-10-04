@@ -2,8 +2,9 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 
 from .common import dict_with_sequences
-from .forms import CodeForm, DesignForm, RequirementForm, UserStoryForm
-from .models import Code, Design, Requirement, UserStory
+from .forms import (CodeForm, DesignForm, OptionsForm, ProjectForm,
+                    RequirementForm, UserStoryForm)
+from .models import Code, Design, Options, Project, Requirement, UserStory
 
 
 def edit_user_story(request, project_id, us_id):
@@ -69,3 +70,23 @@ def edit_code(request, project_id, code_id):
         form = CodeForm(instance=code)
     data = {'form': form, 'code': code}
     return render(request, 'edit_code.html', data)
+
+
+def edit_project(request, project_id):
+    project = Project.objects.get(id=project_id)
+    options = Options.objects.get(project_id=project.id)
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            form.save()
+            options_form = OptionsForm(request.POST, instance=options)
+            if options_form.is_valid():
+                options_form.save()
+            return redirect('index')
+        else:
+            raise Http404("Not valid")
+    else:
+        form = ProjectForm(instance=project)
+        options_form = OptionsForm(instance=options)
+    data = {'form': form, 'options_form': options_form}
+    return render(request, 'add_project.html', data)

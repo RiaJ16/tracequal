@@ -2,8 +2,9 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 
 from .common import dict_with_sequences
-from .forms import CodeForm, DesignForm, RequirementForm, UserStoryForm
-from .models import Code, Design, Project, Requirement, UserStory
+from .forms import (CodeForm, DesignForm, OptionsForm, ProjectForm,
+                    RequirementForm, UserStoryForm)
+from .models import (Code, Design, Progress, Project, Requirement, UserStory)
 
 
 def add_user_story(request, project_id):
@@ -54,10 +55,8 @@ def add_design(request, project_id):
 def add_code(request, project_id):
     if request.method == 'POST':
         form = CodeForm(request.POST)
-        print(request.POST)
         if form.is_valid():
             form.save()
-            print("ok")
             return redirect('code')
         else:
             raise Http404("Not valid")
@@ -78,3 +77,25 @@ def set_current_key(form, model, project_id):
         pass
     form.fields['key'].widget.attrs['min'] = max_
     form.fields['key'].widget.attrs['value'] = max_
+
+
+def add_project(request):
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            project = form.save()
+            progress = Progress(project_id=project.id)
+            progress.save()
+            editable = request.POST.copy()
+            editable['project'] = project.id
+            options_form = OptionsForm(editable)
+            if options_form.is_valid():
+                options_form.save()
+            return redirect('index')
+        else:
+            raise Http404("Not valid")
+    else:
+        form = ProjectForm()
+        options_form = OptionsForm()
+    data = {'form': form, 'options_form': options_form}
+    return render(request, 'add_project.html', data)

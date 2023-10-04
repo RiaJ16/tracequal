@@ -7,8 +7,9 @@
 {% endblock title %}
 
 {% block links %}
-  <link href="{% static 'styles.css' %}" rel="stylesheet">
-  <!--<link href="{% static 'project.css' %}" rel="stylesheet">-->
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+{#    <link href="{% static 'project.css' %}" rel="stylesheet">#}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 {% endblock links %}
 
 {% block boton %}
@@ -21,20 +22,28 @@
 
 {% block content %}
 
-  <div id="responsive-container" class="list-group container">
-    {% for project, total in projects%}
-      <a href="project/{{ project.id }}" class="list-group-item list-group-item-action proyecto">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1 accent">{{ project.name }}</h5>
-          <!--<small>3 days ago</small>-->
-        </div>
-        <p class="mb-1">{{ project.description }}</p>
-        <!--<small>&nbsp;</small>-->
-        <div class="progress tq-progress-category" role="progressbar" aria-valuenow="{{ total.total }}" aria-valuemin="0" aria-valuemax="100">
-          <div class="progress-bar progress-bar-striped" style="width: {{ total.total }}%; background-color: {{ total.color }}"></div>
-        </div>
-      </a>
-    {% endfor %}
-  </div>
+    <div id="responsive-container" class="list-group container">
+        {% for project, total in projects%}
+            <div class="list-group-item list-group-item-action project">
+                <a href="project/{{ project.id }}">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1 accent">{{ project.name }}</h5>
+                        <!--<small>3 days ago</small>-->
+                    </div>
+                    <p class="mb-1">{{ project.description }}</p>
+                    <!--<small>&nbsp;</small>-->
+                    <div class="progress tq-progress-category" role="progressbar" aria-valuenow="{{ total.total }}" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar progress-bar-striped" style="width: {{ total.total }}%; background-color: {{ total.color }}"></div>
+                    </div>
+                </a>
+                <div class="icons">
+                    <a href="{% url 'edit_project' id=project.id %}"><i class="fas fa-cog"></i></a>
+                </div>
+            </div>
+        {% endfor %}
+
+        <a href="{% url 'add_project' %}"><div class="add"><i class="fas fa-plus"></i></div></a>
+
+    </div>
 
 {% endblock content%}

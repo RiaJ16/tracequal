@@ -1,5 +1,5 @@
 from django import forms
-from .models import Code, Design, Project, Requirement, UserStory
+from .models import Code, Design, Options, Project, Requirement, UserStory
 
 
 class UserStoryForm(forms.ModelForm):
@@ -155,3 +155,50 @@ class CodeForm(forms.ModelForm):
         self.fields['key'].widget.attrs.update(
             {'id': 'key', 'class': 'form-control'})
         self.fields['document'].widget.attrs.update({'class': 'form-control'})
+
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = [
+            'name',
+            'description',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['description'].widget.attrs.update({'class': 'form-control'})
+
+
+class OptionsForm(forms.ModelForm):
+    class Meta:
+        model = Options
+        fields = [
+            'project',
+            'prefix_us',
+            'prefix_req',
+            'prefix_design',
+            'prefix_code',
+            'prefix_test',
+        ]
+        labels = {
+            'prefix_us': 'User story prefix',
+            'prefix_req': 'Requirement prefix',
+            'prefix_design': 'Design prefix',
+            'prefix_code': 'Code prefix',
+            'prefix_test': 'Test prefix',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['project'] = forms.ModelChoiceField(
+            queryset=Project.objects.all(), widget=forms.HiddenInput())
+        self.fields['prefix_us'].widget.attrs.update({'class': 'form-control'})
+        self.fields['prefix_req'].widget.attrs.update({'class': 'form-control'})
+        self.fields['prefix_design'].widget.attrs.update(
+            {'class': 'form-control'})
+        self.fields['prefix_code'].widget.attrs.update(
+            {'class': 'form-control'})
+        self.fields['prefix_test'].widget.attrs.update(
+            {'class': 'form-control'})
