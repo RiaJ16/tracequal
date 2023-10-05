@@ -172,23 +172,10 @@ class TestForm(forms.ModelForm):
             'document',
         ]
 
-    # application_date = forms.DateTimeField(
-    #     input_formats=['%Y-%m-%d %H:%M:%S'],
-    #     widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-    # )
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['project'] = forms.ModelChoiceField(
             queryset=Project.objects.all(), widget=forms.HiddenInput())
-        # verdict_choices = [
-        #     ('fail', 'Fail'),
-        #     ('pass', 'Pass'),
-        #     ('inconclusive', 'Inconclusive'),
-        #     ('not tested', 'Not tested'),
-        # ]
-        # self.fields['verdict'] = forms.ChoiceField(
-        #     choices=verdict_choices, widget=forms.Select)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
         self.fields['key'].widget.attrs.update({'id': 'key'})
