@@ -255,7 +255,7 @@ class Test(ArtifactBase):
     objective = models.CharField(blank=True, null=True)
     description = models.CharField(blank=True, null=True)
     data = models.JSONField(blank=True, null=True)
-    verdict = Verdict(blank=True, null=True)
+    verdict = Verdict(blank=True, null=True, default="not tested")
     notes = models.CharField(blank=True, null=True)
     document = models.CharField(blank=True, null=True)
 

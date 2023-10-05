@@ -209,6 +209,11 @@ def add_test(request, project_id):
     return add.add_test(request, project_id)
 
 
+@project_required
+def edit_test(request, project_id, id):
+    return edit.edit_test(request, project_id, id)
+
+
 def add_project(request):
     return add.add_project(request)
 

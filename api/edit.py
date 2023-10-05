@@ -3,8 +3,8 @@ from django.shortcuts import redirect, render
 
 from .common import dict_with_sequences
 from .forms import (CodeForm, DesignForm, OptionsForm, ProjectForm,
-                    RequirementForm, UserStoryForm)
-from .models import Code, Design, Options, Project, Requirement, UserStory
+                    RequirementForm, TestForm, UserStoryForm)
+from .models import Code, Design, Options, Project, Requirement, Test, UserStory
 
 
 def edit_user_story(request, project_id, us_id):
@@ -70,6 +70,22 @@ def edit_code(request, project_id, code_id):
         form = CodeForm(instance=code)
     data = {'form': form, 'code': code}
     return render(request, 'edit_code.html', data)
+
+
+def edit_test(request, project_id, test_id):
+    if request.method == 'POST':
+        test = Test.objects.get(id=test_id)
+        form = TestForm(request.POST, instance=test)
+        if form.is_valid():
+            form.save()
+            return redirect('tests')
+        else:
+            raise Http404("Not valid")
+    else:
+        test = Test.objects.get(id=test_id, project_id=project_id)
+        form = TestForm(instance=test)
+    data = {'form': form, 'test': test}
+    return render(request, 'edit_test.html', data)
 
 
 def edit_project(request, project_id):

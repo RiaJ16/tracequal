@@ -74,7 +74,7 @@
                             {% if test.document %}
                                 <a href="{{ test.document }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                             {% endif %}
-                            <i class="fas fa-edit"></i>
+                            <a href="{% url 'edit_test' id=test.id %}"><i class="fas fa-edit"></i></a>
                             <i class="fas fa-trash"></i>
                         </div>
                     </div>

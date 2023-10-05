@@ -168,7 +168,6 @@ class TestForm(forms.ModelForm):
             'objective',
             'description',
             'data',
-            'verdict',
             'notes',
             'document',
         ]
@@ -182,14 +181,14 @@ class TestForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['project'] = forms.ModelChoiceField(
             queryset=Project.objects.all(), widget=forms.HiddenInput())
-        verdict_choices = [
-            ('fail', 'Fail'),
-            ('pass', 'Pass'),
-            ('inconclusive', 'Inconclusive'),
-            ('not tested', 'Not tested'),
-        ]
-        self.fields['verdict'] = forms.ChoiceField(
-            choices=verdict_choices, widget=forms.Select)
+        # verdict_choices = [
+        #     ('fail', 'Fail'),
+        #     ('pass', 'Pass'),
+        #     ('inconclusive', 'Inconclusive'),
+        #     ('not tested', 'Not tested'),
+        # ]
+        # self.fields['verdict'] = forms.ChoiceField(
+        #     choices=verdict_choices, widget=forms.Select)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
         self.fields['key'].widget.attrs.update({'id': 'key'})
