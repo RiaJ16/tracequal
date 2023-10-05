@@ -27,4 +27,5 @@ urlpatterns = [
     path('code/archive/', views.archive_code, name='archive_code'),
     path('tests/add/', views.add_test, name='add_test'),
     path('tests/edit/<int:id>/', views.edit_test, name='edit_test'),
+    path('tests/archive/', views.archive_test, name='archive_test'),
 ]

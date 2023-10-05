@@ -5,22 +5,26 @@
 {% load filters %}
 
 {% block title %}
-  Tracequal - Tests
+  Tracequal - Tests {% if archive %}(archive){% endif %}
 {% endblock title %}
 
 {% block links %}
+    <script src="{% static 'js/archive_artifact.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
-    <script src="{% static 'js/tests.js' %}"></script>
+    {% if not archive %}
+        <script src="{% static 'js/tests.js' %}"></script>
+    {% endif %}
     <link href="{% static 'styles.css' %}" rel="stylesheet">
     <link href="{% static 'tests.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 {% endblock links %}
 
 {% block content %}
-    <div id="responsive-container" class="list-group container artifacts_container">
+    <div id="responsive-container" class="list-group container artifacts_container {% if archive %}archive-page{% endif %}">
+        {% csrf_token %}
         <div class="tq-backbar">
             <div class="row align-items-center">
-                <div class="col-1 tq-back"><a href="{% url 'project' %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
+                <div class="col-1 tq-back"><a href="{% if archive %}{% url 'tests' %}{% else %}{% url 'project' %}{% endif %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
             </div>
         </div>
         <div class="d-flex align-items-center">
@@ -28,12 +32,15 @@
                 <img src="{% static 'icons/icon-tests.png' %}" alt="Custom Icon" class="icon img-fit"/>
             </div>
             <div class="ml-3">
-                <h1>Tests</h1>
+                <h1>Tests {% if archive %}(archive){% endif %}</h1>
             </div>
+            {% if not archive %}
+                <a href="{% url 'archive_test' %}" class="archive-goto"><i class="fas fa-archive"></i></a>
+            {% endif %}
         </div>
         {% if tests %}
             {% for test in tests %}
-                <div class="list-group-item list-group-item-action artifact" data-id="{{ forloop.counter }}">
+                <div id="artifact{{ test.id }}" class="list-group-item list-group-item-action artifact strikable" data-id="{{ forloop.counter }}">
                     <small class="key">{{ prefix }}{{ test.key|stringformat:"02d" }}</small>
                     <small class="date">{{ test.date|date:"F j, Y h:i A" }}</small>
                     <div class="d-flex align-items-center">
@@ -74,8 +81,13 @@
                             {% if test.document %}
                                 <a href="{{ test.document }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                             {% endif %}
-                            <a href="{% url 'edit_test' id=test.id %}"><i class="fas fa-edit"></i></a>
-                            <i class="fas fa-trash"></i>
+                            {% if test.archived %}
+                                <a href="javascript:void(0)" class="archive" data-id="{{ test.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
+{#                              <a href="javascript:void(0)" data-id="{{ test.id }}"><i class="fas fa-trash"></i></a>#}
+                            {% else %}
+                                <a href="{% url 'edit_test' id=test.id %}"><i class="fas fa-edit"></i></a>
+                                <a href="javascript:void(0)" class="archive" data-id="{{ test.id }}" data-archive="true"><i class="fas fa-archive"></i></a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -87,4 +99,13 @@
         {% endif %}
         <a href="{% url 'add_test' %}"><div class="add"><i class="fas fa-plus"></i></div></a>
     </div>
+
+    <div id="confirmation_dialog" class="confirmation-dialog custom-alert info">
+        <div class="alert custom-alert-info fade show message">Are you sure you want to archive this artifact?</div>
+        <div class="confirm_buttons">
+            <button id="confirm_button" class="confirm-button btn btn-accent" data-url="/requirements/archive/">Yes</button>
+            <button id="cancel_button" class="cancel-button btn btn-secondary">Cancel</button>
+        </div>
+    </div>
+
 {% endblock content%}

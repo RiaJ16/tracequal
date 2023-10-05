@@ -3,7 +3,8 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 
-from .models import Artifact, Code, Design, Options, Requirement, UserStory
+from .models import (Artifact, Code, Design, Options, Requirement, Test,
+                     UserStory)
 
 
 def archive_user_story(request, project_id):
@@ -57,6 +58,20 @@ def archive_code(request, project_id):
         artifacts_data = {
             'key': 'code_artifacts',
             'template': 'code.html',
+            'artifacts': artifacts
+        }
+        return archive_artifact(request, project_id, artifacts_data)
+
+
+def archive_test(request, project_id):
+    if request.method == 'POST':
+        return archive_artifact(request, project_id)
+    else:
+        artifacts = Test.objects.filter(
+            project_id=project_id, archived=True).order_by('id')
+        artifacts_data = {
+            'key': 'tests',
+            'template': 'tests.html',
             'artifacts': artifacts
         }
         return archive_artifact(request, project_id, artifacts_data)
