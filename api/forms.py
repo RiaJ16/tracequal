@@ -1,5 +1,6 @@
 from django import forms
-from .models import Code, Design, Options, Project, Requirement, UserStory
+from .models import (Code, Design, Options, Project, Requirement, Test,
+                     UserStory, Verdict)
 
 
 class UserStoryForm(forms.ModelForm):
@@ -155,6 +156,43 @@ class CodeForm(forms.ModelForm):
         self.fields['key'].widget.attrs.update(
             {'id': 'key', 'class': 'form-control'})
         self.fields['document'].widget.attrs.update({'class': 'form-control'})
+
+
+class TestForm(forms.ModelForm):
+    class Meta:
+        model = Test
+        fields = [
+            'project',
+            'key',
+            'name',
+            'objective',
+            'description',
+            'data',
+            'verdict',
+            'notes',
+            'document',
+        ]
+
+    # application_date = forms.DateTimeField(
+    #     input_formats=['%Y-%m-%d %H:%M:%S'],
+    #     widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+    # )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['project'] = forms.ModelChoiceField(
+            queryset=Project.objects.all(), widget=forms.HiddenInput())
+        verdict_choices = [
+            ('fail', 'Fail'),
+            ('pass', 'Pass'),
+            ('inconclusive', 'Inconclusive'),
+            ('not tested', 'Not tested'),
+        ]
+        self.fields['verdict'] = forms.ChoiceField(
+            choices=verdict_choices, widget=forms.Select)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+        self.fields['key'].widget.attrs.update({'id': 'key'})
 
 
 class ProjectForm(forms.ModelForm):

@@ -3,8 +3,9 @@ from django.shortcuts import redirect, render
 
 from .common import dict_with_sequences
 from .forms import (CodeForm, DesignForm, OptionsForm, ProjectForm,
-                    RequirementForm, UserStoryForm)
-from .models import (Code, Design, Progress, Project, Requirement, UserStory)
+                    RequirementForm, TestForm, UserStoryForm)
+from .models import (Code, Design, Progress, Project, Requirement, Test,
+                     UserStory)
 
 
 def add_user_story(request, project_id):
@@ -65,6 +66,21 @@ def add_code(request, project_id):
         form.fields['project'].initial = Project.objects.get(id=project_id)
     set_current_key(form, Code, project_id)
     return render(request, 'add_code.html', {'form': form})
+
+
+def add_test(request, project_id):
+    if request.method == 'POST':
+        form = TestForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('tests')
+        else:
+            raise Http404('Not valid')
+    else:
+        form = TestForm()
+        form.fields['project'].initial = Project.objects.get(id=project_id)
+    set_current_key(form, Test, project_id)
+    return render(request, 'add_test.html', {'form': form})
 
 
 def set_current_key(form, model, project_id):

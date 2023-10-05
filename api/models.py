@@ -254,8 +254,8 @@ class Test(ArtifactBase):
     application_date = models.DateTimeField(blank=True, null=True)
     objective = models.CharField(blank=True, null=True)
     description = models.CharField(blank=True, null=True)
-    data = models.CharField(blank=True, null=True)
-    verdict = Verdict(blank=True, null=True)  # This field type is a guess.
+    data = models.JSONField(blank=True, null=True)
+    verdict = Verdict(blank=True, null=True)
     notes = models.CharField(blank=True, null=True)
     document = models.CharField(blank=True, null=True)
 
