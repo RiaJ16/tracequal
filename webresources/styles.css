@@ -200,8 +200,22 @@ a{
     cursor: pointer;
 }
 
+.icons .fas.fa-plus-circle{
+    color: #e67e22;
+    cursor: pointer;
+}
+
+.icons .fas.fa-plus-circle:hover{
+    color: #d35400;
+    cursor: pointer;
+}
+
 .hidden_content {
     display: none;
+}
+
+.artifact:active{
+    background-color: #F8F9FA;
 }
 
 .extra:hover{

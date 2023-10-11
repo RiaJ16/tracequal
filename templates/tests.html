@@ -10,10 +10,10 @@
 
 {% block links %}
     <script src="{% static 'js/archive_artifact.js' %}"></script>
-    <script src="{% static 'js/script.js' %}"></script>
     {% if not archive %}
         <script src="{% static 'js/tests.js' %}"></script>
     {% endif %}
+    <script src="{% static 'js/script.js' %}"></script>
     <link href="{% static 'styles.css' %}" rel="stylesheet">
     <link href="{% static 'tests.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -57,24 +57,33 @@
                                 <div><strong>Notes: </strong><span class="text">{{ test.notes }}</span></div>
                             </div>
                             <div class="d-flex flex-column div-boton" style="position: relative">
-                            <div class="btn-group">
-                                <button id="verdict_menu_{{ forloop.counter }}"
-                                        class="btn btn-sm dropdown-toggle {% for class in classes|get_dictionary_item:test.verdict %} {{ class }}{% endfor %}"
-                                        type="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                    {{ test.verdict|capfirst }}
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="button{{ forloop.counter }}">
-                                    <li><a class="dropdown-item change_option" href="#" data-option="0" data-buttonid="{{ forloop.counter }}">Not tested</a></li>
-                                    <li><a class="dropdown-item change_option" href="#" data-option="1" data-buttonid="{{ forloop.counter }}">Pass</a></li>
-                                    <li><a class="dropdown-item change_option" href="#" data-option="2" data-buttonid="{{ forloop.counter }}">Inconclusive</a></li>
-                                    <li><a class="dropdown-item change_option" href="#" data-option="3" data-buttonid="{{ forloop.counter }}">Fail</a></li>
-                                </ul>
-                            </div>
                             {% if test.application_date %}
-                                &nbsp;
-                                <small class="application-date">{{ test.application_date }}</small>
+{#                                <small class="application-date">{{ test.application_date }}</small>#}
                             {% endif %}
+                            </div>
+                            <div class="d-flex flex-row align-items-center extra tapp" data-id="tapp_{{ forloop.counter }}">
+                                <h6>Test applications: {{ test.test_applications.all|length }} <b title="{{ test.application_date }}" class="verdict_title {{ test.verdict }}" >{{ test.verdict|capfirst }}</b></h6>
+                                {% if test.test_applications.all|length %}
+                                    &nbsp;<i id="chevron_tapp_{{ forloop.counter }}" class="fas fa-chevron-down"></i>
+                                {% endif %}
+                            </div>
+                            <div id="hidden_block_tapp_{{ forloop.counter }}" class="hidden_content">
+                                <div class="d-flex flex-column">
+                                    {% for test_application in test.test_applications.all|sort_test_applications%}
+                                        <div id="tapp_{{ test_application.id }}" class="extra test_application {{ test_application.verdict }}" data-id="ta_{{ test_application.id }}">
+                                            {{ test_application.application_date }}:&nbsp;<b><span class="verdict">{{ test_application.verdict|capfirst }}</span></b>
+                                            &nbsp;<i id="chevron_ta_{{ test_application.id }}" class="fas fa-chevron-down" style="font-size: 0.8em"></i>
+                                            <a href="javascript:void(0)" data-id="{{ test_application.id }}" data-url="/test_applications/delete/" class="delete_testapp"><i class="fas fa-times"></i></a>
+                                        </div>
+                                        <div id="hidden_block_ta_{{ test_application.id }}" class="hidden_content application_hidden {{ test_application.verdict }}">
+                                            <div><strong>Data: </strong><span class="text">{{ test_application.data }}</span></div>
+                                            <div><strong>Notes: </strong><span class="text">{{ test_application.notes }}</span></div>
+                                            {% if test_application.document %}
+                                                <a href="{{ test_application.document }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                         <div class="icons">
@@ -85,6 +94,7 @@
                                 <a href="javascript:void(0)" class="archive" data-id="{{ test.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
 {#                              <a href="javascript:void(0)" data-id="{{ test.id }}"><i class="fas fa-trash"></i></a>#}
                             {% else %}
+                                <a href="{% url 'add_test_application' %}"><i class="fas fa-plus-circle"></i></a>
                                 <a href="{% url 'edit_test' id=test.id %}"><i class="fas fa-edit"></i></a>
                                 <a href="javascript:void(0)" class="archive" data-id="{{ test.id }}" data-archive="true"><i class="fas fa-archive"></i></a>
                             {% endif %}

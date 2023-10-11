@@ -264,6 +264,21 @@ class Test(ArtifactBase):
         db_table = 'test'
 
 
+class TestApplication(models.Model):
+    test = models.ForeignKey(
+        Test, models.DO_NOTHING, related_name="test_applications")
+    date = models.DateTimeField()
+    application_date = models.DateTimeField(blank=True, null=True)
+    verdict = Verdict(blank=True, null=True, default="not tested")
+    data = models.JSONField(blank=True, null=True)
+    notes = models.CharField(blank=True, null=True)
+    document = models.CharField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'test_application'
+
+
 class UserProject(models.Model):
     user = models.ForeignKey('Usr', models.DO_NOTHING, blank=True, null=True)
     project = models.ForeignKey(Project, models.DO_NOTHING, blank=True, null=True)

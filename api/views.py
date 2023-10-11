@@ -1,10 +1,12 @@
+import json
+
+from django.http import Http404
 from django.shortcuts import redirect, render
 from functools import wraps
 
 from .models import (Code, Design, Options, Progress, Project, Requirement,
-                     Test, UserStory)
+                     Test, TestApplication, UserStory)
 from utils.colors import calculate_gradient_color
-from utils.natural_language import determine_article
 
 from . import add, archive, edit
 
@@ -225,3 +227,38 @@ def add_project(request):
 
 def edit_project(request, id):
     return edit.edit_project(request, id)
+
+
+@project_required
+def add_test_application(request, project_id):
+    return add.add_test_application(request, project_id)
+
+
+@project_required
+def delete_test_application(request, project_id):
+    if request.method == 'POST':
+        try:
+            json_data = json.loads(request.body.decode('utf-8'))
+            ta_id = json_data.get('ta_id')
+            ta = TestApplication.objects.get(id=ta_id)
+            test = ta.test
+            ta.delete()
+            try:
+                tapps = TestApplication.objects.filter(test=test)
+                if tapps:
+                    tapps = sorted(
+                        tapps, key=lambda x: x.application_date, reverse=True)
+                    tapp = tapps[0]
+                    test.verdict = tapp.verdict
+                    print(tapp.verdict)
+                    test.application_date = tapp.application_date
+                    print(tapp.application_date)
+                else:
+                    test.verdict = "not tested"
+                    test.application_date = None
+                test.save()
+            except Test.DoesNotExist:
+                pass
+        except TestApplication.DoesNotExist:
+            raise Http404("Not valid")
+    return redirect('tests')

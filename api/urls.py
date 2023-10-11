@@ -1,4 +1,3 @@
-from django.contrib import admin
 from django.urls import include, path
 
 from . import views
@@ -14,11 +13,15 @@ urlpatterns = [
     path('code/', views.code, name='code'),
     path('tests/', views.tests, name='tests'),
     path('user_stories/add/', views.add_user_story, name='add_user_story'),
-    path('user_stories/edit/<int:us_id>', views.edit_user_story, name='edit_user_story'),
-    path('user_stories/archive/', views.archive_user_story, name='archive_user_story'),
+    path('user_stories/edit/<int:us_id>', views.edit_user_story,
+         name='edit_user_story'),
+    path('user_stories/archive/', views.archive_user_story,
+         name='archive_user_story'),
     path('requirements/add/', views.add_requirement, name='add_requirement'),
-    path('requirements/edit/<int:id>', views.edit_requirement, name='edit_requirement'),
-    path('requirements/archive/', views.archive_requirement, name='archive_requirement'),
+    path('requirements/edit/<int:id>', views.edit_requirement,
+         name='edit_requirement'),
+    path('requirements/archive/', views.archive_requirement,
+         name='archive_requirement'),
     path('design/add/', views.add_design, name='add_design'),
     path('design/edit/<int:id>/', views.edit_design, name='edit_design'),
     path('design/archive/', views.archive_design, name='archive_design'),
@@ -28,4 +31,8 @@ urlpatterns = [
     path('tests/add/', views.add_test, name='add_test'),
     path('tests/edit/<int:id>/', views.edit_test, name='edit_test'),
     path('tests/archive/', views.archive_test, name='archive_test'),
+    path('tests_applications/add/', views.add_test_application,
+         name='add_test_application'),
+    path('test_applications/delete/', views.delete_test_application,
+         name='delete_test_application'),
 ]

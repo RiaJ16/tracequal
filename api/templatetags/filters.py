@@ -17,3 +17,9 @@ def determine_article(user_input):
         return 'an'
     else:
         return 'a'
+
+
+@register.filter
+def sort_test_applications(test_applications):
+    return sorted(
+        test_applications, key=lambda x: x.application_date, reverse=True)

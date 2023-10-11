@@ -37,3 +37,93 @@ strong{
 .hidden_content{
     padding-bottom: 1em;
 }
+
+.test_application{
+    background-color: #dddde0;
+    margin-top: 0.5em;
+    padding: 0.3em 2em 0.3em 0.3em;
+    border-radius: 10px 10px 0 0;
+    border: 2px solid black;
+    position: relative;
+}
+
+.test_application.fail, .verdict_title.fail{
+    background-color: #f5d3ce;
+    border-color: #e74c3c;
+}
+
+.test_application.inconclusive, .verdict_title.inconclusive{
+    background-color: #f5e0d2;
+    border-color: #e67e22;
+}
+
+.test_application.pass, .verdict_title.pass{
+    background-color: #c9f8d9;
+    border-color: #27ae60;
+}
+
+.application_hidden{
+    background-color: #e2f8eb;
+    border: 2px solid #27ae60;
+    border-top: none;
+    padding: 0.3em;
+    position: relative;
+}
+
+.application_hidden.fail{
+    background-color: #efe7e5;
+    border-color: #e74c3c;
+}
+
+.application_hidden.inconclusive{
+    background-color: #f3e8e4;
+    border-color: #e67e22;
+}
+
+.test_application.fail .verdict, .verdict_title.fail{
+    color: #a41e12;
+}
+
+
+.test_application.inconclusive .verdict, .verdict_title.inconclusive{
+    color: #a9560f;
+}
+
+.test_application.pass .verdict, .verdict_title.pass{
+    color: #0b6735;
+}
+
+.test_application .fas.fa-times{
+    position:absolute;
+    right: 0;
+    bottom: 30%;
+    transform: translate(-50%, 0);
+}
+
+.test_application .fas.fa-times:hover{
+    color: #e74c3c;
+}
+
+.application_hidden .fas.fa-external-link-alt{
+    position: absolute;
+    right: 0;
+    bottom: 30%;
+    transform: translate(-50%, 0);
+    color: #16a085;
+}
+
+.fas.fa-external-link-alt:hover{
+    color: #3498db;
+}
+
+.tapp{
+    padding-top: 0.5em;
+}
+
+.verdict_title{
+    border-width: 2px;
+    border-style: solid;
+    padding: 0.1em 0.4em;
+    border-radius: 10px;
+    font-size: 0.9em;
+}

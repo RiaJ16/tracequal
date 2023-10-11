@@ -83,6 +83,21 @@ def add_test(request, project_id):
     return render(request, 'add_test.html', {'form': form})
 
 
+def add_test_application(request, project_id):
+    if request.method == 'POST':
+        form = TestForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('tests')
+        else:
+            raise Http404('Not valid')
+    else:
+        form = TestForm()
+        form.fields['project'].initial = Project.objects.get(id=project_id)
+    set_current_key(form, Test, project_id)
+    return render(request, 'add_test.html', {'form': form})
+
+
 def set_current_key(form, model, project_id):
     max_ = 1
     try:
