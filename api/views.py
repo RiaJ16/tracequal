@@ -1,6 +1,7 @@
 import json
 
-from django.http import Http404
+from django.core import serializers
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from functools import wraps
 
@@ -230,8 +231,8 @@ def edit_project(request, id):
 
 
 @project_required
-def add_test_application(request, project_id):
-    return add.add_test_application(request, project_id)
+def add_test_application(request, project_id, test_id=None):
+    return add.add_test_application(request, project_id, test_id)
 
 
 @project_required
@@ -243,22 +244,36 @@ def delete_test_application(request, project_id):
             ta = TestApplication.objects.get(id=ta_id)
             test = ta.test
             ta.delete()
-            try:
-                tapps = TestApplication.objects.filter(test=test)
-                if tapps:
-                    tapps = sorted(
-                        tapps, key=lambda x: x.application_date, reverse=True)
-                    tapp = tapps[0]
-                    test.verdict = tapp.verdict
-                    print(tapp.verdict)
-                    test.application_date = tapp.application_date
-                    print(tapp.application_date)
-                else:
-                    test.verdict = "not tested"
-                    test.application_date = None
-                test.save()
-            except Test.DoesNotExist:
-                pass
+            tapps = TestApplication.objects.filter(test=test)
+            if tapps:
+                tapps = sorted(
+                    tapps, key=lambda x: x.application_date, reverse=True)
+                tapp = tapps[0]
+                test.verdict = tapp.verdict
+                test.application_date = tapp.application_date
+            else:
+                test.verdict = "not tested"
+                test.application_date = None
+            test.save()
         except TestApplication.DoesNotExist:
             raise Http404("Not valid")
     return redirect('tests')
+
+
+@project_required
+def retrieve_test(request, project_id, id):
+    if request.method == 'POST':
+        try:
+            test = Test.objects.get(id=id, project_id=project_id)
+            json_data = {
+                'id': test.id,
+                'verdict': test.verdict,
+                'verdict_cap': test.verdict.capitalize(),
+                'application_date': test.application_date,
+                'test_applications': len(test.test_applications.all()),
+            }
+            return JsonResponse(json_data)
+        except Test.DoesNotExist:
+            raise Http404("Not valid")
+    else:
+        return redirect('tests')

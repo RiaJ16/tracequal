@@ -62,7 +62,7 @@
                             {% endif %}
                             </div>
                             <div class="d-flex flex-row align-items-center extra tapp" data-id="tapp_{{ forloop.counter }}">
-                                <h6>Test applications: {{ test.test_applications.all|length }} <b title="{{ test.application_date }}" class="verdict_title {{ test.verdict }}" >{{ test.verdict|capfirst }}</b></h6>
+                                <h6>Test applications: <span id="number_of_ta{{ test.id }}">{{ test.test_applications.all|length }}</span> <span id="current_verdict{{ test.id }}"><b title="{{ test.application_date }}" class="verdict_title {{ test.verdict }}" >{{ test.verdict|capfirst }}</b></span></h6>
                                 {% if test.test_applications.all|length %}
                                     &nbsp;<i id="chevron_tapp_{{ forloop.counter }}" class="fas fa-chevron-down"></i>
                                 {% endif %}
@@ -73,7 +73,7 @@
                                         <div id="tapp_{{ test_application.id }}" class="extra test_application {{ test_application.verdict }}" data-id="ta_{{ test_application.id }}">
                                             {{ test_application.application_date }}:&nbsp;<b><span class="verdict">{{ test_application.verdict|capfirst }}</span></b>
                                             &nbsp;<i id="chevron_ta_{{ test_application.id }}" class="fas fa-chevron-down" style="font-size: 0.8em"></i>
-                                            <a href="javascript:void(0)" data-id="{{ test_application.id }}" data-url="/test_applications/delete/" class="delete_testapp"><i class="fas fa-times"></i></a>
+                                            <a href="javascript:void(0)" data-id="{{ test_application.id }}" data-testid="{{ test.id }}" data-url="/test_applications/delete/" class="delete_testapp"><i class="fas fa-times"></i></a>
                                         </div>
                                         <div id="hidden_block_ta_{{ test_application.id }}" class="hidden_content application_hidden {{ test_application.verdict }}">
                                             <div><strong>Data: </strong><span class="text">{{ test_application.data }}</span></div>
@@ -94,7 +94,7 @@
                                 <a href="javascript:void(0)" class="archive" data-id="{{ test.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
 {#                              <a href="javascript:void(0)" data-id="{{ test.id }}"><i class="fas fa-trash"></i></a>#}
                             {% else %}
-                                <a href="{% url 'add_test_application' %}"><i class="fas fa-plus-circle"></i></a>
+                                <a href="{% url 'add_test_application' test_id=test.id %}"><i class="fas fa-plus-circle" title="New test application"></i></a>
                                 <a href="{% url 'edit_test' id=test.id %}"><i class="fas fa-edit"></i></a>
                                 <a href="javascript:void(0)" class="archive" data-id="{{ test.id }}" data-archive="true"><i class="fas fa-archive"></i></a>
                             {% endif %}

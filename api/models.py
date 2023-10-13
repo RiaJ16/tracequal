@@ -267,7 +267,7 @@ class Test(ArtifactBase):
 class TestApplication(models.Model):
     test = models.ForeignKey(
         Test, models.DO_NOTHING, related_name="test_applications")
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=timezone.now)
     application_date = models.DateTimeField(blank=True, null=True)
     verdict = Verdict(blank=True, null=True, default="not tested")
     data = models.JSONField(blank=True, null=True)

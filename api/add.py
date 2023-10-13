@@ -2,8 +2,7 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 
 from .common import dict_with_sequences
-from .forms import (CodeForm, DesignForm, OptionsForm, ProjectForm,
-                    RequirementForm, TestForm, UserStoryForm)
+from .forms import *
 from .models import (Code, Design, Progress, Project, Requirement, Test,
                      UserStory)
 
@@ -83,19 +82,28 @@ def add_test(request, project_id):
     return render(request, 'add_test.html', {'form': form})
 
 
-def add_test_application(request, project_id):
+def add_test_application(request, project_id, test_id):
     if request.method == 'POST':
-        form = TestForm(request.POST)
+        form = TestApplicationForm(request.POST)
         if form.is_valid():
-            form.save()
+            ta = form.save()
+            test = ta.test
+            tapps = TestApplication.objects.filter(test=test)
+            if tapps:
+                tapps = sorted(
+                    tapps, key=lambda x: x.application_date, reverse=True)
+                ta = tapps[0]
+            test.verdict = ta.verdict
+            test.application_date = ta.application_date
+            test.save()
             return redirect('tests')
         else:
             raise Http404('Not valid')
     else:
-        form = TestForm()
-        form.fields['project'].initial = Project.objects.get(id=project_id)
-    set_current_key(form, Test, project_id)
-    return render(request, 'add_test.html', {'form': form})
+        form = TestApplicationForm()
+        form.fields['test'].initial = Test.objects.get(
+            id=test_id, project_id=project_id,)
+    return render(request, 'add_test_application.html', {'form': form})
 
 
 def set_current_key(form, model, project_id):

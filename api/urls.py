@@ -1,4 +1,4 @@
-from django.urls import include, path
+from django.urls import include, path, re_path
 
 from . import views
 
@@ -31,8 +31,9 @@ urlpatterns = [
     path('tests/add/', views.add_test, name='add_test'),
     path('tests/edit/<int:id>/', views.edit_test, name='edit_test'),
     path('tests/archive/', views.archive_test, name='archive_test'),
-    path('tests_applications/add/', views.add_test_application,
-         name='add_test_application'),
+    re_path(r'^tests_applications/add/(?P<test_id>[\w-]+)?/$',
+            views.add_test_application, name='add_test_application'),
     path('test_applications/delete/', views.delete_test_application,
          name='delete_test_application'),
+    path('test/<int:id>/', views.retrieve_test, name='retrieve_test'),
 ]

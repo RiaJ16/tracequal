@@ -1,6 +1,6 @@
 from django import forms
 from .models import (Code, Design, Options, Project, Requirement, Test,
-                     UserStory, Verdict)
+                     TestApplication, UserStory)
 
 
 class UserStoryForm(forms.ModelForm):
@@ -181,6 +181,38 @@ class TestForm(forms.ModelForm):
         self.fields['key'].widget.attrs.update({'id': 'key'})
 
 
+class TestApplicationForm(forms.ModelForm):
+    class Meta:
+        model = TestApplication
+        fields = [
+            'test',
+            'application_date',
+            'verdict',
+            'data',
+            'notes',
+            'document',
+        ]
+
+    application_date = forms.DateTimeField(
+        input_formats=['%Y-%m-%d %H:%M:%S'],
+        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['test'] = forms.ModelChoiceField(
+            queryset=Test.objects.all(), widget=forms.HiddenInput())
+        verdict_choices = [
+            ('fail', 'Fail'),
+            ('pass', 'Pass'),
+            ('inconclusive', 'Inconclusive'),
+        ]
+        self.fields['verdict'] = forms.ChoiceField(
+            choices=verdict_choices, widget=forms.Select)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+
+
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
@@ -192,7 +224,8 @@ class ProjectForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'form-control'})
-        self.fields['description'].widget.attrs.update({'class': 'form-control'})
+        self.fields['description'].widget.attrs.update(
+            {'class': 'form-control'})
 
 
 class OptionsForm(forms.ModelForm):
