@@ -16,7 +16,7 @@
     <script src="{% static 'js/script.js' %}"></script>
     <link href="{% static 'styles.css' %}" rel="stylesheet">
     <link href="{% static 'tests.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/f7ecb0d002.js" crossorigin="anonymous"></script>
 {% endblock links %}
 
 {% block content %}
@@ -94,6 +94,7 @@
                                 <a href="javascript:void(0)" class="archive" data-id="{{ test.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
 {#                              <a href="javascript:void(0)" data-id="{{ test.id }}"><i class="fas fa-trash"></i></a>#}
                             {% else %}
+                                <a title="Traceability" href="{% url 'links' artifact_id=test.id %}"><i class="fa-solid fa-shapes"></i></a>
                                 <a href="{% url 'add_test_application' test_id=test.id %}"><i class="fas fa-plus-circle" title="New test application"></i></a>
                                 <a href="{% url 'edit_test' id=test.id %}"><i class="fas fa-edit"></i></a>
                                 <a href="javascript:void(0)" class="archive" data-id="{{ test.id }}" data-archive="true"><i class="fas fa-archive"></i></a>

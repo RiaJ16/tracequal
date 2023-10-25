@@ -1,6 +1,6 @@
 from django import forms
-from .models import (Artype, Code, Design, Options, Project, Requirement, Test,
-                     TestApplication, UserStory)
+from .models import (Artype, Code, Design, Link, Options, Project, Requirement,
+                     Test, TestApplication, UserStory)
 
 
 class UserStoryForm(forms.ModelForm):
@@ -268,3 +268,16 @@ class OptionsForm(forms.ModelForm):
             {'class': 'form-control'})
         self.fields['prefix_test'].widget.attrs.update(
             {'class': 'form-control'})
+
+
+class LinkForm(forms.ModelForm):
+    class Meta:
+        model = Link
+        fields = [
+            'from_art',
+            'to_art',
+            'type',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
