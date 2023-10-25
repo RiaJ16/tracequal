@@ -34,6 +34,7 @@
         <form id="form" method="post" class="form container">
             {% csrf_token %}
             {{ form.project }}
+            {{ form.type }}
             {{ form.key.label_tag }}
             {{ form.key }}
             {{ form.name.label_tag }}

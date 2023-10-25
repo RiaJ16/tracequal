@@ -1,12 +1,12 @@
 from django import forms
-from .models import (Code, Design, Options, Project, Requirement, Test,
+from .models import (Artype, Code, Design, Options, Project, Requirement, Test,
                      TestApplication, UserStory)
 
 
 class UserStoryForm(forms.ModelForm):
     class Meta:
         model = UserStory
-        fields = ['project', 'key', 'role', 'actn', 'benefit']
+        fields = ['project', 'key', 'role', 'actn', 'benefit', 'type']
         widgets = {
             'key': forms.TextInput(attrs={
                 'id': 'key',
@@ -37,6 +37,7 @@ class UserStoryForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['project'] = forms.ModelChoiceField(
             queryset=Project.objects.all(), widget=forms.HiddenInput())
+        self.fields['type'] = forms.CharField(widget=forms.HiddenInput())
 
 
 class RequirementForm(forms.ModelForm):
@@ -53,6 +54,7 @@ class RequirementForm(forms.ModelForm):
             'postcondition',
             'notes',
             'document',
+            'type',
         ]
         widgets = {
             'key': forms.TextInput(attrs={
@@ -107,6 +109,7 @@ class RequirementForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['project'] = forms.ModelChoiceField(
             queryset=Project.objects.all(), widget=forms.HiddenInput())
+        self.fields['type'] = forms.CharField(widget=forms.HiddenInput())
         self.fields['alt_sequence'] = forms.JSONField(
             widget=forms.HiddenInput(), required=False)
 
@@ -120,6 +123,7 @@ class DesignForm(forms.ModelForm):
             'name',
             'diagram',
             'document',
+            'type',
         ]
         widgets = {
             'key': forms.TextInput(attrs={
@@ -133,6 +137,7 @@ class DesignForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['project'] = forms.ModelChoiceField(
             queryset=Project.objects.all(), widget=forms.HiddenInput())
+        self.fields['type'] = forms.CharField(widget=forms.HiddenInput())
         self.fields['name'].widget.attrs.update({'class': 'form-control'})
         self.fields['diagram'].widget.attrs.update({'class': 'form-control'})
         self.fields['document'].widget.attrs.update({'class': 'form-control'})
@@ -146,12 +151,14 @@ class CodeForm(forms.ModelForm):
             'key',
             'name',
             'document',
+            'type',
         ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['project'] = forms.ModelChoiceField(
             queryset=Project.objects.all(), widget=forms.HiddenInput())
+        self.fields['type'] = forms.CharField(widget=forms.HiddenInput())
         self.fields['name'].widget.attrs.update({'class': 'form-control'})
         self.fields['key'].widget.attrs.update(
             {'id': 'key', 'class': 'form-control'})
@@ -170,12 +177,14 @@ class TestForm(forms.ModelForm):
             'data',
             'notes',
             'document',
+            'type',
         ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['project'] = forms.ModelChoiceField(
             queryset=Project.objects.all(), widget=forms.HiddenInput())
+        self.fields['type'] = forms.CharField(widget=forms.HiddenInput())
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
         self.fields['key'].widget.attrs.update({'id': 'key'})

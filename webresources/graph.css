@@ -1,0 +1,123 @@
+.node.user_story{
+    fill: #16a085;
+}
+
+.node.requirement{
+    fill: #c0392b;
+}
+
+.node.design{
+    fill: #2980b9;
+}
+
+.node.code{
+    fill: #27ae60;
+}
+
+.node.test{
+    fill: #f1c40f;
+}
+
+.node-text{
+    font-size: 1em;
+    text-anchor: middle; /* Center the text horizontally */
+    fill: #000000; /* Set the text color */
+    font-family: Verdana, sans-serif; /* Set the font family */
+    font-weight: bold;
+    /*stroke-width: 0.5;
+    stroke: white;*/
+}
+
+#arrowhead{
+    fill: #2e86de;
+    stroke: #2e86de;
+}
+
+#arrowhead2{
+    fill: #ee5253;
+    stroke: #ee5253;
+}
+
+.responsive-chart {
+    width: 100%;
+    height: 300px;
+    min-height: 300px;
+    max-width: 900px;
+}
+
+.main circle{
+    /*stroke: #000;*/
+    /*stroke-width: 3px;*/
+    /*filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.8));*/
+    animation: pulse 1s infinite; /* Apply the pulse animation */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.9);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(0.9);
+    }
+}
+
+.link{
+    stroke-width: 3px;
+}
+
+.link.dependency{
+    stroke-dasharray: 10, 5;
+}
+
+.link.evolution{
+    stroke: #2e86de;
+}
+
+.link.dependency{
+    stroke: #ee5253;
+}
+
+.fas.fa-arrow-right.evolution{
+    color: #2e86de;
+}
+
+.fas.fa-arrow-right.dependency{
+    color: #ee5253;
+}
+
+.fas.fa-circle.user_story{
+    color: #16a085;
+}
+
+.fas.fa-circle.requirement{
+    color: #c0392b;
+}
+
+.fas.fa-circle.design{
+    color: #2980b9;
+}
+
+.fas.fa-circle.code{
+    color: #27ae60;
+}
+
+.fas.fa-circle.test{
+    color: #f1c40f;
+}
+
+.table td:first-child {
+    width: 0.5em;
+}
+
+.table td:last-child {
+    width: 15em;
+}
+
+@media (max-width: 767px) {
+    .flex-md-row {
+        flex-direction: column;
+    }
+}

@@ -23,3 +23,8 @@ def determine_article(user_input):
 def sort_test_applications(test_applications):
     return sorted(
         test_applications, key=lambda x: x.application_date, reverse=True)
+
+
+@register.filter
+def replace_underscore(value):
+    return value.replace('_', ' ')

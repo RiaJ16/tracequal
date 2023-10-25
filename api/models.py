@@ -15,6 +15,18 @@ class Verdict(models.CharField):
         return 'verdict'
 
 
+class Litype(models.CharField):
+
+    def db_type(self, connection):
+        return 'litype'
+
+
+class Artype(models.CharField):
+
+    def db_type(self, connection):
+        return 'artype'
+
+
 class Project(models.Model):
     name = models.CharField()
     date = models.DateField(default=models.functions.Now)
@@ -29,6 +41,7 @@ class Project(models.Model):
 
 
 class ArtifactBase(models.Model):
+    type = Artype()
     key = models.IntegerField(blank=True, null=True)
     name = models.CharField(blank=True, default='')
     date = models.DateTimeField(default=timezone.now)
@@ -202,10 +215,11 @@ class DjangoSession(models.Model):
 
 
 class Link(models.Model):
-    from_field = models.ForeignKey(Artifact, models.DO_NOTHING, db_column='from_id', blank=True, null=True)  # Field renamed because it was a Python reserved word.
-    to = models.ForeignKey(Artifact, models.DO_NOTHING, related_name='link_to_set', blank=True, null=True)
-    type = models.TextField(blank=True, null=True)  # This field type is a guess.
+    from_art = models.ForeignKey(Artifact, models.DO_NOTHING, db_column='from_id', blank=True, null=True)
+    to_art = models.ForeignKey(Artifact, models.DO_NOTHING, db_column='to_id', related_name="to_id", blank=True, null=True)
+    type = Litype(blank=True, null=True, default="evolution")
     date = models.DateTimeField(blank=True, null=True)
+    archived = models.BooleanField(blank=True)
 
     class Meta:
         managed = False

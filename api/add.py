@@ -18,6 +18,7 @@ def add_user_story(request, project_id):
     else:
         form = UserStoryForm()
         form.fields['project'].initial = Project.objects.get(id=project_id)
+        form.fields['type'].initial = "user_story"
     set_current_key(form, UserStory, project_id)
     return render(request, 'add_user_story.html', {'form': form})
 
@@ -33,6 +34,7 @@ def add_requirement(request, project_id):
     else:
         form = RequirementForm()
         form.fields['project'].initial = Project.objects.get(id=project_id)
+        form.fields['type'].initial = "requirement"
     set_current_key(form, Requirement, project_id)
     return render(request, 'add_requirement.html', {'form': form})
 
@@ -48,6 +50,7 @@ def add_design(request, project_id):
     else:
         form = DesignForm()
         form.fields['project'].initial = Project.objects.get(id=project_id)
+        form.fields['type'].initial = "design"
     set_current_key(form, Design, project_id)
     return render(request, 'add_design.html', {'form': form})
 
@@ -63,6 +66,7 @@ def add_code(request, project_id):
     else:
         form = CodeForm()
         form.fields['project'].initial = Project.objects.get(id=project_id)
+        form.fields['type'].initial = "code"
     set_current_key(form, Code, project_id)
     return render(request, 'add_code.html', {'form': form})
 
@@ -78,6 +82,7 @@ def add_test(request, project_id):
     else:
         form = TestForm()
         form.fields['project'].initial = Project.objects.get(id=project_id)
+        form.fields['type'].initial = "test"
     set_current_key(form, Test, project_id)
     return render(request, 'add_test.html', {'form': form})
 

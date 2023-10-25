@@ -1,12 +1,13 @@
 import json
 
+from django.db.models import Q
 from django.core import serializers
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from functools import wraps
 
-from .models import (Code, Design, Options, Progress, Project, Requirement,
-                     Test, TestApplication, UserStory)
+from .models import (Artifact, Code, Design, Link, Options, Progress, Project,
+                     Requirement, Test, TestApplication, UserStory)
 from utils.colors import calculate_gradient_color
 
 from . import add, archive, edit
@@ -277,3 +278,68 @@ def retrieve_test(request, project_id, id):
             raise Http404("Not valid")
     else:
         return redirect('tests')
+
+
+@project_required
+def links(request, project_id, artifact_id):
+    artifact = Artifact.objects.get(id=artifact_id, project=project_id)
+    from_links = Link.objects.filter(
+        from_art=artifact_id,
+        archived=False).order_by('id')
+    to_links = Link.objects.filter(
+        to_art=artifact_id,
+        archived=False).order_by('id')
+    all_links = Link.objects.filter(
+        Q(archived=False) & (Q(from_art=artifact_id) | Q(to_art=artifact_id))
+    )
+    options = Options.objects.get(project_id=project_id)
+    options_dict = {
+        'user_story': options.prefix_us,
+        'requirement': options.prefix_req,
+        'design': options.prefix_design,
+        'code': options.prefix_code,
+        'test': options.prefix_test,
+    }
+    views_dict = {
+        'user_story': 'user_stories',
+        'requirement': 'requirements',
+        'design': 'design',
+        'code': 'code',
+        'test': 'tests',
+    }
+    links_ = []
+    for link in all_links:
+        arrowhead = '' if link.type == 'evolution' else '2'
+        links_.append({
+            "id": link.id,
+            "source": link.from_art.id,
+            "target": link.to_art.id,
+            "type": link.type,
+            "arrowhead": arrowhead,
+        })
+    linked_artifacts = {}
+    for link in all_links:
+        linked_artifacts[link.from_art] = True
+        linked_artifacts[link.to_art] = True
+    unique_artifacts = list(linked_artifacts.keys())
+    nodes_ = []
+    for artifact_ in unique_artifacts:
+        main = "main" if artifact == artifact_ else ""
+        type_ = artifact_.type.replace('_', ' ').capitalize()
+        nodes_.append({
+            "id": artifact_.id,
+            "name": f"{type_} {artifact_.key} - {artifact_.name}",
+            "type": f"{artifact_.type}",
+            "key": f"{options_dict[artifact_.type]}{artifact_.key}",
+            "main": main,
+        })
+    graph_data = {"nodes": nodes_, "links": links_}
+    graph_data_json = json.dumps(graph_data)
+    data = {
+        'from_links': from_links,
+        'to_links': to_links,
+        'artifact': artifact,
+        'graph_data_json': graph_data_json,
+        'view_name': views_dict[artifact.type],
+    }
+    return render(request, 'links.html', data)

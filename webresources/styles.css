@@ -170,11 +170,16 @@ a{
     padding-bottom: 2em;
 }
 
+.link-item{
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
 .icons{
     position: absolute;
     right: 0;
     bottom: 0;
-    margin: 0 0.5em 0.5em 0
+    margin: 0 0.5em 0.5em 0;
 }
 
 .icons .fas{
@@ -208,6 +213,15 @@ a{
 .icons .fas.fa-plus-circle:hover{
     color: #d35400;
     cursor: pointer;
+}
+
+.icons .fa-solid.fa-shapes{
+    color: #16a085;
+}
+
+
+.icons .fa-solid.fa-shapes:hover{
+    color: #1abc9c;
 }
 
 .hidden_content {
@@ -258,6 +272,27 @@ a{
     top: 0;
 }
 
+.key.requirement{
+    color: #c0392b;
+}
+
+.key.design{
+    color: #2980b9;
+}
+
+.key.code{
+    color: #27ae60;
+}
+
+.key.test{
+    color: #f1c40f;
+    text-shadow:
+            -1px -1px 0 #555,
+            1px -1px 0 #555,
+            -1px 1px 0 #555,
+            1px 1px 0 #555;
+}
+
 .custom-alert{
     position: fixed;
     display: none;
@@ -284,10 +319,13 @@ a{
 
 @media (max-width: 768px) {
     .icons {
-        font-size: 25pt;
+        font-size: 20pt;
     }
     .artifact{
-        padding-bottom: 4em;
+        padding-bottom: 3em;
+    }
+    .link-item{
+        padding-bottom: 1.5em;
     }
 }
 
@@ -344,4 +382,23 @@ a{
 
 .archive-page .icon{
     filter: grayscale(100%);
+}
+
+h5.direction{
+    border-bottom: 5px solid #1abc9c;
+    color: #16a085;
+    font-weight: bold;
+    padding: 1em 1em 1em 0;
+}
+
+.artifact_name{
+    color: #444;
+    border-left: 4px solid #777;
+    padding-left: 0.5em;
+    margin-left: 4.5em;
+    font-family: Verdana, sans-serif;
+}
+
+.link-item .name{
+    margin-right: 2em;
 }
