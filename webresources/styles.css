@@ -242,6 +242,24 @@ a{
     border-color: #16a085;
 }
 
+.btn-base{
+    color: #025e4c;
+    background-color: #cdf0e9;
+    border-color: #16a085;
+}
+
+.btn-base:hover{
+    color: white;
+    background-color: #16a085;
+    border-color: #16a085;
+}
+
+.btn-base:active{
+    color: white !important;
+    background-color: #28d0ae !important;
+    border-color: #16a085 !important;
+}
+
 .btn-accent{
     color: white;
     background-color: #e67e22;
@@ -402,3 +420,21 @@ h5.direction{
 .link-item .name{
     margin-right: 2em;
 }
+
+.artifact-small{
+    padding-top: 1em;
+}
+
+.artifact-small .name{
+    margin-right: 12em;
+}
+
+.artifact-small .buttons{
+    width: auto;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 1em;
+}
+

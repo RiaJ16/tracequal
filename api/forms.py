@@ -1,6 +1,6 @@
 from django import forms
-from .models import (Artype, Code, Design, Link, Options, Project, Requirement,
-                     Test, TestApplication, UserStory)
+from .models import (Artifact, Artype, Code, Design, Link, Options, Project,
+                     Requirement, Test, TestApplication, UserStory)
 
 
 class UserStoryForm(forms.ModelForm):
@@ -281,3 +281,11 @@ class LinkForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['from_art'] = forms.ModelChoiceField(
+            queryset=Artifact.objects.all(), widget=forms.HiddenInput())
+        type_choices = [
+            ('evolution', 'Evolution'),
+            ('dependency', 'Dependency'),
+        ]
+        self.fields['type'] = forms.ChoiceField(
+            choices=type_choices, widget=forms.Select)

@@ -1,0 +1,83 @@
+.panel{
+    position: fixed;
+    top: 0;
+    right: -18.5em;
+    width: 20.5em;
+    height: 100%;
+    background-color: #f8f9fa;
+    box-shadow: -5px 0 10px rgba(0,0,0,0.1);
+    transition: right 0.3s;
+    z-index: 1;
+}
+
+.panel.open{
+    right: 0;
+}
+
+.panel .panel-toggle {
+    width: 1.5em;
+    height: 100%;
+    background-color: #10ac84; /* Background color of the toggle button area */
+    cursor: pointer;
+}
+
+.panel .panel-content {
+    width: 100%;
+    height: 100%;
+    padding: 1em 0.5em 0 0.5em;
+}
+
+.panel #chevron{
+    color: white;
+}
+
+#close_button, .cancel_link{
+    position: absolute;
+    right: 0.5em;
+    top: 0.5em;
+    font-size: 20pt;
+}
+
+#close_button:hover{
+    color: #e74c3c;
+    cursor: pointer;
+}
+
+.panel .list-group-item{
+    padding-top: 1em;
+    padding-right: 2em;
+}
+
+.cancel_link{
+    font-size: 14pt;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.cancel_link:hover{
+    color: #e74c3c;
+    cursor: pointer;
+}
+
+#submit_button{
+    position: absolute;
+    bottom: 1em;
+    left: 50%;
+    transform: translate(calc(-50% + 0.75em), 0);
+}
+
+.link_type{
+    font-size: 10pt;
+    color: grey;
+}
+
+.panel form{
+    height: 100%;
+    overflow-y: scroll;
+    padding-bottom: 8em;
+}
+
+#links_list{
+    height: 100%;
+    overflow-y: scroll;
+}

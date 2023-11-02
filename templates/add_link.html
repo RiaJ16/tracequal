@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load tz %}
+{% load filters %}
+
+{% block title %}
+  Tracequal - Add code artifact
+{% endblock title %}
+
+{% block links %}
+    <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/floating_panel.js' %}"></script>
+    <script src="{% static 'js/add_link.js' %}"></script>
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <link href="{% static 'floating_panel.css' %}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f7ecb0d002.js" crossorigin="anonymous"></script>
+{% endblock links %}
+
+{% block content %}
+
+    <div id="responsive-container" class="list-group container artifacts_container">
+        <div class="tq-backbar">
+            <div class="row align-items-center">
+                <div class="col-1 tq-back"><a href="{% url 'links' artifact_id=artifact.id%}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
+            </div>
+        </div>
+        <div class="d-flex align-items-center">
+            <div>
+                <img src="{% static 'icons/icon-code.png' %}" alt="Custom Icon" class="icon img-fit"/>
+            </div>
+            <div class="ml-3">
+                <h1>New link for {{ artifact.type|replace_underscore|title }} {{ artifact.key }}</h1>
+            </div>
+        </div>
+        <p class="artifact_name">"{{ artifact.name }}."</p>
+        {% for artifact in artifacts %}
+            <div id="artifact{{ artifact.id }}" class="list-group-item list-group-item-action artifact-small" data-info='{"id":{{ artifact.id }}, "name":"{{ artifact.name }}", "type":"{{ artifact.type }}"}'>
+                <small class="key {{ artifact.type }}">{{ artifact.type|replace_underscore|title }} {{ artifact.key }}</small>
+                <div class="d-flex align-items-center">
+                    <div class="number">{{ forloop.counter }}</div>
+                    <div class="ml-3 strikable name">{{ artifact.name }}</div>
+                    <div class="buttons">
+                        <button class="btn btn-sm btn-base add_link evolution {% if artifact.evolution %}disabled{% endif %}">Evolution</button>
+                        <button class="btn btn-sm btn-base add_link dependency {% if artifact.dependency %}disabled{% endif %}">Dependency</button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="custom-alert success">
+            <div class="alert alert-success fade show message" role="alert">
+            </div>
+        </div>
+        <div class="custom-alert failure">
+            <div class="alert alert-danger fade show message" role="alert">
+            </div>
+        </div>
+    </div>
+
+    <div class="panel d-flex">
+        <div id="toggle_panel" class="panel-toggle d-flex justify-content-center align-items-center">
+            <i id="chevron" class="fa-solid fa-chevron-left"></i>
+        </div>
+        <div class="panel-content">
+            <i id="close_button" class="fa-solid fa-xmark"></i>
+            <h3>Links to add</h3>
+            <br/>
+            <form id="form" method="post" >
+                {% csrf_token %}
+                <div id="links_list" class="list-group"></div>
+                <button id="submit_button" type="submit" class="btn btn-accent">Save links</button>
+            </form>
+        </div>
+    </div>
+
+    <span id="previous_url" style="display: none;">{% url 'links' artifact_id=artifact.id%}</span>
+
+{% endblock content %}

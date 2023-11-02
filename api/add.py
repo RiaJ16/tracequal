@@ -1,10 +1,12 @@
-from django.http import Http404
+import json
+
+from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 
 from .common import dict_with_sequences
 from .forms import *
-from .models import (Code, Design, Progress, Project, Requirement, Test,
-                     UserStory)
+from .models import (Artifact, Code, Design, Progress, Project, Requirement,
+                     Test, UserStory)
 
 
 def add_user_story(request, project_id):
@@ -143,3 +145,47 @@ def add_project(request):
         options_form = OptionsForm()
     data = {'form': form, 'options_form': options_form}
     return render(request, 'add_project.html', data)
+
+
+def add_link(request, project_id, artifact_id):
+    artifact = Artifact.objects.get(project_id=project_id, id=artifact_id)
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        types = ['evolution', 'dependency']
+        if data:
+            for link_data in data:
+                target = Artifact.objects.get(
+                    project_id=project_id, id=link_data['artifact'])
+                link = Link(from_art=artifact, to_art=target,
+                            type=types[link_data['type']])
+                link.save()
+            return JsonResponse({'message': 'Success'})
+        else:
+            raise Http404('Not valid')
+    else:
+        form = LinkForm()
+        form.fields['from_art'].initial = artifact
+        artifacts = Artifact.objects.filter(project_id=project_id)
+        links = Link.objects.filter(from_art=artifact)
+        artifacts_to_exclude = [artifact.id]
+        artifacts = [artifact for artifact in artifacts if
+                     artifact.id not in artifacts_to_exclude]
+        for link in links:
+            if link.type == 'evolution':
+                artifact_ = next((
+                    artifact_ for artifact_ in artifacts
+                    if artifact_ == link.to_art), None)
+                if artifact_:
+                    artifact_.evolution = True
+            if link.type == 'dependency':
+                artifact_ = next((
+                    artifact_ for artifact_ in artifacts
+                    if artifact_ == link.to_art), None)
+                if artifact_:
+                    artifact_.dependency = True
+        context = {
+            'form': form,
+            'artifact': artifact,
+            'artifacts': artifacts,
+        }
+        return render(request, 'add_link.html', context)

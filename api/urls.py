@@ -37,4 +37,5 @@ urlpatterns = [
     path('test_applications/delete/', views.delete_test_application,
          name='delete_test_application'),
     path('test/<int:id>/', views.retrieve_test, name='retrieve_test'),
+    path('add_link/<int:artifact_id>/', views.add_link, name='add_link'),
 ]

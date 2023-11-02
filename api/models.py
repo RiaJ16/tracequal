@@ -58,6 +58,9 @@ class Artifact(ArtifactBase):
         managed = False
         db_table = 'artifact'
 
+    def __str__(self):
+        return f'{self.type} {self.key}: {self.name}'
+
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -218,8 +221,8 @@ class Link(models.Model):
     from_art = models.ForeignKey(Artifact, models.DO_NOTHING, db_column='from_id', blank=True, null=True)
     to_art = models.ForeignKey(Artifact, models.DO_NOTHING, db_column='to_id', related_name="to_id", blank=True, null=True)
     type = Litype(blank=True, null=True, default="evolution")
-    date = models.DateTimeField(blank=True, null=True)
-    archived = models.BooleanField(blank=True)
+    date = models.DateTimeField(blank=True, null=True, default=timezone.now)
+    archived = models.BooleanField(blank=True, default=0)
 
     class Meta:
         managed = False

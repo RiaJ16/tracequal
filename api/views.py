@@ -343,3 +343,8 @@ def links(request, project_id, artifact_id):
         'view_name': views_dict[artifact.type],
     }
     return render(request, 'links.html', data)
+
+
+@project_required
+def add_link(request, project_id, artifact_id):
+    return add.add_link(request, project_id, artifact_id)
