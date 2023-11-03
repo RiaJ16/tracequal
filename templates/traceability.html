@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load tz %}
+{% load filters %}
+
+{% block title %}
+  Tracequal - Traceability {% if archive %}(archive){% endif %}
+{% endblock title %}
+
+{% block links %}
+    <script src="{% static 'js/graph.js' %}"></script>
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <link href="{% static 'graph.css' %}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f7ecb0d002.js" crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+{% endblock links %}
+
+{% block content %}
+    <div id="responsive-container" class="list-group container artifacts_container  {% if archive %}archive-page{% endif %}">
+        {% csrf_token %}
+        <div class="tq-backbar">
+            <div class="row align-items-center">
+                <div class="col-1 tq-back"><a href="{% url 'project' %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
+            </div>
+        </div>
+        <div class="d-flex align-items-center">
+            <div>
+                <img src="{% static 'icons/icon-code.png' %}" alt="Custom Icon" class="icon img-fit"/>
+            </div>
+            <div class="ml-3">
+                <h1>Traceability</h1>
+            </div>
+        </div>
+        {% if links%}
+            {% include 'graph.html' %}
+        {% endif %}
+        {% if links %}
+            <h5 class="direction">Traceability links</h5>
+            {% for link in links %}
+                {% include 'mini_link.html' %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div id="confirmation_dialog" class="confirmation-dialog custom-alert info">
+        <div class="alert custom-alert-info fade show message">Are you sure you want to archive this artifact?</div>
+        <div class="confirm_buttons">
+            <button id="confirm_button" class="confirm-button btn btn-accent" data-url="/requirements/archive/">Yes</button>
+            <button id="cancel_button" class="cancel-button btn btn-secondary">Cancel</button>
+        </div>
+    </div>
+
+    <span id="graph_data_json" style="display:none">{{ graph_data_json }}</span>
+
+    <style>#graph-container{height: 500px} .node-text{font-size: 0.5em}</style>
+{% endblock content%}

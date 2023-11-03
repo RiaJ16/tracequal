@@ -438,3 +438,22 @@ h5.direction{
     margin-right: 1em;
 }
 
+#traceability_div{
+    background-color: #badc58;
+}
+
+#traceability_div:hover{
+    background-color: #9cb748;
+}
+
+.fa-solid.fa-arrow-right{
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(-50%, -50%);
+    color: grey;
+}
+
+.row .key{
+    top: -1.3em;
+}

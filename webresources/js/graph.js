@@ -4,23 +4,12 @@ let simulation;
 $(document).ready(function() {
     const container = $('#graph-container');
     const width = container.width();
-    console.log(width, container.height());
+    const height = container.height();
     const graphData = JSON.parse($("#graph_data_json").html());
 
     svg = d3.select('#graph-container').append('svg')
         .attr('width', width)
-        .attr('height', 300);
-
-    // svg.append('defs').append('marker')
-    //     .attr('id', 'arrowhead')
-    //     .attr('viewBox', '0 -5 10 10')
-    //     .attr('refX', 18)
-    //     .attr('markerWidth', 10)
-    //     .attr('markerHeight', 10)
-    //     .attr('orient', 'auto')
-    //     .append('path')
-    //     .attr('d', 'M0,-5L10,0L0,5')
-    //     .attr('class', 'arrowhead');
+        .attr('height', height);
 
     const arrowhead = svg.append('defs')
         .append('marker')
@@ -93,7 +82,7 @@ $(document).ready(function() {
     simulation = d3.forceSimulation(nodes)
         .force('link', d3.forceLink(links).id(d => d.id).distance(100))
         .force('charge', d3.forceManyBody().strength(-50))
-        .force('center', d3.forceCenter(width/2, 150))
+        .force('center', d3.forceCenter(width/2, height/2))
         .force('collide', d3.forceCollide().strength(1).radius(10).iterations(20));
 
     simulation.on('tick', () => {
@@ -125,5 +114,5 @@ $(window).resize(function() {
     const height = container.height();
     svg.attr('width', width*.8)
        .attr('height', height);
-    simulation.force('center', d3.forceCenter(width/2, 150)).alpha(1).restart();
+    simulation.force('center', d3.forceCenter(width/2, height/2)).alpha(1).restart();
 });
