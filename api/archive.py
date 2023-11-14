@@ -1,9 +1,9 @@
 import json
 
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 
-from .models import (Artifact, Code, Design, Options, Requirement, Test,
+from .models import (Artifact, Code, Design, Link, Options, Requirement, Test,
                      UserStory)
 
 
@@ -96,3 +96,14 @@ def archive_artifact(request, project_id, artifacts_data=None):
             'archive': True,
         }
         return render(request, artifacts_data['template'], data)
+
+
+def archive_link(request, project_id):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        link = Link.objects.get(id=data.get('id'), from_art__project=project_id)
+        link.archived = data.get('archive')
+        link.save()
+        return JsonResponse({'message': 'Success'})
+    else:
+        raise Http404("Not valid")

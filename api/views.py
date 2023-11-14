@@ -223,6 +223,11 @@ def archive_test(request, project_id):
     return archive.archive_test(request, project_id)
 
 
+@project_required
+def archive_test(request, project_id):
+    return archive.archive_test(request, project_id)
+
+
 def add_project(request):
     return add.add_project(request)
 
@@ -365,3 +370,8 @@ def get_graph_data_json(project_id, all_links_, artifact=None):
         })
     graph_data = {"nodes": nodes_, "links": links_}
     return json.dumps(graph_data)
+
+
+@project_required
+def archive_link(request, project_id):
+    return archive.archive_link(request, project_id)

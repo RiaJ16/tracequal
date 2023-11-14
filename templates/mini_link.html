@@ -1,7 +1,6 @@
 {% load filters %}
 <div id="link{{ link.id }}" class="list-group-item link-item">
-{#    <small class="key {{ r_artifact.type }}">{{ r_artifact.type|replace_underscore|title }} {{ r_artifact.key }}</small>#}
-{#    <small class="date">{{ link.date|date:"F j, Y h:i A" }}</small>#}
+    <small class="date">{{ link.date|date:"F j, Y h:i A" }}</small>
 
     <div class="row">
         <div class="col-md-6 align-items-center" style="position: relative">

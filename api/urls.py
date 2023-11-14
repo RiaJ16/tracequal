@@ -2,6 +2,9 @@ from django.urls import include, path, re_path
 
 from . import views
 
+
+
+
 urlpatterns = [
     path('project/', views.project, name='project'),
     path('project/<int:project_id>', views.project, name='project'),
@@ -39,4 +42,5 @@ urlpatterns = [
          name='delete_test_application'),
     path('test/<int:id>/', views.retrieve_test, name='retrieve_test'),
     path('add_link/<int:artifact_id>/', views.add_link, name='add_link'),
+    path('links/archive/', views.archive_link, name='archive_link'),
 ]

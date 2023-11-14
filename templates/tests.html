@@ -92,12 +92,11 @@
                             {% endif %}
                             {% if test.archived %}
                                 <a href="javascript:void(0)" class="archive" data-id="{{ test.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
-{#                              <a href="javascript:void(0)" data-id="{{ test.id }}"><i class="fas fa-trash"></i></a>#}
                             {% else %}
                                 <a title="Traceability" href="{% url 'links' artifact_id=test.id %}"><i class="fa-solid fa-shapes"></i></a>
                                 <a href="{% url 'add_test_application' test_id=test.id %}"><i class="fas fa-plus-circle" title="New test application"></i></a>
                                 <a href="{% url 'edit_test' id=test.id %}"><i class="fas fa-edit"></i></a>
-                                <a href="javascript:void(0)" class="archive" data-id="{{ test.id }}" data-archive="true"><i class="fas fa-archive"></i></a>
+                                <a href="javascript:void(0)" class="archive" data-id="{{ test.id }}" data-archive="true"><i class="fas fa-trash"></i></a>
                             {% endif %}
                         </div>
                     </div>

@@ -6,7 +6,7 @@ $(document).ready(function(){
         confirmation_dialog.data('id', id).show();
         confirmation_dialog.data('archive', archive).show();
         if(archive)
-            $('.custom-alert-info').html('Are you sure you want to archive this artifact?');
+            $('.custom-alert-info').html('Are you sure you want to delete this artifact?');
         else
             $('.custom-alert-info').html('Are you sure you want to restore this artifact?');
         $('#confirm_button').click(function(){
