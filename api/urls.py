@@ -43,4 +43,5 @@ urlpatterns = [
     path('test/<int:id>/', views.retrieve_test, name='retrieve_test'),
     path('add_link/<int:artifact_id>/', views.add_link, name='add_link'),
     path('links/archive/', views.archive_link, name='archive_link'),
+    path('links/<int:artifact_id>/archive/', views.links_archive, name='links_archive'),
 ]

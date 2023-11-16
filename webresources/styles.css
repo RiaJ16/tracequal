@@ -219,9 +219,16 @@ a{
     color: #16a085;
 }
 
-
 .icons .fa-solid.fa-shapes:hover{
     color: #1abc9c;
+}
+
+.icons .fa-solid.fa-link{
+    color: #204988;
+}
+
+.icons .fa-solid.fa-link:hover{
+    color: #3f6aac;
 }
 
 .hidden_content {

@@ -22,18 +22,18 @@
         {% csrf_token %}
         <div class="tq-backbar">
             <div class="row align-items-center">
-                <div class="col-1 tq-back"><a href="{% if archive %}{% url view_name %} {% else %}{% url view_name %}{% endif %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
+                <div class="col-1 tq-back"><a href="{% if archive %}{% url "links" artifact_id=artifact.id %} {% else %}{% url view_name %}{% endif %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
             </div>
         </div>
         <div class="d-flex align-items-center">
             <div>
-                <img src="{% static 'icons/icon-code.png' %}" alt="Custom Icon" class="icon img-fit"/>
+                <img src="{% static 'icons/icon-traceability.png' %}" alt="Custom Icon" class="icon img-fit"/>
             </div>
             <div class="ml-3">
                 <h1>Links for {{ artifact.type|replace_underscore|title }} {{ artifact.key }}{% if archive %}(archive){% endif %}</h1>
             </div>
             {% if not archive %}
-                <a href="{% url 'links' artifact_id=artifact.id %}" class="archive-goto"><i class="fas fa-archive"></i></a>
+                <a href="{% url 'links_archive' artifact_id=artifact.id %}" class="archive-goto"><i class="fas fa-archive"></i></a>
             {% endif %}
         </div>
         <p class="artifact_name">"{{ artifact.name }}."</p>
@@ -69,7 +69,7 @@
     <div id="confirmation_dialog" class="confirmation-dialog custom-alert info">
         <div class="alert custom-alert-info fade show message">Are you sure you want to archive this artifact?</div>
         <div class="confirm_buttons">
-            <button id="confirm_button" class="confirm-button btn btn-accent" data-url="/requirements/archive/">Yes</button>
+            <button id="confirm_button" class="confirm-button btn btn-accent" data-url="/links/archive/">Yes</button>
             <button id="cancel_button" class="cancel-button btn btn-secondary">Cancel</button>
         </div>
     </div>

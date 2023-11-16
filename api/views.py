@@ -287,15 +287,19 @@ def retrieve_test(request, project_id, id):
 
 @project_required
 def links(request, project_id, artifact_id):
+    return show_links(request, project_id, artifact_id)
+
+
+def show_links(request, project_id, artifact_id, archive_=False):
     artifact = Artifact.objects.get(id=artifact_id, project=project_id)
     from_links = Link.objects.filter(
         from_art=artifact_id,
-        archived=False).order_by('id')
+        archived=archive_).order_by('id')
     to_links = Link.objects.filter(
         to_art=artifact_id,
-        archived=False).order_by('id')
+        archived=archive_).order_by('id')
     all_links_ = Link.objects.filter(
-        Q(archived=False) & (Q(from_art=artifact_id) | Q(to_art=artifact_id))
+        Q(archived=archive_) & (Q(from_art=artifact_id) | Q(to_art=artifact_id))
     )
     views_dict = {
         'user_story': 'user_stories',
@@ -311,6 +315,7 @@ def links(request, project_id, artifact_id):
         'artifact': artifact,
         'graph_data_json': graph_data_json,
         'view_name': views_dict[artifact.type],
+        "archive": archive_,
     }
     return render(request, 'links.html', data)
 
@@ -375,3 +380,11 @@ def get_graph_data_json(project_id, all_links_, artifact=None):
 @project_required
 def archive_link(request, project_id):
     return archive.archive_link(request, project_id)
+
+
+@project_required
+def links_archive(request, project_id, artifact_id):
+    if request.method == 'POST':
+        raise Http404("Not valid")
+    else:
+        return show_links(request, project_id, artifact_id, True)

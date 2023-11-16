@@ -55,7 +55,7 @@
                         {% if user_story.archived %}
                             <a title="Unarchive user story" href="javascript:void(0)" class="archive" data-id="{{ user_story.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
                         {% else %}
-                            <a title="Traceability" href="{% url 'links' artifact_id=user_story.id %}"><i class="fa-solid fa-shapes"></i></a>
+                            <a title="Traceability" href="{% url 'links' artifact_id=user_story.id %}"><i class="fa-solid fa-link"></i></a>
                             <a title="Edit user story" href="{% url 'edit_user_story' us_id=user_story.id %}"><i class="fas fa-edit"></i></a>
                             <a title="Archive user story" href="javascript:void(0)" class="archive" data-id="{{ user_story.id }}" data-archive="true"><i class="fas fa-trash"></i></a>
                         {% endif %}

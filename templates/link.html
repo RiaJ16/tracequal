@@ -6,13 +6,10 @@
         <div class="number">{{ forloop.counter }}</div>
         <div class="ml-3 strikable name">{{ r_artifact.name }}</div>
         <div class="icons">
-            {% if code_artifact.document %}
-                <a href="{{ code_artifact.document }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
-            {% endif %}
-            {% if code_artifact.archived %}
-                <a href="javascript:void(0)" class="archive" data-id="{{ code_artifact.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
+            {% if link.archived %}
+                <a href="javascript:void(0)" class="archive" data-id="{{ link.id }}" data-archive="false" data-is_link="true"><i class="fas fa-upload"></i></a>
             {% else %}
-                <a href="javascript:void(0)" class="archive" data-id="{{ code_artifact.id }}" data-archive="true"><i class="fas fa-trash"></i></a>
+                <a href="javascript:void(0)" class="archive" data-id="{{ link.id }}" data-archive="true" data-is_link="true"><i class="fas fa-trash"></i></a>
             {% endif %}
         </div>
     </div>
