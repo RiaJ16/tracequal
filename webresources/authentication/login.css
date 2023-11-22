@@ -1,0 +1,30 @@
+#responsive-container{
+    max-width: 400px;
+    padding-bottom: 1em !important;
+}
+
+#responsive-container.register{
+    max-width: 600px;
+}
+
+.center{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1em;
+}
+
+.helptext{
+    color: grey;
+    font-size: 0.8em;
+}
+
+.errorlist ul{
+    border-left: 3px solid #e74c3c;
+}
+
+.errorlist{
+    color: #c0392b;
+    font-size: 0.8em;
+}

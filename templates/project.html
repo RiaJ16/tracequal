@@ -19,8 +19,8 @@
             <div class="row align-items-center">
                 <div class="col-1 tq-back"><a href="{% url 'index' %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
                 <div class="col-11">
-                    <div class="progress" role="progressbar" aria-valuenow="{{ total }}" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar progress-bar-striped" style="width: {{ total }}%; background-color: {{ colors.total }}"></div>
+                    <div class="progress" role="progressbar" aria-valuenow="{{ progress.progress_tests }}" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar progress-bar-striped" style="width: {{ progress.progress_tests }}%; background-color: {{ colors.t }}"></div>
                     </div>
                 </div>
             </div>

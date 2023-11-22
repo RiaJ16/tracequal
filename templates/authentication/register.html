@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load tz %}
+
+{% block title %}
+  Tracequal - Register
+{% endblock title %}
+
+{% block links %}
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <link href="{% static 'authentication/login.css' %}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f7ecb0d002.js" crossorigin="anonymous"></script>
+{% endblock links %}
+
+{% block content %}
+    <div id="responsive-container" class="list-group container artifacts_container register">
+        <div class="tq-backbar">
+            <div class="row align-items-center">
+                <div class="col-1 tq-back"><a href="{% url 'index' %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
+            </div>
+        </div>
+        <h1>Register</h1>
+        {% if error %}
+            <p>{{ error }}</p>
+        {% endif %}
+        <form method="post" action="">
+            {% csrf_token %}
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {{ form.name.label_tag }}
+            {{ form.name }}
+            {{ form.lastname.label_tag }}
+            {{ form.lastname }}
+            {{ form.lastname2.label_tag }}
+            {{ form.lastname2 }}
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+            <div class="errorlist">
+                <ul>
+                {% for error in form.password2.errors %}
+                    <li><span class="error">{{ error }}</span></li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="errorlist">
+                <ul>
+                {% for error in form.password1.errors %}
+                    <li><span class="error">{{ error }}</span></li>
+                {% endfor %}
+                </ul>
+            </div>
+            <span class="center">
+                <input class="btn btn-accent" type="submit" value="Register">
+            </span>
+        </form>
+    </div>
+{% endblock %}

@@ -5,6 +5,7 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils import timezone
@@ -323,15 +324,20 @@ class UserStory(ArtifactBase):
         return f"User story {pid}{self.key:03d}: {self.role}, {self.actn}, {self.benefit}"
 
 
-class Usr(models.Model):
+class Usr(AbstractBaseUser):
     username = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)
     lastname2 = models.CharField(max_length=50, blank=True, null=True)
     email = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
+    password = models.CharField(max_length=100)
+
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+    USERNAME_FIELD = 'username'
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'usr'
 

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load tz %}
+
+{% block title %}
+  Tracequal - Login
+{% endblock title %}
+
+{% block links %}
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <link href="{% static 'authentication/login.css' %}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f7ecb0d002.js" crossorigin="anonymous"></script>
+{% endblock links %}
+
+{% block content %}
+    <div id="responsive-container" class="list-group container artifacts_container  {% if archive %}archive-page{% endif %}">
+        <div class="tq-backbar">
+            <div class="row align-items-center">
+                <div class="col-1 tq-back"><a href="{% url 'index' %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
+            </div>
+        </div>
+        <h1>Login</h1>
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+        {% if message %}
+            <div class="alert alert-info" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input class="form-control" type="text" id="username" name="username" value="{{ username }}">
+            <label for="password">Password:</label>
+            <input class="form-control" type="password" id="password" name="password">
+            <span class="center">
+                <input class="btn btn-accent" type="submit" value="Login">
+                <small><a href="">Forgot password?</a></small>
+                <small><a href="{% url 'register' %}">Register</a></small>
+            </span>
+        </form>
+    </div>
+{% endblock %}

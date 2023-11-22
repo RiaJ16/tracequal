@@ -139,3 +139,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
+
+AUTHENTICATION_BACKENDS = [
+    'authentication.custom_login.CustomUserBackend',
+    # 'django.contrib.auth.backends.ModelBackend',
+]

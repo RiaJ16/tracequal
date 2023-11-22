@@ -1,6 +1,7 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from .models import (Artifact, Artype, Code, Design, Link, Options, Project,
-                     Requirement, Test, TestApplication, UserStory)
+                     Requirement, Test, TestApplication, UserStory, Usr)
 
 
 class UserStoryForm(forms.ModelForm):
@@ -289,3 +290,37 @@ class LinkForm(forms.ModelForm):
         ]
         self.fields['type'] = forms.ChoiceField(
             choices=type_choices, widget=forms.Select)
+
+
+class UserForm(UserCreationForm):
+    email = forms.EmailField()
+    password2 = forms.CharField(
+        label="Confirm password",
+        widget=forms.PasswordInput
+    )
+
+    class Meta:
+        model = Usr
+        fields = [
+            'username',
+            'name',
+            'lastname',
+            'lastname2',
+            'email',
+        ]
+        labels = {
+            'lastname': "Last name",
+            'lastname2': "Second last name",
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+
+    def clean_password2(self):
+        password = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password and password2 and password != password2:
+            raise forms.ValidationError("Passwords do not match.")
+        return password2

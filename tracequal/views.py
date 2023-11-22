@@ -14,12 +14,13 @@ def index(request):
                  prog.progress_design +
                  prog.progress_code +
                  prog.progress_tests) / 4
+        total = prog.progress_tests
         totals.append({
             'total': total,
             'color': calculate_gradient_color(total)
         })
     projects = zip(projects, totals)
-    return render(request, 'index.html', {'projects': projects, 'authenticated': request.user.is_authenticated,})
+    return render(request, 'index.html', {'projects': projects})
 
 
 def not_allowed(request):
