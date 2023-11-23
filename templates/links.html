@@ -32,7 +32,7 @@
             <div class="ml-3">
                 <h1>Links for {{ artifact.type|replace_underscore|title }} {{ artifact.key }}{% if archive %}(archive){% endif %}</h1>
             </div>
-            {% if not archive %}
+            {% if not archive and role == "admin" %}
                 <a href="{% url 'links_archive' artifact_id=artifact.id %}" class="archive-goto"><i class="fas fa-archive"></i></a>
             {% endif %}
         </div>

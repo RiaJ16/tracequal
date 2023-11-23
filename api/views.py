@@ -11,6 +11,7 @@ from .models import (Artifact, Code, Design, Link, Options, Progress, Project,
 from utils.colors import calculate_gradient_color
 
 from . import add, archive, edit
+from .archive import admin_required
 
 # Create your views here.
 
@@ -31,8 +32,10 @@ def project(request, project_id=None):
     if project_id:
         try:
             Project.objects.get(id=project_id)
-            UserProject.objects.get(project_id=project_id, user_id=request.user.id)
+            role = UserProject.objects.get(
+                project_id=project_id, user_id=request.user.id).role
             request.session['selected_project'] = project_id
+            request.session['role'] = role
         except (Project.DoesNotExist, UserProject.DoesNotExist):
             pass
         return redirect('project')
@@ -75,6 +78,7 @@ def user_stories(request, project_id):
     data = {
         'user_stories': user_stories_,
         'prefix': prefix,
+        'role': request.session['role'],
     }
     return render(request, 'user_stories.html', data)
 
@@ -91,6 +95,7 @@ def requirements(request, project_id):
     data = {
         'requirements': requirements_,
         'prefix': prefix,
+        'role': request.session['role'],
     }
     return render(request, 'requirements.html', data)
 
@@ -107,6 +112,7 @@ def design(request, project_id):
     data = {
         'design_artifacts': design_artifacts,
         'prefix': prefix,
+        'role': request.session['role'],
     }
     return render(request, 'design.html', data)
 
@@ -123,6 +129,7 @@ def code(request, project_id):
     data = {
         'code_artifacts': code_artifacts,
         'prefix': prefix,
+        'role': request.session['role'],
     }
     return render(request, 'code.html', data)
 
@@ -146,6 +153,7 @@ def tests(request, project_id):
         'tests': tests_,
         'classes': classes,
         'prefix': prefix,
+        'role': request.session['role'],
     }
     return render(request, 'tests.html', data)
 
@@ -293,33 +301,37 @@ def links(request, project_id, artifact_id):
 
 
 def show_links(request, project_id, artifact_id, archive_=False):
-    artifact = Artifact.objects.get(id=artifact_id, project=project_id)
-    from_links = Link.objects.filter(
-        from_art=artifact_id,
-        archived=archive_).order_by('id')
-    to_links = Link.objects.filter(
-        to_art=artifact_id,
-        archived=archive_).order_by('id')
-    all_links_ = Link.objects.filter(
-        Q(archived=archive_) & (Q(from_art=artifact_id) | Q(to_art=artifact_id))
-    )
-    views_dict = {
-        'user_story': 'user_stories',
-        'requirement': 'requirements',
-        'design': 'design',
-        'code': 'code',
-        'test': 'tests',
-    }
-    graph_data_json = get_graph_data_json(project_id, all_links_, artifact)
-    data = {
-        'from_links': from_links,
-        'to_links': to_links,
-        'artifact': artifact,
-        'graph_data_json': graph_data_json,
-        'view_name': views_dict[artifact.type],
-        "archive": archive_,
-    }
-    return render(request, 'links.html', data)
+    try:
+        artifact = Artifact.objects.get(id=artifact_id, project=project_id)
+        from_links = Link.objects.filter(
+            from_art=artifact_id,
+            archived=archive_).order_by('id')
+        to_links = Link.objects.filter(
+            to_art=artifact_id,
+            archived=archive_).order_by('id')
+        all_links_ = Link.objects.filter(
+            Q(archived=archive_) & (Q(from_art=artifact_id) | Q(to_art=artifact_id))
+        )
+        views_dict = {
+            'user_story': 'user_stories',
+            'requirement': 'requirements',
+            'design': 'design',
+            'code': 'code',
+            'test': 'tests',
+        }
+        graph_data_json = get_graph_data_json(project_id, all_links_, artifact)
+        data = {
+            'from_links': from_links,
+            'to_links': to_links,
+            'artifact': artifact,
+            'graph_data_json': graph_data_json,
+            'view_name': views_dict[artifact.type],
+            "archive": archive_,
+            'role': request.session['role'],
+        }
+        return render(request, 'links.html', data)
+    except Artifact.DoesNotExist:
+        return redirect('index')
 
 
 @project_required
@@ -385,7 +397,10 @@ def archive_link(request, project_id):
 
 
 @project_required
-def links_archive(request, project_id, artifact_id):
+@admin_required
+def links_archive(request, role, project_id, artifact_id):
+    if not role == "admin":
+        return redirect('index')
     if request.method == 'POST':
         raise Http404("Not valid")
     else:

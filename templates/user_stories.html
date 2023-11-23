@@ -35,7 +35,7 @@
             <div class="ml-3">
                 <h1>User stories {% if archive %}(archive){% endif %}</h1>
             </div>
-            {% if not archive %}
+            {% if not archive and role == "admin" %}
                 <a href="{% url 'archive_user_story' %}" class="archive-goto"><i class="fas fa-archive"></i></a>
             {% endif %}
         </div>

@@ -30,7 +30,7 @@
             <div class="ml-3">
                 <h1>Design artifacts {% if archive %}(archive){% endif %}</h1>
             </div>
-            {% if not archive %}
+            {% if not archive and role == "admin" %}
                 <a href="{% url 'archive_design' %}" class="archive-goto"><i class="fas fa-archive"></i></a>
             {% endif %}
         </div>

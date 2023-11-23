@@ -1,12 +1,13 @@
 import json
 
+from django.contrib.auth.decorators import login_required
 from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 
 from .common import dict_with_sequences
 from .forms import *
 from .models import (Artifact, Code, Design, Progress, Project, Requirement,
-                     Test, UserStory)
+                     Test, UserProject, UserStory)
 
 
 def add_user_story(request, project_id):
@@ -125,6 +126,7 @@ def set_current_key(form, model, project_id):
     form.fields['key'].widget.attrs['value'] = max_
 
 
+@login_required
 def add_project(request):
     if request.method == 'POST':
         form = ProjectForm(request.POST)
@@ -132,6 +134,12 @@ def add_project(request):
             project = form.save()
             progress = Progress(project_id=project.id)
             progress.save()
+            user_project = UserProject.objects.create(
+                user_id=request.user.id,
+                project_id=project.id,
+                role="admin"
+            )
+            user_project.save()
             editable = request.POST.copy()
             editable['project'] = project.id
             options_form = OptionsForm(editable)

@@ -14,7 +14,7 @@
 {% block content %}
 
     <div id="responsive-container" class="list-group container">
-        {% for project, total in projects%}
+        {% for project, total, role in projects%}
             <div class="list-group-item list-group-item-action project">
                 <a href="project/{{ project.id }}">
                     <div class="d-flex w-100 justify-content-between">
@@ -27,9 +27,11 @@
                         <div class="progress-bar progress-bar-striped" style="width: {{ total.total }}%; background-color: {{ total.color }}"></div>
                     </div>
                 </a>
-                <div class="icons">
-                    <a href="{% url 'edit_project' id=project.id %}"><i class="fas fa-cog"></i></a>
-                </div>
+                {% if role == "admin" %}
+                    <div class="icons">
+                        <a href="{% url 'edit_project' id=project.id %}"><i class="fas fa-cog"></i></a>
+                    </div>
+                {% endif %}
             </div>
         {% endfor %}
 

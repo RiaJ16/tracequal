@@ -2,14 +2,27 @@ import json
 
 from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
+from functools import wraps
 
 from .models import (Artifact, Code, Design, Link, Options, Requirement, Test,
                      UserStory)
 
 
-def archive_user_story(request, project_id):
+def admin_required(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        try:
+            role = request.session['role']
+        except KeyError:
+            return redirect('index')  # Redirect if project is not selected
+        return view_func(request, role, *args, **kwargs)
+    return wrapper
+
+
+@admin_required
+def archive_user_story(request, role, project_id):
     if request.method == 'POST':
-        return archive_artifact(request, project_id)
+        return archive_artifact(request, project_id, role)
     else:
         artifacts = UserStory.objects.filter(
             project_id=project_id, archived=True).order_by('id')
@@ -18,12 +31,13 @@ def archive_user_story(request, project_id):
             'template': 'user_stories.html',
             'artifacts': artifacts
         }
-        return archive_artifact(request, project_id, artifacts_data)
+        return archive_artifact(request, project_id, role, artifacts_data)
 
 
-def archive_requirement(request, project_id):
+@admin_required
+def archive_requirement(request, role, project_id):
     if request.method == 'POST':
-        return archive_artifact(request, project_id)
+        return archive_artifact(request, project_id, role)
     else:
         artifacts = Requirement.objects.filter(
             project_id=project_id, archived=True).order_by('id')
@@ -32,12 +46,13 @@ def archive_requirement(request, project_id):
             'template': 'requirements.html',
             'artifacts': artifacts
         }
-        return archive_artifact(request, project_id, artifacts_data)
+        return archive_artifact(request, project_id, role, artifacts_data)
 
 
-def archive_design(request, project_id):
+@admin_required
+def archive_design(request, role, project_id):
     if request.method == 'POST':
-        return archive_artifact(request, project_id)
+        return archive_artifact(request, project_id, role)
     else:
         artifacts = Design.objects.filter(
             project_id=project_id, archived=True).order_by('id')
@@ -46,12 +61,13 @@ def archive_design(request, project_id):
             'template': 'design.html',
             'artifacts': artifacts
         }
-        return archive_artifact(request, project_id, artifacts_data)
+        return archive_artifact(request, project_id, role, artifacts_data)
 
 
-def archive_code(request, project_id):
+@admin_required
+def archive_code(request, role, project_id):
     if request.method == 'POST':
-        return archive_artifact(request, project_id)
+        return archive_artifact(request, project_id, role)
     else:
         artifacts = Code.objects.filter(
             project_id=project_id, archived=True).order_by('id')
@@ -60,12 +76,13 @@ def archive_code(request, project_id):
             'template': 'code.html',
             'artifacts': artifacts
         }
-        return archive_artifact(request, project_id, artifacts_data)
+        return archive_artifact(request, project_id, role, artifacts_data)
 
 
-def archive_test(request, project_id):
+@admin_required
+def archive_test(request, role, project_id):
     if request.method == 'POST':
-        return archive_artifact(request, project_id)
+        return archive_artifact(request, project_id, role)
     else:
         artifacts = Test.objects.filter(
             project_id=project_id, archived=True).order_by('id')
@@ -74,10 +91,10 @@ def archive_test(request, project_id):
             'template': 'tests.html',
             'artifacts': artifacts
         }
-        return archive_artifact(request, project_id, artifacts_data)
+        return archive_artifact(request, project_id, role, artifacts_data)
 
 
-def archive_artifact(request, project_id, artifacts_data=None):
+def archive_artifact(request, project_id, role, artifacts_data=None):
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         artifact = Artifact.objects.get(id=data.get('id'))
@@ -85,6 +102,8 @@ def archive_artifact(request, project_id, artifacts_data=None):
         artifact.save()
         return JsonResponse({'message': 'Success'})
     else:
+        if not role == "admin":
+            return redirect('index')
         try:
             options = Options.objects.get(project_id=project_id)
             prefix = options.prefix_us

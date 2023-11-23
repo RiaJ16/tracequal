@@ -1,10 +1,12 @@
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render
 
 from .common import dict_with_sequences
 from .forms import (CodeForm, DesignForm, OptionsForm, ProjectForm,
                     RequirementForm, TestForm, UserStoryForm)
-from .models import Code, Design, Options, Project, Requirement, Test, UserStory
+from .models import (Code, Design, Options, Project, Requirement, Test,
+                     UserProject, UserStory)
 
 
 def edit_user_story(request, project_id, us_id):
@@ -88,8 +90,16 @@ def edit_test(request, project_id, test_id):
     return render(request, 'edit_test.html', data)
 
 
+@login_required
 def edit_project(request, project_id):
     project = Project.objects.get(id=project_id)
+    try:
+        role = UserProject.objects.get(
+            user_id=request.user.id, project_id=project.id).role
+        if not role == "admin":
+            raise UserProject.DoesNotExist
+    except UserProject.DoesNotExist:
+        return redirect('index')
     options = Options.objects.get(project_id=project.id)
     if request.method == 'POST':
         form = ProjectForm(request.POST, instance=project)

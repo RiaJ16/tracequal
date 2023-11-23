@@ -307,7 +307,7 @@ class UserProject(models.Model):
     user = models.ForeignKey('Usr', models.DO_NOTHING, blank=True, null=True)
     project = models.ForeignKey(Project, models.DO_NOTHING, blank=True, null=True)
     role = Role()
-    date = models.DateTimeField(blank=True, null=True)
+    date = models.DateTimeField(blank=True, null=True, default=timezone.now)
 
     class Meta:
         managed = False
