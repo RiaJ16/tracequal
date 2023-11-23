@@ -28,3 +28,15 @@
     color: #c0392b;
     font-size: 0.8em;
 }
+
+small{
+    margin-top: 0.5em
+}
+
+small a{
+    color: black;
+}
+
+small a:hover{
+    color: #16a085;
+}

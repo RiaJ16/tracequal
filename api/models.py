@@ -28,6 +28,12 @@ class Artype(models.CharField):
         return 'artype'
 
 
+class Role(models.CharField):
+
+    def db_type(self, connection):
+        return 'role'
+
+
 class Project(models.Model):
     name = models.CharField()
     date = models.DateField(default=models.functions.Now)
@@ -300,7 +306,7 @@ class TestApplication(models.Model):
 class UserProject(models.Model):
     user = models.ForeignKey('Usr', models.DO_NOTHING, blank=True, null=True)
     project = models.ForeignKey(Project, models.DO_NOTHING, blank=True, null=True)
-    role = models.TextField(blank=True, null=True)  # This field type is a guess.
+    role = Role()
     date = models.DateTimeField(blank=True, null=True)
 
     class Meta:

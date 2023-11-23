@@ -1,13 +1,13 @@
 import json
 
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.core import serializers
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 from functools import wraps
 
 from .models import (Artifact, Code, Design, Link, Options, Progress, Project,
-                     Requirement, Test, TestApplication, UserStory)
+                     Requirement, Test, TestApplication, UserProject, UserStory)
 from utils.colors import calculate_gradient_color
 
 from . import add, archive, edit
@@ -26,12 +26,14 @@ def project_required(view_func):
     return wrapper
 
 
+@login_required
 def project(request, project_id=None):
     if project_id:
         try:
             Project.objects.get(id=project_id)
+            UserProject.objects.get(project_id=project_id, user_id=request.user.id)
             request.session['selected_project'] = project_id
-        except Project.DoesNotExist:
+        except (Project.DoesNotExist, UserProject.DoesNotExist):
             pass
         return redirect('project')
     else:
