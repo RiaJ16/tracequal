@@ -22,7 +22,12 @@
 
 {% block content %}
 
-    <div id="responsive-container" class="list-group container">
+    <div id="responsive-container" class="list-group container" style="position: relative; padding-top: 3em;">
+        <div class="tq-backbar">
+            <div class="row align-items-center">
+                <div class="col-1 tq-back"><a href="{% url 'index' %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
+            </div>
+        </div>
         <div class="d-flex align-items-center">
             <div>
                 <img src="{% static 'icons/icon-code.png' %}" alt="Custom Icon" class="icon img-fit"/>
