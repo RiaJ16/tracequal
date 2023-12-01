@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from functools import wraps
 
 from .models import (Artifact, Code, Design, Link, Options, Progress, Project,
@@ -386,6 +387,7 @@ def get_graph_data_json(project_id, all_links_, artifact=None):
             "type": f"{artifact_.type}",
             "key": f"{options_dict[artifact_.type]}{artifact_.key}",
             "main": main,
+            "url": reverse("links", args=(artifact_.id,)),
         })
     graph_data = {"nodes": nodes_, "links": links_}
     return json.dumps(graph_data)
@@ -405,3 +407,11 @@ def links_archive(request, role, project_id, artifact_id):
         raise Http404("Not valid")
     else:
         return show_links(request, project_id, artifact_id, True)
+
+
+@login_required
+def manage_users(request, id):
+    if request.method == "POST":
+        return redirect('/')
+    else:
+        return render(request, 'manage_users.html')

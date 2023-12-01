@@ -28,6 +28,10 @@
     stroke: white;*/
 }
 
+.node{
+    cursor: pointer;
+}
+
 #arrowhead{
     fill: #2e86de;
     stroke: #2e86de;

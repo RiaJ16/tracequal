@@ -172,8 +172,9 @@ a{
 }
 
 .link-item{
-    padding-top: 1em;
+    padding-top: 1.5em;
     padding-bottom: 1em;
+    border-top: 1em solid #10ac84 !important;
 }
 
 .icons{
@@ -294,7 +295,7 @@ a{
     color: #16a085;
     font-weight: bold;
     position: absolute;
-    left: 1em;
+    left: 0.8em;
     top: 0;
 }
 
@@ -352,6 +353,54 @@ a{
     }
     .link-item{
         padding-bottom: 1.5em;
+    }
+    .project {
+        padding-bottom: 4em;
+    }
+    .fa-solid.fa-arrow-right{
+        display: none;
+    }
+}
+
+.separator{
+    display: none;
+    color: #10ac84;
+    border: 1px solid #10ac84;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.arrow-responsive{
+    text-align: center;
+    display: none;
+    margin: -0.5em;
+}
+
+.fa-solid.fa-arrow-down{
+    color: grey;
+}
+
+.fa-solid.fa-arrow-right{
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(-50%, -50%);
+    color: grey;
+}
+
+@media (max-width: 600px){
+    .arrow-responsive{
+        display: block;
+    }
+    .mini_link{
+        padding-bottom: 0.5em;
+    }
+    .mini_link_second{
+        padding-top: 0.5em;
+        margin-top: 1em;
+    }
+    .mini_link_second .key{
+        padding-top: 0.5em;
     }
 }
 
@@ -411,10 +460,9 @@ a{
 }
 
 h5.direction{
-    border-bottom: 5px solid #1abc9c;
     color: #16a085;
     font-weight: bold;
-    padding: 1em 1em 1em 0;
+    padding: 1em 1em 0 0;
 }
 
 .artifact_name{
@@ -452,14 +500,6 @@ h5.direction{
 
 #traceability_div:hover{
     background-color: #9cb748;
-}
-
-.fa-solid.fa-arrow-right{
-    position: absolute;
-    top: 50%;
-    right: 50%;
-    transform: translate(-50%, -50%);
-    color: grey;
 }
 
 .row .key{

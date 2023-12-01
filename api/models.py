@@ -337,6 +337,7 @@ class Usr(AbstractBaseUser):
     lastname2 = models.CharField(max_length=50, blank=True, null=True)
     email = models.CharField(max_length=50)
     password = models.CharField(max_length=100)
+    picture = models.ImageField(upload_to='pictures/')
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

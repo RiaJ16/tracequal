@@ -44,4 +44,5 @@ urlpatterns = [
     path('add_link/<int:artifact_id>/', views.add_link, name='add_link'),
     path('links/archive/', views.archive_link, name='archive_link'),
     path('links/<int:artifact_id>/archive/', views.links_archive, name='links_archive'),
+    path('manage_users/<int:id>/', views.manage_users, name='manage_users'),
 ]

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load tz %}
+
+{% block title %}
+  Tracequal - Register
+{% endblock title %}
+
+{% block links %}
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <link href="{% static 'authentication/login.css' %}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f7ecb0d002.js" crossorigin="anonymous"></script>
+{% endblock links %}
+
+{% block content %}
+    <div id="responsive-container" class="list-group container artifacts_container register">
+        <div class="tq-backbar">
+            <div class="row align-items-center">
+                <div class="col-1 tq-back"><a href="{% url 'index' %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
+            </div>
+        </div>
+        <h1>User management</h1>
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+    </div>
+{% endblock %}

@@ -3,24 +3,26 @@
     <small class="date">{{ link.date|date:"F j, Y h:i A" }}</small>
 
     <div class="row">
-        <div class="col-md-6 align-items-center" style="position: relative">
+        <div class="col-sm-6 mini_link" style="position: relative">
             <small class="key {{ link.from_art.type }}">{{ link.from_art.type|replace_underscore|title }} {{ link.from_art.key }}</small>
             <div class="strikable name">{{ link.from_art.name }}</div>
         </div>
-        <div class="col-md-6 align-items-center" style="position: relative">
+        <div class="arrow-responsive"><i class="fa-solid fa-arrow-down"></i></div>
+        <div class="col-sm-6 mini_link_second" style="position: relative">
             <small class="key {{ link.to_art.type }}">{{ link.to_art.type|replace_underscore|title }} {{ link.to_art.key }}</small>
-            <div class=" strikable name">{{ link.to_art.name }}</div>
+            <div class="strikable name">{{ link.to_art.name }}</div>
         </div>
     </div>
+
     <i class="fa-solid fa-arrow-right"></i>
         <div class="icons">
             {% if code_artifact.document %}
                 <a href="{{ code_artifact.document }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
             {% endif %}
             {% if code_artifact.archived %}
-                <a href="javascript:void(0)" class="archive" data-id="{{ code_artifact.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
+                <a href="javascript:void(0)" class="archive" data-id="{{ link.id }}" data-archive="false" data-is_link="true"><i class="fas fa-upload"></i></a>
             {% else %}
-                <a href="javascript:void(0)" class="archive" data-id="{{ code_artifact.id }}" data-archive="true"><i class="fas fa-trash"></i></a>
+                <a href="javascript:void(0)" class="archive" data-id="{{ link.id }}" data-archive="true" data-is_link="true"><i class="fas fa-trash"></i></a>
             {% endif %}
         </div>
 </div>

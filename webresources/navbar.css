@@ -1,0 +1,32 @@
+.dropdown-menu.show{
+    right: 0;
+    left: auto;
+}
+
+.navbar{
+    transition: top 0.3s;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+    padding-left: 8em;
+    padding-right: 8em;
+}
+
+.content{
+    padding-top: 3em;
+}
+
+.user_avatar{
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+@media (max-width: 1000px) {
+    .navbar {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+}

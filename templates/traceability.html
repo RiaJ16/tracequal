@@ -9,6 +9,7 @@
 {% endblock title %}
 
 {% block links %}
+    <script src="{% static 'js/archive_artifact.js' %}"></script>
     <script src="{% static 'js/graph.js' %}"></script>
     <link href="{% static 'styles.css' %}" rel="stylesheet">
     <link href="{% static 'graph.css' %}" rel="stylesheet">
@@ -46,7 +47,7 @@
     <div id="confirmation_dialog" class="confirmation-dialog custom-alert info">
         <div class="alert custom-alert-info fade show message">Are you sure you want to archive this artifact?</div>
         <div class="confirm_buttons">
-            <button id="confirm_button" class="confirm-button btn btn-accent" data-url="/requirements/archive/">Yes</button>
+            <button id="confirm_button" class="confirm-button btn btn-accent" data-url="/links/archive/">Yes</button>
             <button id="cancel_button" class="cancel-button btn btn-secondary">Cancel</button>
         </div>
     </div>

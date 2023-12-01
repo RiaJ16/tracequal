@@ -104,6 +104,10 @@ $(document).ready(function() {
             })
             .on('mouseout', function () {
                 $(this).tooltip('hide');
+            })
+            .on('click', function(d) {
+                let data = d3.select(this).datum();
+                window.location.href = data.url;
             });
     });
 });

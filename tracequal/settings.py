@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-51rdk%xxplr3vh44t_22x8xmv)zk-2gy#9h7$0c1ax0w)!o25_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.3.28", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["192.168.3.103", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -142,7 +142,7 @@ MEDIA_URL = 'media/'
 
 AUTHENTICATION_BACKENDS = [
     'authentication.custom_login.CustomUserBackend',
-    # 'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 LOGIN_URL = '/auth/login/'
