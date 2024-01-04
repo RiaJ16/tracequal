@@ -146,3 +146,4 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 LOGIN_URL = '/auth/login/'
+

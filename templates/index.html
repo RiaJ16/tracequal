@@ -27,14 +27,19 @@
                         <div class="progress-bar progress-bar-striped" style="width: {{ total.total }}%; background-color: {{ total.color }}"></div>
                     </div>
                 </a>
-                {% if role == "admin" %}
+                {% if role == "admin" or role == "superadmin" %}
                     <div class="icons">
-                        <a href="{% url 'manage_users' id=project.id %}"><i class="fas fa-user"></i></a>
+                        <a href="{% url 'manage_users' project_id=project.id %}"><i class="fas fa-user"></i></a>
                         <a href="{% url 'edit_project' id=project.id %}"><i class="fas fa-cog"></i></a>
                     </div>
                 {% endif %}
             </div>
         {% endfor %}
+        {% if not are_projects %}
+            <h1>Hey! You haven't created your first project</h1>
+            <p>You can create your first project by pressing the <strong>+</strong> button in the bottom left corner of the screen,
+                or ask the owner of a project to add you to theirs.</p>
+        {% endif %}
 
         <a href="{% url 'add_project' %}"><div class="add"><i class="fas fa-plus"></i></div></a>
 

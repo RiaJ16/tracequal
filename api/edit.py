@@ -96,7 +96,7 @@ def edit_project(request, project_id):
     try:
         role = UserProject.objects.get(
             user_id=request.user.id, project_id=project.id).role
-        if not role == "admin":
+        if not role == "admin" and not role == "superadmin":
             raise UserProject.DoesNotExist
     except UserProject.DoesNotExist:
         return redirect('index')

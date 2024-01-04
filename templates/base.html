@@ -34,7 +34,7 @@
             {% if user.is_authenticated %}
                 <div class="dropdown">
                   <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                      <img src="{{ user.picture.url }}" alt="User Image" class="user_avatar">
+                      <img src="{% if user.picture %}{{ user.picture.url }}{% else %}/media/pictures/user.png{% endif %}" alt="User Image" class="user_avatar">
                   </a>
                   <ul class="dropdown-menu dropdown-menu-right">
                     <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>

@@ -312,6 +312,7 @@ class UserProject(models.Model):
     class Meta:
         managed = False
         db_table = 'user_project'
+        unique_together = (('user_id', 'project'),)
 
 
 class UserStory(ArtifactBase):

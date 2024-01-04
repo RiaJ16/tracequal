@@ -102,7 +102,7 @@ def archive_artifact(request, project_id, role, artifacts_data=None):
         artifact.save()
         return JsonResponse({'message': 'Success'})
     else:
-        if not role == "admin":
+        if not role == "admin" and not role == "superadmin":
             return redirect('index')
         try:
             options = Options.objects.get(project_id=project_id)

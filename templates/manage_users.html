@@ -9,7 +9,10 @@
 
 {% block links %}
     <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <link href="{% static 'manage_users.css' %}" rel="stylesheet">
     <link href="{% static 'authentication/login.css' %}" rel="stylesheet">
+    <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/manage_users.js' %}"></script>
     <script src="https://kit.fontawesome.com/f7ecb0d002.js" crossorigin="anonymous"></script>
 {% endblock links %}
 
@@ -21,6 +24,57 @@
             </div>
         </div>
         <h1>User management</h1>
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+        <input type="hidden" id="project_id" value="{{ project_id }}"/>
+        <div class="input-group">
+            {% csrf_token %}
+            <input id="username_input" name="username_input" list="username_list" class="form-control mr-sm-2" type="text" placeholder="Write the user to add" aria-label="Search">
+            <datalist id="username_list">
+            </datalist>
+            <span id="add_button" class="input-group-text add-button"><i class="fa-solid fa-user-plus"></i></span>
+        </div>
+        <div class="custom-alert failure">
+            <div class="alert alert-danger fade show message" role="alert">
+                Revisa que todos los campos hayan sido llenados correctamente.
+            </div>
+        </div>
+        <div class="table-responsive-sm">
+            <table id="users_table" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Firstname</th>
+                        <th scope="col">Lastname</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Role</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user_project in user_projects %}
+                        <tr>
+                            <td>{{ user_project.user.name }}</td>
+                            <td>{{ user_project.user.lastname }}{% if user_project.user.lastname2 %} {% endif %}{{ user_project.user.lastname2 }}</td>
+                            <td class="username">@{{ user_project.user.username }}</td>
+                            <td>{{ user_project.role }}</td>
+                            <td>
+                                {% if user_project.role != "superadmin" %}
+                                <a class="remove_button" href="javascript:void(0)" data-user_id="{{ user_project.user.id }}">
+                                    <i class="fa-solid fa-user-minus"></i>
+                                </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <span id="total_users" data-total="{{ user_projects|length }}"></span>
+    </div>
+
+    <div id="confirmation_dialog" class="confirmation-dialog custom-alert info">
+        <div class="alert custom-alert-info fade show message"></div>
+        <div class="confirm_buttons">
+            <button id="confirm_button" class="confirm-button btn btn-accent" data-url="">Yes</button>
+            <button id="cancel_button" class="cancel-button btn btn-secondary">Cancel</button>
+        </div>
     </div>
 {% endblock %}

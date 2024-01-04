@@ -1,6 +1,9 @@
+import copy
 import json
 
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 
@@ -81,7 +84,19 @@ def add_test(request, project_id):
             form.save()
             return redirect('tests')
         else:
-            raise Http404('Not valid')
+            data = request.POST['data']
+            try:
+                json.loads(data)
+                return data
+            except json.JSONDecodeError:
+                corrected_data = copy.deepcopy(form.cleaned_data)
+                corrected_data['data'] = f'{{"data":"{data}"}}'
+                corrected_form = TestForm(corrected_data)
+            if corrected_form.is_valid():
+                corrected_form.save()
+                return redirect('tests')
+            else:
+                raise Http404('Not valid')
     else:
         form = TestForm()
         form.fields['project'].initial = Project.objects.get(id=project_id)
@@ -95,23 +110,40 @@ def add_test_application(request, project_id, test_id):
         form = TestApplicationForm(request.POST)
         if form.is_valid():
             ta = form.save()
-            test = ta.test
-            tapps = TestApplication.objects.filter(test=test)
-            if tapps:
-                tapps = sorted(
-                    tapps, key=lambda x: x.application_date, reverse=True)
-                ta = tapps[0]
-            test.verdict = ta.verdict
-            test.application_date = ta.application_date
-            test.save()
+            update_test_veredict(ta)
             return redirect('tests')
         else:
-            raise Http404('Not valid')
+            data = request.POST['data']
+            try:
+                json.loads(data)
+                return data
+            except json.JSONDecodeError:
+                corrected_data = copy.deepcopy(form.cleaned_data)
+                corrected_data['data'] = f'{{"data":"{data}"}}'
+                corrected_form = TestApplicationForm(corrected_data)
+            if corrected_form.is_valid():
+                ta = corrected_form.save()
+                update_test_veredict(ta)
+                return redirect('tests')
+            else:
+                raise Http404('Not valid')
     else:
         form = TestApplicationForm()
         form.fields['test'].initial = Test.objects.get(
             id=test_id, project_id=project_id,)
     return render(request, 'add_test_application.html', {'form': form})
+
+
+def update_test_veredict(ta):
+    test = ta.test
+    tapps = TestApplication.objects.filter(test=test)
+    if tapps:
+        tapps = sorted(
+            tapps, key=lambda x: x.application_date, reverse=True)
+        ta = tapps[0]
+    test.verdict = ta.verdict
+    test.application_date = ta.application_date
+    test.save()
 
 
 def set_current_key(form, model, project_id):
@@ -137,7 +169,7 @@ def add_project(request):
             user_project = UserProject.objects.create(
                 user_id=request.user.id,
                 project_id=project.id,
-                role="admin"
+                role="superadmin"
             )
             user_project.save()
             editable = request.POST.copy()
@@ -197,3 +229,37 @@ def add_link(request, project_id, artifact_id):
             'artifacts': artifacts,
         }
         return render(request, 'add_link.html', context)
+
+
+def add_user_project(request):
+    if request.method == 'POST':
+        project_id = request.POST.get('project_id')
+        username = request.POST.get('username')
+        user = UserProject.objects.get(
+            user=request.user.id, project=project_id)
+        has_clearance = False
+        if user.role == "admin" or user.role == "superadmin":
+            has_clearance = True
+        if has_clearance:
+            try:
+                user = Usr.objects.get(username=username)
+                new_user_project = UserProject.objects.create(
+                    user=user,
+                    project_id=project_id,
+                    role="user"
+                )
+                new_user_project.save()
+                user_info = {
+                    'name': user.name,
+                    'lastname': user.lastname,
+                    'lastname2': user.lastname2,
+                    'username': user.username,
+                    'role': new_user_project.role,
+                    'id': user.id,
+                }
+                return JsonResponse(user_info)
+            except (Usr.DoesNotExist, IntegrityError):
+                pass
+        raise Http404('Not valid')
+    else:
+        raise Http404('Not valid')

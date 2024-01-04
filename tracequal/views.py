@@ -8,7 +8,7 @@ from utils.colors import calculate_gradient_color
 def index(request):
     if request.user.is_authenticated:
         projects = Project.objects.filter(userproject__user=request.user.id)
-        progress_ = Progress.objects.all().order_by('project_id')
+        progress_ = Progress.objects.filter(project__userproject__user=request.user.id).order_by('project_id')
         permissions = []
         for project in projects:
             permission = UserProject.objects.get(
@@ -21,8 +21,10 @@ def index(request):
                 'total': total,
                 'color': calculate_gradient_color(total)
             })
+        are_projects = bool(projects)
         projects = zip(projects, totals, permissions)
-        return render(request, 'index.html', {'projects': projects})
+        context = {'projects': projects, 'are_projects': are_projects}
+        return render(request, 'index.html', context)
     else:
         return redirect("login")
         # return render(request, 'index.html')

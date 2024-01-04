@@ -30,7 +30,7 @@
             <div class="ml-3">
                 <h1>Requirements {% if archive %}(archive){% endif %}</h1>
             </div>
-            {% if not archive and role == "admin" %}
+            {% if not archive and role == "admin" or role == "superadmin" %}
                 <a href="{% url 'archive_requirement' %}" class="archive-goto"><i class="fas fa-archive"></i></a>
             {% endif %}
         </div>

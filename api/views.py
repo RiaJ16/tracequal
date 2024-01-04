@@ -8,11 +8,13 @@ from django.urls import reverse
 from functools import wraps
 
 from .models import (Artifact, Code, Design, Link, Options, Progress, Project,
-                     Requirement, Test, TestApplication, UserProject, UserStory)
+                     Requirement, Test, TestApplication, UserProject, UserStory,
+                     Usr)
 from utils.colors import calculate_gradient_color
 
 from . import add, archive, edit
 from .archive import admin_required
+from .decorators import privileged
 
 # Create your views here.
 
@@ -157,6 +159,16 @@ def tests(request, project_id):
         'role': request.session['role'],
     }
     return render(request, 'tests.html', data)
+
+
+def username_autocomplete(request):
+    query = request.POST.get('query', '')
+    if len(query) > 2:
+        suggestions = Usr.objects.filter(username__startswith=query)[:10]
+        usernames = [user.username for user in suggestions]
+    else:
+        usernames = []
+    return JsonResponse({'usernames': usernames})
 
 
 @project_required
@@ -401,7 +413,7 @@ def archive_link(request, project_id):
 @project_required
 @admin_required
 def links_archive(request, role, project_id, artifact_id):
-    if not role == "admin":
+    if not role == "admin" and not role == "superadmin":
         return redirect('index')
     if request.method == 'POST':
         raise Http404("Not valid")
@@ -410,8 +422,43 @@ def links_archive(request, role, project_id, artifact_id):
 
 
 @login_required
-def manage_users(request, id):
+@privileged
+def manage_users(request, project_id):
     if request.method == "POST":
         return redirect('/')
     else:
-        return render(request, 'manage_users.html')
+        user_projects = UserProject.objects.filter(
+            project_id=project_id).order_by("id")
+        context = {
+            'user_projects': user_projects,
+            'project_id': project_id,
+        }
+        return render(request, 'manage_users.html', context)
+
+
+@login_required
+def add_user_project(request):
+    return add.add_user_project(request)
+
+
+@login_required
+def remove_user_project(request):
+    if request.method == "POST":
+        project_id = request.POST.get('project_id')
+        user_id = int(request.POST.get('user_id'))
+        user = UserProject.objects.get(
+            user=request.user.id, project=project_id)
+        has_clearance = False
+        if user.role == "admin" or user.role == "superadmin":
+            has_clearance = True
+        if has_clearance and not user_id == request.user.id:
+            try:
+                user_project = UserProject.objects.get(
+                    user_id=user_id,
+                    project_id=project_id
+                )
+                user_project.delete()
+                return JsonResponse({'message': 'Success'})
+            except Usr.DoesNotExist:
+                pass
+    raise Http404('Not valid')

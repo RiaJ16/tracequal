@@ -44,5 +44,8 @@ urlpatterns = [
     path('add_link/<int:artifact_id>/', views.add_link, name='add_link'),
     path('links/archive/', views.archive_link, name='archive_link'),
     path('links/<int:artifact_id>/archive/', views.links_archive, name='links_archive'),
-    path('manage_users/<int:id>/', views.manage_users, name='manage_users'),
+    path('manage_users/<int:project_id>/', views.manage_users, name='manage_users'),
+    path('autocomplete_user/', views.username_autocomplete, name='username_autocomplete'),
+    path('add_user_project/', views.add_user_project, name='add_user_project'),
+    path('remove_user_project/', views.remove_user_project, name='remove_user_project'),
 ]
