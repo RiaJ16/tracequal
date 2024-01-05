@@ -16,6 +16,16 @@
     padding-top: 3em;
 }
 
+.search-bar{
+    margin: 0 0.5em 0 0 !important;
+}
+
+.btn-search{
+    margin-right: 1em;
+    width: 2.5em;
+    height: 2.2em;
+}
+
 .user_avatar{
     width: 2.5em;
     height: 2.5em;

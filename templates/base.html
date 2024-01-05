@@ -17,19 +17,24 @@
   </head>
   <body>
 
-    <nav class="navbar navbar-expand-sm bg-body-tertiary bg-dark" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-sm bg-body-tertiary bg-light" data-bs-theme="light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'index' %}">Tracequal</a>  <span class="project_name"><b>{{ project.name }}</b></span>
-{#        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">#}
-{#          <span class="navbar-toggler-icon"></span>#}
-{#        </button>#}
+        <a class="navbar-brand" href="{% url 'index' %}">Tracequal</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav mb-2 mb-lg-0">
             <li class="nav-item">
-{#              <a class="nav-link" href="."></a>#}
+              <span class="project_name"><b>{{ project.name }}</b></span>
             </li>
           </ul>
         </div>
+      {% block searchbar %}
+        <div>
+            <form class="d-flex" role="search">
+                <input class="search-bar form-control me-2" type="search" placeholder="Search" aria-label="Search" style="height: 1.9em; width: 7em;">
+                <button class="btn btn-outline-success btn-sm btn-search" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+      {% endblock %}
           {% if not no_button %}
             {% if user.is_authenticated %}
                 <div class="dropdown">
