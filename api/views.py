@@ -432,6 +432,7 @@ def manage_users(request, project_id):
         context = {
             'user_projects': user_projects,
             'project_id': project_id,
+            'user_id': request.user.id,
         }
         return render(request, 'manage_users.html', context)
 
@@ -458,6 +459,31 @@ def remove_user_project(request):
                     project_id=project_id
                 )
                 user_project.delete()
+                return JsonResponse({'message': 'Success'})
+            except Usr.DoesNotExist:
+                pass
+    raise Http404('Not valid')
+
+
+@login_required
+def change_user_role(request):
+    if request.method == "POST":
+        project_id = request.POST.get('project_id')
+        user = UserProject.objects.get(
+            user=request.user.id, project=project_id)
+        has_clearance = False
+        if user.role == "admin" or user.role == "superadmin":
+            has_clearance = True
+        user_id = int(request.POST.get('user_id'))
+        new_role = request.POST.get('new_role')
+        if has_clearance and not user_id == request.user.id:
+            try:
+                user_project = UserProject.objects.get(
+                    user_id=user_id,
+                    project_id=project_id,
+                )
+                user_project.role = new_role
+                user_project.save()
                 return JsonResponse({'message': 'Success'})
             except Usr.DoesNotExist:
                 pass

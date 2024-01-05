@@ -1,8 +1,6 @@
-from django.urls import include, path, re_path
+from django.urls import path, re_path
 
 from . import views
-
-
 
 
 urlpatterns = [
@@ -43,9 +41,15 @@ urlpatterns = [
     path('test/<int:id>/', views.retrieve_test, name='retrieve_test'),
     path('add_link/<int:artifact_id>/', views.add_link, name='add_link'),
     path('links/archive/', views.archive_link, name='archive_link'),
-    path('links/<int:artifact_id>/archive/', views.links_archive, name='links_archive'),
-    path('manage_users/<int:project_id>/', views.manage_users, name='manage_users'),
-    path('autocomplete_user/', views.username_autocomplete, name='username_autocomplete'),
-    path('add_user_project/', views.add_user_project, name='add_user_project'),
-    path('remove_user_project/', views.remove_user_project, name='remove_user_project'),
+    path('links/<int:artifact_id>/archive/', views.links_archive,
+         name='links_archive'),
+    path('manage_users/<int:project_id>/', views.manage_users,
+         name='manage_users'),
+    path('autocomplete_user/', views.username_autocomplete,
+         name='username_autocomplete'),
+    path('add_user_project/', views.add_user_project,
+         name='add_user_project'),
+    path('remove_user_project/', views.remove_user_project,
+         name='remove_user_project'),
+    path('change_user_role/', views.change_user_role, name='change_user_role'),
 ]

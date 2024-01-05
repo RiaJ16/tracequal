@@ -54,7 +54,21 @@
                             <td>{{ user_project.user.name }}</td>
                             <td>{{ user_project.user.lastname }}{% if user_project.user.lastname2 %} {% endif %}{{ user_project.user.lastname2 }}</td>
                             <td class="username">@{{ user_project.user.username }}</td>
-                            <td>{{ user_project.role }}</td>
+                            <td>
+                                {% if user_project.role == "superadmin" or user_project.user.id == user.id%}
+                                    {{ user_project.role }}
+                                {% else %}
+                                    <div class="btn-group">
+                                        <a role="button" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            {{ user_project.role }}
+                                        </a>
+                                        <ul class="dropdown-menu" data-user_id="{{ user_project.user.id }}" data-project_id="{{ user_project.project.id }}">
+                                            <li><a class="dropdown-item" data-role="user" href="#">User</a></li>
+                                            <li><a class="dropdown-item" data-role="admin" href="#">Admin</a></li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            </td>
                             <td>
                                 {% if user_project.role != "superadmin" %}
                                 <a class="remove_button" href="javascript:void(0)" data-user_id="{{ user_project.user.id }}">
