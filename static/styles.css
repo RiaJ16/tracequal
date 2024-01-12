@@ -12,7 +12,7 @@
 }
 
 small{
-  color: gray;
+  color: grey;
 }
 
 body{
@@ -33,18 +33,24 @@ body{
     background-color: white;
 }
 
-.proyecto{
+.project{
     background-color: #ecf0f1;
     position: relative;
+    padding-bottom: 2em;
 }
 
-.proyecto:hover{
+.project:hover{
     background-color: #e0e0e0;
 }
 
+.icons .fas.fa-cog{
+    color: #2980b9;
+}
+
 h1{
-    font-family: Verdana, Literata, serif;
+    font-family: Gadugi, Literata, serif;
     color: #16a085;
+    font-size: 2em;
 }
 
 h4{
@@ -70,6 +76,7 @@ a{
     top: 0;
     left: 0;
     width: 100%;
+    height: 2.9em;
 }
 
 .project_name{
@@ -165,11 +172,17 @@ a{
     padding-bottom: 2em;
 }
 
+.link-item{
+    padding-top: 1.5em;
+    padding-bottom: 1em;
+    border-top: 1em solid #10ac84 !important;
+}
+
 .icons{
     position: absolute;
     right: 0;
     bottom: 0;
-    margin: 0 0.5em 0.5em 0
+    margin: 0 0.5em 0.5em 0;
 }
 
 .icons .fas{
@@ -195,8 +208,38 @@ a{
     cursor: pointer;
 }
 
+.icons .fas.fa-plus-circle{
+    color: #e67e22;
+    cursor: pointer;
+}
+
+.icons .fas.fa-plus-circle:hover{
+    color: #d35400;
+    cursor: pointer;
+}
+
+.icons .fa-solid.fa-shapes{
+    color: #16a085;
+}
+
+.icons .fa-solid.fa-shapes:hover{
+    color: #1abc9c;
+}
+
+.icons .fa-solid.fa-link{
+    color: #204988;
+}
+
+.icons .fa-solid.fa-link:hover{
+    color: #3f6aac;
+}
+
 .hidden_content {
     display: none;
+}
+
+.artifact:active{
+    background-color: #F8F9FA;
 }
 
 .extra:hover{
@@ -205,8 +248,26 @@ a{
 
 .custom-alert-info{
     color: #025e4c;
-    background-color: #8edece;
+    background-color: #cdf0e9;
     border-color: #16a085;
+}
+
+.btn-base{
+    color: #025e4c;
+    background-color: #cdf0e9;
+    border-color: #16a085;
+}
+
+.btn-base:hover{
+    color: white;
+    background-color: #16a085;
+    border-color: #16a085;
+}
+
+.btn-base:active{
+    color: white !important;
+    background-color: #28d0ae !important;
+    border-color: #16a085 !important;
 }
 
 .btn-accent{
@@ -235,8 +296,29 @@ a{
     color: #16a085;
     font-weight: bold;
     position: absolute;
-    left: 1em;
+    left: 0.8em;
     top: 0;
+}
+
+.key.requirement{
+    color: #c0392b;
+}
+
+.key.design{
+    color: #2980b9;
+}
+
+.key.code{
+    color: #27ae60;
+}
+
+.key.test{
+    color: #f1c40f;
+    text-shadow:
+            -1px -1px 0 #555,
+            1px -1px 0 #555,
+            -1px 1px 0 #555,
+            1px 1px 0 #555;
 }
 
 .custom-alert{
@@ -265,10 +347,61 @@ a{
 
 @media (max-width: 768px) {
     .icons {
-        font-size: 25pt;
+        font-size: 20pt;
     }
     .artifact{
+        padding-bottom: 3em;
+    }
+    .link-item{
+        padding-bottom: 1.5em;
+    }
+    .project {
         padding-bottom: 4em;
+    }
+    .fa-solid.fa-arrow-right{
+        display: none;
+    }
+}
+
+.separator{
+    display: none;
+    color: #10ac84;
+    border: 1px solid #10ac84;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.arrow-responsive{
+    text-align: center;
+    display: none;
+    margin: -0.5em;
+}
+
+.fa-solid.fa-arrow-down{
+    color: grey;
+}
+
+.fa-solid.fa-arrow-right{
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(-50%, -50%);
+    color: grey;
+}
+
+@media (max-width: 600px){
+    .arrow-responsive{
+        display: block;
+    }
+    .mini_link{
+        padding-bottom: 0.5em;
+    }
+    .mini_link_second{
+        padding-top: 0.5em;
+        margin-top: 1em;
+    }
+    .mini_link_second .key{
+        padding-top: 0.5em;
     }
 }
 
@@ -309,4 +442,67 @@ a{
 
 .confirm_buttons{
     text-align: center;
+}
+
+.archive-page .strikable{
+    text-decoration: line-through;
+}
+
+.archive-page .tq-backbar{
+    background-color: #7f8c8d;
+}
+
+.archive-page h1, .archive-page .key{
+    color: #535c68;
+}
+
+.archive-page .icon{
+    filter: grayscale(100%);
+}
+
+h5.direction{
+    color: #16a085;
+    font-weight: bold;
+    padding: 1em 1em 0 0;
+}
+
+.artifact_name{
+    color: #444;
+    border-left: 4px solid #777;
+    padding-left: 0.5em;
+    margin-left: 4.5em;
+    font-family: Verdana, sans-serif;
+}
+
+.link-item .name{
+    margin-right: 2em;
+}
+
+.artifact-small{
+    padding-top: 1em;
+}
+
+.artifact-small .name{
+    margin-right: 12em;
+}
+
+.artifact-small .buttons{
+    width: auto;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 1em;
+}
+
+#traceability_div{
+    background-color: #badc58;
+}
+
+#traceability_div:hover{
+    background-color: #9cb748;
+}
+
+.row .key{
+    top: -1.3em;
 }

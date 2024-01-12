@@ -48,13 +48,15 @@ body{
 }
 
 h1{
-    font-family: Verdana, Literata, serif;
+    font-family: Gadugi-bold, Verdana, sans-serif;
     color: #16a085;
+    font-size: 2em;
 }
 
 h4{
-    font-family: Verdana, Literata, serif;
+    font-family: Gadugi, Verdana, sans-serif;
     color: grey;
+    font-size: 1.2em;
 }
 
 a{
@@ -116,10 +118,17 @@ a{
 }
 
 .icon {
-    width: 80px;
-    height: 80px;
+    width: 2em;
+    height: 2em;
     user-select: none;
     pointer-events: none;
+    margin: 0.3em 0.5em 0.5em 0;
+}
+
+.icon-lg{
+    width: 5em;
+    height: 5em;
+    margin: 0;
 }
 
 .number{

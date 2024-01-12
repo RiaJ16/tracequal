@@ -32,4 +32,58 @@ $(document).ready(function() {
         }
         menu.text(verdict);
     });
+    $('.delete_testapp').on('click', function(event){
+        let confirmation_dialog= $('#confirmation_dialog');
+        event.preventDefault();
+        event.stopPropagation();
+        let id = $(this).data('id');
+        let test_id = $(this).data('testid');
+        confirmation_dialog.data('id', id);
+        confirmation_dialog.data('testid', test_id);
+        confirmation_dialog.data('url', $(this).data('url')).show();
+        $('.custom-alert-info').html('Are you sure you want to delete this test application?');
+        $('#confirm_button').off('click').click(function(){
+            let id = confirmation_dialog.data('id');
+            let test_id = confirmation_dialog.data('testid');
+            let url = confirmation_dialog.data('url');
+            let csrf_token = $('input[name=csrfmiddlewaretoken]').val();
+            $.ajax({
+                headers:{
+                    'X-CSRFToken': csrf_token
+                },
+                type: 'POST',
+                url: window.location.origin + url,
+                data: JSON.stringify({
+                    'ta_id': id,
+                }),
+                success: function (response){
+                    $('#tapp_' + id).fadeOut();
+                    $('#hidden_block_ta_' + id).fadeOut();
+                    $.ajax({
+                        headers:{
+                            'X-CSRFToken': csrf_token
+                        },
+                        type: 'POST',
+                        url: window.location.origin + '/test/' + test_id + '/',
+                        data: {
+                        },
+                        success: function(response){
+                            $("#number_of_ta"+response.id).html(response.test_applications);
+                            $("#current_verdict"+response.id).html(
+                                '<b title="'+response.application_date+'" class="verdict_title '+response.verdict+'">'+response.verdict_cap+'</b>'
+                            );
+                        },
+                        error: function(error){
+                        }
+                    });
+                },
+                error: function (error){
+                }
+            });
+            confirmation_dialog.hide();
+        });
+        $('#cancel_button').off('click').click(function(){
+            confirmation_dialog.hide();
+        });
+    });
 });

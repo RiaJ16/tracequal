@@ -7,7 +7,7 @@ from utils.colors import calculate_gradient_color
 
 def index(request):
     if request.user.is_authenticated:
-        projects = Project.objects.filter(userproject__user=request.user.id)
+        projects = Project.objects.filter(userproject__user=request.user.id).order_by('id')
         progress_ = Progress.objects.filter(project__userproject__user=request.user.id).order_by('project_id')
         permissions = []
         for project in projects:

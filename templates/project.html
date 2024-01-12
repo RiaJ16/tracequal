@@ -31,19 +31,19 @@
             <div class="row">
                 <div class="col-md-6">
                     <a href="{% url 'traceability' %}"><div id="traceability_div" class="tq-category">
-                        <img src="{% static 'icons/icon-traceability.png' %}" alt="Custom Icon" class="icon"/><h5>Traceability</h5>
+                        <img src="{% static 'icons/icon-traceability.png' %}" alt="Traceability Icon" class="icon icon-lg"/><h5>Traceability</h5>
                     </div></a>
                 </div>
                 <div class="col-md-6">
                     <a href="{% url 'user_stories' %}"><div class="tq-category">
-                        <img src="{% static 'icons/icon-user_story.png' %}" alt="Custom Icon" class="icon"/><h5>User stories</h5>
+                        <img src="{% static 'icons/icon-user_story.png' %}" alt="User stories Icon" class="icon icon-lg"/><h5>User stories</h5>
                     </div></a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <a href="{% url 'requirements' %}"><div class="tq-category" data-tooltip="{{ progress.progress_requirements }} %">
-                        <img src="{% static 'icons/icon-requirements.png' %}" alt="Custom Icon" class="icon"/><h5>Requirements</h5>
+                        <img src="{% static 'icons/icon-requirements.png' %}" alt="Requirements Icon" class="icon icon-lg"/><h5>Requirements</h5>
                         <h5><small class="percentage">{{ progress.progress_requirements|floatformat:0 }}%</small></h5>
                         <div class="progress tq-progress-category" role="progressbar" aria-valuenow="{{ progress.progress_requirements }}" aria-valuemin="0" aria-valuemax="100">
                             <div class="progress-bar progress-bar-striped" style="width: {{ progress.progress_requirements }}%; background-color: {{ colors.r }}"></div>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-md-6">
                     <a href="{% url 'design' %}"><div class="tq-category" data-tooltip="{{ progress.progress_design }} %">
-                        <img src="{% static 'icons/icon-design.png' %}" alt="Custom Icon" class="icon"/><h5>Design</h5>
+                        <img src="{% static 'icons/icon-design.png' %}" alt="Design Icon" class="icon icon-lg"/><h5>Design</h5>
                         <h5><small class="percentage">{{ progress.progress_design|floatformat:0 }}%</small></h5>
                         <div class="progress tq-progress-category" role="progressbar" aria-valuenow="{{ progress.progress_design }}" aria-valuemin="0" aria-valuemax="100">
                             <div class="progress-bar progress-bar-striped" style="width: {{ progress.progress_design }}%; background-color: {{ colors.d }}"></div>
@@ -63,7 +63,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <a href="{% url 'code' %}"><div class="tq-category" data-tooltip="{{ progress.progress_code }} %">
-                        <img src="{% static 'icons/icon-code.png' %}" alt="Custom Icon" class="icon"/><h5>Code</h5>
+                        <img src="{% static 'icons/icon-code.png' %}" alt="Code Icon" class="icon icon-lg"/><h5>Code</h5>
                         <h5><small class="percentage">{{ progress.progress_code|floatformat:0 }}%</small></h5>
                         <div class="progress tq-progress-category" role="progressbar" aria-valuenow="{{ progress.progress_code }}" aria-valuemin="0" aria-valuemax="100">
                             <div class="progress-bar progress-bar-striped" style="width: {{ progress.progress_code }}%; background-color: {{ colors.c }}"></div>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="col-md-6">
                     <a href="{% url 'tests' %}"><div class="tq-category" data-tooltip="{{ progress.progress_tests }} %">
-                        <img src="{% static 'icons/icon-tests.png' %}" alt="Custom Icon" class="icon"/><h5>Tests</h5>
+                        <img src="{% static 'icons/icon-tests.png' %}" alt="Tests Icon" class="icon icon-lg"/><h5>Tests</h5>
                         <h5><small class="percentage">{{ progress.progress_tests|floatformat:0 }}%</small></h5>
                         <div class="progress tq-progress-category" role="progressbar" aria-valuenow="{{ progress.progress_tests }}" aria-valuemin="0" aria-valuemax="100">
                             <div class="progress-bar progress-bar-striped" style="width: {{ progress.progress_tests }}%; background-color: {{ colors.t }}"></div>
@@ -84,3 +84,8 @@
     </div>
 
 {% endblock content%}
+
+{#{% block breadcrumb-items %}#}
+{#    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>#}
+{#    <li class="breadcrumb-item active">{{ project.name }}</li>#}
+{#{% endblock %}#}

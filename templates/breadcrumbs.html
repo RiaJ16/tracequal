@@ -1,0 +1,16 @@
+{% load breadcrumbs_tags %}
+
+{% get_breadcrumbs request as breadcrumbs %}
+{% for breadcrumb in breadcrumbs %}
+    <li class="breadcrumb-item{% if forloop.last %} active{% endif %}">
+        {% if not forloop.last %}
+            {% if breadcrumb.artifact_id %}
+                <a href="{% url breadcrumb.url breadcrumb.artifact_id %}">{{ breadcrumb.label }}</a>
+            {% else %}
+                <a href="{% url breadcrumb.url %}">{{ breadcrumb.label }}</a>
+            {% endif %}
+        {% else %}
+            {{ breadcrumb.label }}
+        {% endif %}
+    </li>
+{% endfor %}

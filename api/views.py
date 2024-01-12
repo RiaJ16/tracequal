@@ -1,6 +1,7 @@
 import json
 
 from django.contrib.auth.decorators import login_required
+from django.core.serializers import serialize
 from django.db.models import Q
 from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
@@ -488,3 +489,20 @@ def change_user_role(request):
             except Usr.DoesNotExist:
                 pass
     raise Http404('Not valid')
+
+
+def search(request):
+    if request.method == "POST":
+        search_query = request.POST['searchbar']
+        context = request.POST['context']
+        base_query = Q(name__icontains=search_query)
+        artifacts = []
+        if context == "general" or context == "user_stories":
+            artifacts.append(
+                UserStory.objects.filter(
+                    base_query
+                )
+            )
+        return render(request, 'search.html', {'artifacts': artifacts})
+    else:
+        raise Http404('Not valid')
