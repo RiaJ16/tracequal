@@ -18,7 +18,7 @@ def generate_breadcrumbs(request):
         }
     except KeyError:
         types_dict = {}
-    if path_items[0] == 'links':
+    if path_items[0] == 'links' or path_items[0] == 'add_link':
         artifact_id = path_items[1]
         artifact = Artifact.objects.get(id=artifact_id)
         breadcrumbs = resolve(types_dict[artifact.type][0])
@@ -27,6 +27,11 @@ def generate_breadcrumbs(request):
             'label': f'Links ({types_dict[artifact.type][1]}{artifact.key})',
             'artifact_id': artifact_id,
         })
+        if path_items[0] == 'add_link':
+            breadcrumbs.append({
+                'url': '',
+                'label': f'Add links from {types_dict[artifact.type][1]}{artifact.key}'
+            })
     else:
         breadcrumbs = resolve(path_items[0])
     breadcrumb = next((breadcrumb for breadcrumb in breadcrumbs if
