@@ -1,0 +1,22 @@
+<div id="artifact{{ design_artifact.id }}" class="list-group-item list-group-item-action artifact">
+    <small class="key design">{{ prefix }}{{ design_artifact.key|stringformat:"02d" }}</small>
+    <small class="date">{{ design_artifact.date|date:"F j, Y h:i A" }}</small>
+    <div class="d-flex align-items-center">
+        <div class="number">{{ forloop.counter }}</div>
+        <div class="ml-3 strikable">{{ design_artifact.name }}</div>
+        <div class="icons">
+            <a href="#" class="diagram_button" data-rel="{{ design_artifact.diagram.url }}"><i class="fas fa-image"></i></a>
+            <a href="{{ design_artifact.document }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+            {% if design_artifact.archived %}
+                <a href="javascript:void(0)" class="archive" data-id="{{ design_artifact.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
+            {% else %}
+                <a title="Traceability" href="{% url 'links' artifact_id=design_artifact.id %}"><i class="fa-solid fa-link"></i></a>
+                <a href="{% url 'edit_design' id=design_artifact.id %}"><i class="fas fa-edit"></i></a>
+                <a href="javascript:void(0)" class="archive" data-id="{{ design_artifact.id }}" data-archive="true"><i class="fas fa-trash"></i></a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div id="floating-container-{{ design_artifact.id }}" class="floating-container responsive-image" style="display:none;">
+    <img src="{{ design_artifact.diagram.url }}" alt="diagram">
+</div>

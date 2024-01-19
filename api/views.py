@@ -491,18 +491,46 @@ def change_user_role(request):
     raise Http404('Not valid')
 
 
-def search(request):
+@project_required
+def search(request, project_id):
     if request.method == "POST":
         search_query = request.POST['searchbar']
         context = request.POST['context']
-        base_query = Q(name__icontains=search_query)
+        base_query = Q(project_id=project_id, archived=False) & Q(name__icontains=search_query)
         artifacts = []
         if context == "general" or context == "user_stories":
-            artifacts.append(
-                UserStory.objects.filter(
-                    base_query
-                )
-            )
-        return render(request, 'search.html', {'artifacts': artifacts})
+            for artifact in UserStory.objects.filter(base_query):
+                artifacts.append(artifact)
+        if context == "general" or context == "requirements":
+            for artifact in Requirement.objects.filter(
+                    base_query |
+                    Q(description__icontains=search_query) |
+                    Q(preconditions__icontains=search_query) |
+                    Q(sequence__icontains=search_query) |
+                    Q(alt_sequence__icontains=search_query) |
+                    Q(notes__icontains=search_query)
+                ):
+                artifacts.append(artifact)
+        if context == "general" or context == "design":
+            for artifact in Design.objects.filter(base_query):
+                artifacts.append(artifact)
+        if context == "general" or context == "code":
+            for artifact in Code.objects.filter(base_query):
+                artifacts.append(artifact)
+        if context == "general" or context == "tests":
+            for artifact in Test.objects.filter(
+                    base_query |
+                    Q(objective__icontains=search_query) |
+                    Q(description__icontains=search_query) |
+                    Q(data__icontains=search_query) |
+                    Q(notes__icontains=search_query)
+                ):
+                artifacts.append(artifact)
+        options = Options.objects.get(project_id=project_id)
+        context = {
+            'artifacts': artifacts,
+            'prefixes': options,
+        }
+        return render(request, 'search.html', context)
     else:
         raise Http404('Not valid')

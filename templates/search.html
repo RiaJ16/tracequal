@@ -4,14 +4,20 @@
 {% load filters %}
 
 {% block title %}
-  Tracequal - Edit test case
+  Tracequal - Search
 {% endblock title %}
 
 {% block links %}
     <script src="{% static 'js/alerts.js' %}"></script>
     <script src="{% static 'js/edit_artifact.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/archive_artifact.js' %}"></script>
+    <script src="{% static 'js/design.js' %}"></script>
     <link href="{% static 'styles.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="{% static 'user_stories.css' %}" rel="stylesheet">
+    <link href="{% static 'requirements.css' %}" rel="stylesheet">
+    <link href="{% static 'tests.css' %}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f7ecb0d002.js" crossorigin="anonymous"></script>
 {% endblock links %}
 
 {% block content %}
@@ -30,6 +36,11 @@
                 <h1>Search results</h1>
             </div>
         </div>
+        <div>
+            {% for artifact in artifacts %}
+                {% include 'artifacts/artifact.html' %}
+            {% endfor %}
+        </div>
     </div>
 
-{% endblock content%}
+{% endblock content %}

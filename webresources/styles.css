@@ -321,12 +321,7 @@ a{
 }
 
 .key.test{
-    color: #f1c40f;
-    text-shadow:
-            -1px -1px 0 #555,
-            1px -1px 0 #555,
-            -1px 1px 0 #555,
-            1px 1px 0 #555;
+    color: #8e44ad;
 }
 
 .custom-alert{

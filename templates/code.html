@@ -34,26 +34,7 @@
         </div>
         {% if code_artifacts %}
             {% for code_artifact in code_artifacts %}
-                <div id="artifact{{ code_artifact.id }}" class="list-group-item list-group-item-action artifact">
-                    <small class="key">{{ prefix }}{{ code_artifact.key|stringformat:"02d" }}</small>
-                    <small class="date">{{ code_artifact.date|date:"F j, Y h:i A" }}</small>
-                    <div class="d-flex align-items-center">
-                        <div class="number">{{ forloop.counter }}</div>
-                        <div class="ml-3 strikable">{{ code_artifact.name }}</div>
-                        <div class="icons">
-                            {% if code_artifact.document %}
-                                <a href="{{ code_artifact.document }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
-                            {% endif %}
-                            {% if code_artifact.archived %}
-                                <a href="javascript:void(0)" class="archive" data-id="{{ code_artifact.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
-                            {% else %}
-                                <a title="Traceability" href="{% url 'links' artifact_id=code_artifact.id %}"><i class="fa-solid fa-link"></i></a>
-                                <a href="{% url 'edit_code' id=code_artifact.id %}"><i class="fas fa-edit"></i></a>
-                                <a href="javascript:void(0)" class="archive" data-id="{{ code_artifact.id }}" data-archive="true"><i class="fas fa-trash"></i></a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
+                {% include 'artifacts/code.html' %}
             {% endfor %}
         {% else %}
             <div class="alert alert-danger" role="alert">

@@ -38,6 +38,7 @@ design = View('design', 'Design', project)
 code = View('code', 'Code', project)
 tests = View('tests', 'Tests', project)
 traceability = View('traceability', 'Traceability', project)
+search = View('search', 'Search', project)
 urls = {
     '/': home,
     'project': project,
@@ -48,6 +49,7 @@ urls = {
     'tests': tests,
     'traceability': traceability,
     'tests_applications': tests,
+    'search': search,
 }
 
 

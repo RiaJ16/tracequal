@@ -1,0 +1,34 @@
+{% if artifact.type == 'user_story' %}
+    {% with artifact as user_story %}
+        {% with "User story " as prefix %}
+            {% include 'artifacts/user_story.html' %}
+        {% endwith %}
+    {% endwith %}
+{% elif artifact.type == 'requirement'%}
+    {% with artifact as requirement %}
+        {% with "Requirement " as prefix %}
+            {% include 'artifacts/requirement.html' %}
+        {% endwith %}
+    {% endwith %}
+{% elif artifact.type == 'design'%}
+    {% with artifact as design_artifact %}
+        {% with "Design  " as prefix %}
+            {% include 'artifacts/design.html' %}
+        {% endwith %}
+    {% endwith %}
+{% elif artifact.type == 'code'%}
+    {% with artifact as code_artifact %}
+        {% with "Code " as prefix %}
+            {% include 'artifacts/code.html' %}
+        {% endwith %}
+    {% endwith %}
+{% elif artifact.type == 'test'%}
+    {% with artifact as test %}
+        {% with "Test " as prefix %}
+            {% include 'artifacts/test.html' %}
+        {% endwith %}
+    {% endwith %}
+{% else %}
+    {{ artifact.type }}: {{ artifact.name }} <br>
+{% endif %}
+<div id="floating-container" class="floating-container responsive-image" style="display:none;"></div>
