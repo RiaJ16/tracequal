@@ -39,6 +39,9 @@ code = View('code', 'Code', project)
 tests = View('tests', 'Tests', project)
 traceability = View('traceability', 'Traceability', project)
 search = View('search', 'Search', project)
+manage_users = View('manage_users', 'Manage users', home)
+add_project = View('add_project', 'Add project', home)
+edit_project = View('edit_project', 'Edit project', home)
 urls = {
     '/': home,
     'project': project,
@@ -50,6 +53,9 @@ urls = {
     'traceability': traceability,
     'tests_applications': tests,
     'search': search,
+    'manage_users': manage_users,
+    'add_project': add_project,
+    'edit_project': edit_project,
 }
 
 

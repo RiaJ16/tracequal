@@ -7,6 +7,8 @@ from api.models import Artifact, Options, Project
 def generate_breadcrumbs(request):
     path = request.path
     path_items = path.split('/')[1:]
+    if len(path_items) > 1 and path_items[-1] == '':
+        path_items.pop()
     try:
         options = Options.objects.get(project_id=request.session['selected_project'])
         types_dict = {
@@ -18,6 +20,28 @@ def generate_breadcrumbs(request):
         }
     except KeyError:
         types_dict = {}
+    if path_items[0] == 'project' or path_items[0] == 'manage_users':
+        try:
+            if path_items[1] == 'add':
+                breadcrumbs = resolve('add_project')
+                return breadcrumbs
+            project = Project.objects.get(id=path_items[-1])
+            if path_items[1] == 'edit':
+                breadcrumbs = resolve('edit_project')
+                breadcrumb_id = next((id_ for id_ in range(len(breadcrumbs)) if
+                                      breadcrumbs[id_].get(
+                                          'url') == 'edit_project'), None)
+            else:
+                breadcrumbs = resolve('manage_users')
+                breadcrumb_id = next((id_ for id_ in range(len(breadcrumbs)) if
+                                      breadcrumbs[id_].get(
+                                          'url') == 'manage_users'), None)
+            if breadcrumb_id:
+                breadcrumb = breadcrumbs[breadcrumb_id]
+                breadcrumb['label'] = f"{breadcrumb['label']} ({project.name})"
+            return breadcrumbs
+        except IndexError:
+            pass
     if path_items[0] == 'links' or path_items[0] == 'add_link':
         artifact_id = path_items[1]
         artifact = Artifact.objects.get(id=artifact_id)
