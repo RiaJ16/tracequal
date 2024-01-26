@@ -141,7 +141,8 @@ class AuthUserUserPermissions(models.Model):
 class Change(models.Model):
     artifact = models.ForeignKey(Artifact, models.DO_NOTHING, blank=True, null=True)
     changes = models.TextField(blank=True, null=True)  # This field type is a guess.
-    date = models.DateTimeField(blank=True, null=True)
+    date = models.DateTimeField(blank=True, null=True, default=timezone.now)
+    user = models.ForeignKey('Usr', models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False

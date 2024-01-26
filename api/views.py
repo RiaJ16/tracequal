@@ -13,7 +13,7 @@ from .models import (Artifact, Code, Design, Link, Options, Progress, Project,
                      Usr)
 from utils.colors import calculate_gradient_color
 
-from . import add, archive, edit
+from . import add, archive, changes, edit
 from .archive import admin_required
 from .decorators import privileged
 
@@ -537,3 +537,11 @@ def search(request, project_id):
         return render(request, 'search.html', context)
     else:
         raise Http404('Not valid')
+
+
+@project_required
+def artifact_changes(request, project_id, artifact_id):
+    if request.method == 'GET':
+        return changes.show_changes(request, project_id, artifact_id)
+    else:
+        raise Http404('')

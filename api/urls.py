@@ -53,4 +53,9 @@ urlpatterns = [
          name='remove_user_project'),
     path('change_user_role/', views.change_user_role, name='change_user_role'),
     path('search/', views.search, name='search'),
+    path('user_stories/changes/<int:artifact_id>/', views.artifact_changes, name='user_story_changes'),
+    path('requirements/changes/<int:artifact_id>/', views.artifact_changes, name='requirement_changes'),
+    path('design/changes/<int:artifact_id>/', views.artifact_changes, name='design_changes'),
+    path('code/changes/<int:artifact_id>/', views.artifact_changes, name='code_changes'),
+    path('tests/changes/<int:artifact_id>/', views.artifact_changes, name='test_changes'),
 ]

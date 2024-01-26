@@ -68,6 +68,7 @@
         {% if requirement.archived %}
             <a href="javascript:void(0)" class="archive" data-id="{{ requirement.id }}" data-archive="false"><i class="fas fa-upload"></i></a>
         {% else %}
+            <a title="Changes" href="{% url 'requirement_changes' artifact_id=requirement.id %}"><i class="fas fa-history"></i></a>
             <a title="Traceability" href="{% url 'links' artifact_id=requirement.id %}"><i class="fa-solid fa-link"></i></a>
             <a href="{% url 'edit_requirement' id=requirement.id %}"><i class="fas fa-edit"></i></a>
             <a href="javascript:void(0)" class="archive" data-id="{{ requirement.id }}" data-archive="true"><i class="fas fa-trash"></i></a>

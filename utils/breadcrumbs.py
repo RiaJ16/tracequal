@@ -67,6 +67,7 @@ def generate_breadcrumbs(request):
         'archive': 'Archive',
         'add': 'Add',
         'edit': 'Edit',
+        'changes': 'Changes',
     }
     try:
         for key, item in special_pages.items():

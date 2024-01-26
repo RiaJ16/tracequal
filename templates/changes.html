@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load filters %}
+
+{% block title %}
+  Tracequal - Search
+{% endblock title %}
+
+{% block links %}
+    <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <link href="{% static 'user_stories.css' %}" rel="stylesheet">
+    <link href="{% static 'requirements.css' %}" rel="stylesheet">
+    <link href="{% static 'design.css' %}" rel="stylesheet">
+    <link href="{% static 'tests.css' %}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f7ecb0d002.js" crossorigin="anonymous"></script>
+{% endblock links %}
+
+{% block content %}
+    <div id="responsive-container" class="list-group container artifacts_container">
+    <div class="tq-backbar">
+            <div class="row align-items-center">
+                <div class="col-1 tq-back"><a href="{{ back_url }}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
+            </div>
+        </div>
+        <div class="d-flex align-items-center">
+            <div>
+                <img src="{% static 'icons/icon-tests.png' %}" alt="Custom Icon" class="icon img-fit"/>
+            </div>
+            <div class="ml-3">
+                <h1>Changes history</h1>
+            </div>
+        </div>
+        <p class="artifact_name">"{{ artifact.name }}."</p>
+        <div>
+            {% for change in changes %}
+                <div class="list-group-item change">
+                    <small class="key bdate">{{ change.date|date:"F j, Y h:i A" }}</small>
+                    <small class="user">Changed by <span class="strong">{{ change.user }}</span></small>
+                    <div class="d-flex align-items-center">
+                        <div class="d-flex flex-column flex-grow-1 strikable" style="position: relative;">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Attribute</th>
+                                        <th scope="col">Previous value</th>
+                                        <th scope="col">New value</th>
+                                        <th scope="col">Differences</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for atc in change.changes_json %}
+                                        <tr>
+                                            <th scope="row">{{ atc.attribute }}</th>
+                                            <td>{{ atc.old }}</td>
+                                            <td>{{ atc.new }}</td>
+                                            <td>{{ atc.differences|safe }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="icons">
+                        <a href=""><i class="fas fa-comments"></i></a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
