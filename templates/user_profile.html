@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load filters %}
+
+{% block title %}
+  Tracequal - Search
+{% endblock title %}
+
+{% block links %}
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/edit_user.js' %}"></script>
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <link href="{% static 'authentication/login.css' %}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f7ecb0d002.js" crossorigin="anonymous"></script>
+{% endblock links %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block topspace %}
+    <div class="no-breadcrumbs"></div>
+{% endblock %}
+
+{% block content %}
+    <div id="responsive-container" class="list-group container artifacts_container edit">
+    <div class="tq-backbar">
+            <div class="row align-items-center">
+                <div class="col-1 tq-back"><a href="{% url 'index' %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
+            </div>
+        </div>
+        <div class="d-flex align-items-center">
+            <div>
+                <img src="{% static 'icons/icon-tests.png' %}" alt="Custom Icon" class="icon img-fit"/>
+            </div>
+            <div class="ml-3">
+                <h1>User profile</h1>
+            </div>
+        </div>
+        <div>
+            <div class="card" style="width: 12rem;">
+                <img src="{% if user.picture %}{{ user.picture.url }}{% else %}/media/pictures/user.png{% endif %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ user.username }}</h5>
+                    <p class="card-text">{{ user.name }} {{ user.lastname }} {% if user.lastname2 %}{{ user.lastname2 }}{% endif %}</p>
+                    <a href="javascript:void(0)" class="btn btn-primary" id="btn_editar">Edit profile</a>
+                </div>
+            </div>
+            <form id="user_form" style="display:none" method="POST" action="">
+                {% csrf_token %}
+                {{ form.name.label_tag }}
+                {{ form.name }}
+                {{ form.lastname.label_tag }}
+                {{ form.lastname }}
+                {{ form.lastname2.label_tag }}
+                {{ form.lastname2 }}
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+                <span id="current_password" style="display:none">
+                    <label for="id_password3">Current password (only provide this if you're changing your password):</label>
+                    <input type="password" name="password3" class="form-control" id="id_password3">
+                </span>
+                {{ form.picture.label_tag }}
+                {{ form.picture }}
+                <span class="center">
+                    <input class="btn btn-accent" type="submit" value="Save changes">
+                </span>
+            </form>
+            <div class="errorlist">
+                <ul>
+                {% for error in form.password2.errors %}
+                    {% if not error == "This field is required." %}
+                        <li><span class="error">{{ error }}</span></li>
+                    {% endif %}
+                {% endfor %}
+                {% for error in form.password1.errors %}
+                    {% if not error == "This field is required." %}
+                        <li><span class="error">{{ error }}</span></li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+{% endblock content %}

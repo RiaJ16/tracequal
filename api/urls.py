@@ -58,4 +58,5 @@ urlpatterns = [
     path('design/changes/<int:artifact_id>/', views.artifact_changes, name='design_changes'),
     path('code/changes/<int:artifact_id>/', views.artifact_changes, name='code_changes'),
     path('tests/changes/<int:artifact_id>/', views.artifact_changes, name='test_changes'),
+    path('user_profile', views.user_profile, name='user_profile')
 ]

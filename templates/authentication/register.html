@@ -21,7 +21,7 @@
 {% endblock %}
 
 {% block topspace %}
-    <div class="no-breadcrumbs">
+    <div class="no-breadcrumbs"></div>
 {% endblock %}
 
 {% block content %}
@@ -51,6 +51,8 @@
             {{ form.password1 }}
             {{ form.password2.label_tag }}
             {{ form.password2 }}
+            {{ form.picture.label_tag }}
+            {{ form.picture }}
             <div class="errorlist">
                 <ul>
                 {% for error in form.password2.errors %}

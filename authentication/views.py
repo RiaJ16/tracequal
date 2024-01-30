@@ -14,10 +14,8 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            # Redirect to a success page or home page
             return redirect('/')
         else:
-            # Handle invalid login
             context = {
                 'error': 'Invalid credentials',
                 'username': username,

@@ -1,6 +1,8 @@
 import json
 
+from django.contrib.auth import authenticate, login, password_validation
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.core.serializers import serialize
 from django.db.models import Q
 from django.http import Http404, JsonResponse
@@ -8,6 +10,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from functools import wraps
 
+from .forms import UserForm
 from .models import (Artifact, Code, Design, Link, Options, Progress, Project,
                      Requirement, Test, TestApplication, UserProject, UserStory,
                      Usr)
@@ -545,3 +548,32 @@ def artifact_changes(request, project_id, artifact_id):
         return changes.show_changes(request, project_id, artifact_id)
     else:
         raise Http404('')
+
+
+@login_required
+def user_profile(request):
+    user = Usr.objects.get(id=request.user.id)
+    form = UserForm(instance=user)
+    context = {
+        'user': user,
+        'form': form,
+    }
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        context['form'] = form
+        user.name = request.POST.get('name')
+        user.lastname = request.POST.get('lastname')
+        user.lastname2 = request.POST.get('lastname2')
+        password = request.POST.get('password3')
+        new_password = request.POST.get('password1')
+        if new_password == request.POST.get('password2'):
+            user_app = authenticate(username=user.username, password=password)
+            if user_app:
+                try:
+                    password_validation.validate_password(new_password,
+                                                          request.user)
+                    user.set_password(new_password)
+                except ValidationError:
+                    pass
+        user.save()
+    return render(request, 'user_profile.html', context)

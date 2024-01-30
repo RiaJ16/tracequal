@@ -7,6 +7,10 @@
     max-width: 600px;
 }
 
+#responsive-container.edit{
+    max-width: 600px;
+}
+
 .center{
     display: flex;
     flex-direction: column;

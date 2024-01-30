@@ -53,6 +53,7 @@
                       <img src="{% if user.picture %}{{ user.picture.url }}{% else %}/media/pictures/user.png{% endif %}" alt="User Image" class="user_avatar">
                   </a>
                   <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a class="dropdown-item" href="{% url 'user_profile' %}">User profile</a></li>
                     <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                   </ul>
                 </div>

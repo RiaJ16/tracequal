@@ -307,6 +307,7 @@ class UserForm(UserCreationForm):
             'lastname',
             'lastname2',
             'email',
+            'picture',
         ]
         labels = {
             'lastname': "Last name",
