@@ -4,7 +4,7 @@
 {% load filters %}
 
 {% block title %}
-  Tracequal - Search
+  Tracequal - User profile
 {% endblock title %}
 
 {% block links %}
@@ -46,7 +46,7 @@
                     <a href="javascript:void(0)" class="btn btn-primary" id="btn_editar">Edit profile</a>
                 </div>
             </div>
-            <form id="user_form" style="display:none" method="POST" action="">
+            <form id="user_form" style="display:none" enctype="multipart/form-data" method="POST" action="">
                 {% csrf_token %}
                 {{ form.name.label_tag }}
                 {{ form.name }}

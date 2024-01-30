@@ -10,6 +10,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from functools import wraps
 
+from django.utils.datastructures import MultiValueDictKeyError
+
 from .forms import UserForm
 from .models import (Artifact, Code, Design, Link, Options, Progress, Project,
                      Requirement, Test, TestApplication, UserProject, UserStory,
@@ -559,13 +561,18 @@ def user_profile(request):
         'form': form,
     }
     if request.method == 'POST':
-        form = UserForm(request.POST)
+        form = UserForm(request.POST, instance=user)
         context['form'] = form
         user.name = request.POST.get('name')
         user.lastname = request.POST.get('lastname')
         user.lastname2 = request.POST.get('lastname2')
         password = request.POST.get('password3')
         new_password = request.POST.get('password1')
+        try:
+            uploaded_file = request.FILES['picture']
+            user.picture.save(uploaded_file.name, uploaded_file)
+        except MultiValueDictKeyError:
+            pass
         if new_password == request.POST.get('password2'):
             user_app = authenticate(username=user.username, password=password)
             if user_app:
