@@ -48,14 +48,15 @@ body{
 }
 
 h1{
-    font-family: Gadugi, Literata, serif;
+    font-family: Gadugi-bold, Verdana, sans-serif;
     color: #16a085;
     font-size: 2em;
 }
 
 h4{
-    font-family: Verdana, Literata, serif;
+    font-family: Gadugi, Verdana, sans-serif;
     color: grey;
+    font-size: 1.2em;
 }
 
 a{
@@ -117,10 +118,17 @@ a{
 }
 
 .icon {
-    width: 80px;
-    height: 80px;
+    width: 2em;
+    height: 2em;
     user-select: none;
     pointer-events: none;
+    margin: 0.3em 0.5em 0.5em 0;
+}
+
+.icon-lg{
+    width: 5em;
+    height: 5em;
+    margin: 0;
 }
 
 .number{
@@ -167,9 +175,27 @@ a{
     right: 0.5em;
 }
 
+.user{
+    position: absolute;
+    top: 0;
+    right: 0.5em;
+}
+
+.user .strong{
+    color: #2980b9;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
 .artifact{
     padding-top: 2em;
     padding-bottom: 2em;
+}
+
+.change{
+    padding-top: 2em;
+    border-left: 0.5em solid #40739e;
+    margin-bottom: 2em;
 }
 
 .link-item{
@@ -232,6 +258,14 @@ a{
 
 .icons .fa-solid.fa-link:hover{
     color: #3f6aac;
+}
+
+.icons .fas.fa-history{
+    color: #16a085;
+}
+
+.icons .fas.fa-history:hover{
+    color: #3498db;
 }
 
 .hidden_content {
@@ -313,12 +347,11 @@ a{
 }
 
 .key.test{
-    color: #f1c40f;
-    text-shadow:
-            -1px -1px 0 #555,
-            1px -1px 0 #555,
-            -1px 1px 0 #555,
-            1px 1px 0 #555;
+    color: #8e44ad;
+}
+
+.key.bdate{
+    color: #40739e;
 }
 
 .custom-alert{
@@ -505,4 +538,14 @@ h5.direction{
 
 .row .key{
     top: -1.3em;
+}
+
+b.old{
+    text-decoration: line-through;
+    font-weight: normal;
+    color: grey;
+}
+
+b.new{
+    color: #44bd32;
 }

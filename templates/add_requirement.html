@@ -33,6 +33,15 @@
         </div>
         <form id="form" method="post" class="form container">
             {% csrf_token %}
+            <label for="user_story">Name:</label>
+            <select class="form-select" id="user_story" name="user_story" multiple>
+                {% for user_story in user_stories %}
+                    <option value="{{ user_story.id }}"
+                    {% if user_story.id == us_id %}selected{% endif %}>
+                        {{ prefix }}{{ user_story.key|stringformat:"02d" }} - {{ user_story.name }}
+                    </option>
+                {% endfor %}
+            </select>
             {{ form.project }}
             {{ form.type }}
             {{ form.key.label_tag }}

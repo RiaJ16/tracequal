@@ -21,6 +21,7 @@ urlpatterns = [
     path('user_stories/archive/', views.archive_user_story,
          name='archive_user_story'),
     path('requirements/add/', views.add_requirement, name='add_requirement'),
+    path('requirements/add/<int:us_id>', views.add_requirement, name='add_requirement_with_us'),
     path('requirements/edit/<int:id>/', views.edit_requirement,
          name='edit_requirement'),
     path('requirements/archive/', views.archive_requirement,

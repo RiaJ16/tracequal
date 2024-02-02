@@ -29,11 +29,18 @@ def add_user_story(request, project_id):
     return render(request, 'add_user_story.html', {'form': form})
 
 
-def add_requirement(request, project_id):
+def add_requirement(request, project_id, us_id):
     if request.method == 'POST':
         form = RequirementForm(dict_with_sequences(request.POST))
         if form.is_valid():
-            form.save()
+            requirement = form.save()
+            us_ids = request.POST.getlist('user_story')
+            for us_id in us_ids:
+                link = Link.objects.create(
+                    from_art=Artifact.objects.get(id=us_id),
+                    to_art=Artifact.objects.get(id=requirement.id),
+                )
+                link.save()
             return redirect('requirements')
         else:
             raise Http404("Not valid")
@@ -42,7 +49,13 @@ def add_requirement(request, project_id):
         form.fields['project'].initial = Project.objects.get(id=project_id)
         form.fields['type'].initial = "requirement"
     set_current_key(form, Requirement, project_id)
-    return render(request, 'add_requirement.html', {'form': form})
+    context = {
+        'form': form,
+        'us_id': us_id,
+        'user_stories': UserStory.objects.filter(project_id=project_id, archived=False).order_by('key'),
+        'prefix': Options.objects.get(project_id=project_id).prefix_us,
+    }
+    return render(request, 'add_requirement.html', context)
 
 
 def add_design(request, project_id):
