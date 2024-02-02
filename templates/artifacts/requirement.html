@@ -72,6 +72,7 @@
             <a title="Traceability" href="{% url 'links' artifact_id=requirement.id %}"><i class="fa-solid fa-link"></i></a>
             <a href="{% url 'edit_requirement' id=requirement.id %}"><i class="fas fa-edit"></i></a>
             <a href="javascript:void(0)" class="archive" data-id="{{ requirement.id }}" data-archive="true"><i class="fas fa-trash"></i></a>
+            <a href="{% url 'add_design_with_req' req_id=requirement.id%}"><i class="fas fa-plus-circle" title="New linked requirement"></i></a>
         {% endif %}
     </div>
 </div>

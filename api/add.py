@@ -52,17 +52,25 @@ def add_requirement(request, project_id, us_id):
     context = {
         'form': form,
         'us_id': us_id,
-        'user_stories': UserStory.objects.filter(project_id=project_id, archived=False).order_by('key'),
+        'user_stories': UserStory.objects.filter(
+            project_id=project_id, archived=False).order_by('key'),
         'prefix': Options.objects.get(project_id=project_id).prefix_us,
     }
     return render(request, 'add_requirement.html', context)
 
 
-def add_design(request, project_id):
+def add_design(request, project_id, req_id):
     if request.method == 'POST':
         form = DesignForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            design = form.save()
+            req_ids = request.POST.getlist('requirement')
+            for req_id in req_ids:
+                link = Link.objects.create(
+                    from_art=Artifact.objects.get(id=req_id),
+                    to_art=Artifact.objects.get(id=design.id),
+                )
+                link.save()
             return redirect('design')
         else:
             raise Http404("Not valid")
@@ -71,7 +79,14 @@ def add_design(request, project_id):
         form.fields['project'].initial = Project.objects.get(id=project_id)
         form.fields['type'].initial = "design"
     set_current_key(form, Design, project_id)
-    return render(request, 'add_design.html', {'form': form})
+    context = {
+        'form': form,
+        'req_id': req_id,
+        'requirements': Requirement.objects.filter(
+            project_id=project_id, archived=False).order_by('key'),
+        'prefix': Options.objects.get(project_id=project_id).prefix_req,
+    }
+    return render(request, 'add_design.html', context)
 
 
 def add_code(request, project_id):
