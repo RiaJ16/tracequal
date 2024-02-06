@@ -33,7 +33,8 @@
         </div>
         <form id="form" method="post" enctype="multipart/form-data" class="form container">
             {% csrf_token %}
-            <label for="requirement">Name:</label>
+            {{ form }}
+            <label for="requirement">Select the requirements that this design artifact is modeling:</label>
             <select class="form-select" id="requirement" name="requirement" multiple>
                 {% for requirement in requirements %}
                     <option value="{{ requirement.id }}"
@@ -42,7 +43,6 @@
                     </option>
                 {% endfor %}
             </select>
-            {{ form }}
             <br>
             <div id="buttons">
                 <button type="submit" class="btn btn-accent">Save</button>

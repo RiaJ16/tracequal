@@ -89,11 +89,19 @@ def add_design(request, project_id, req_id):
     return render(request, 'add_design.html', context)
 
 
-def add_code(request, project_id):
+def add_code(request, project_id, req_id):
     if request.method == 'POST':
         form = CodeForm(request.POST)
         if form.is_valid():
-            form.save()
+            code = form.save()
+            art_ids = request.POST.getlist('requirement')
+            art_ids.extend(request.POST.getlist('design'))
+            for art_id in art_ids:
+                link = Link.objects.create(
+                    from_art=Artifact.objects.get(id=art_id),
+                    to_art=Artifact.objects.get(id=code.id),
+                )
+                link.save()
             return redirect('code')
         else:
             raise Http404("Not valid")
@@ -102,7 +110,16 @@ def add_code(request, project_id):
         form.fields['project'].initial = Project.objects.get(id=project_id)
         form.fields['type'].initial = "code"
     set_current_key(form, Code, project_id)
-    return render(request, 'add_code.html', {'form': form})
+    context = {
+        'form': form,
+        'req_id': req_id,
+        'requirements': Requirement.objects.filter(
+            project_id=project_id, archived=False).order_by('key'),
+        'design_artifacts': Design.objects.filter(
+            project_id=project_id, archived=False).order_by('key'),
+        'prefix': Options.objects.get(project_id=project_id).prefix_req,
+    }
+    return render(request, 'add_code.html', context)
 
 
 def add_test(request, project_id):

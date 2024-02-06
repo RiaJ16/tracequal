@@ -223,8 +223,8 @@ def archive_design(request, project_id):
 
 
 @project_required
-def add_code(request, project_id):
-    return add.add_code(request, project_id)
+def add_code(request, project_id, req_id=None):
+    return add.add_code(request, project_id, req_id)
 
 
 @project_required

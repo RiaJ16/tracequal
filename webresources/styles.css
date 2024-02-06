@@ -235,12 +235,33 @@ a{
 }
 
 .icons .fas.fa-plus-circle{
-    color: #e67e22;
+    color: #d35400;
+    cursor: pointer;
+}
+
+
+.icons .fas.fa-plus-circle.design{
+    color: #2980b9;
+    cursor: pointer;
+}
+
+.icons .fas.fa-plus-circle.code{
+    color: #27ae60;
     cursor: pointer;
 }
 
 .icons .fas.fa-plus-circle:hover{
-    color: #d35400;
+    color: #e67e22;
+    cursor: pointer;
+}
+
+.icons .fas.fa-plus-circle.design:hover{
+    color: #3498db;
+    cursor: pointer;
+}
+
+.icons .fas.fa-plus-circle.code:hover{
+    color: #2ecc71;
     cursor: pointer;
 }
 
