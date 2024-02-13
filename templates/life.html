@@ -1,0 +1,43 @@
+<div class="container">
+    {% with map as link_map %}
+        <div class="row">
+            <div class="col mini_artifact user_story">
+                <small>User story</small>
+                {{ link_map.user_story.name }}
+            </div>
+{#            <i class="col-sm fas fa-arrow-right"></i>#}
+            <div class="col mini_artifact requirement">
+                <small>Requirement</small>
+                {{ link_map.requirement.name }}
+            </div>
+        </div>
+            {% for design in link_map.design %}
+                <div class="row">
+                    <div class="col mini_artifact design">
+                        <small>Design</small>
+                        {{ design.name }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% for code in link_map.code %}
+            <div class="row">
+                <div class="col mini_artifact code">
+                    <small>Code</small>
+                    {{ code.code.name }}
+                </div>
+                {% for test in code.test %}
+                    {% if forloop.counter != 1 %}
+                        <div class="row">
+                        <div class="col mini_artifact filler">
+                            &nbsp;
+                        </div>
+                    {% endif %}
+                    <div class="col mini_artifact test" style="margin-top: 10px">
+                        <small>Test</small>
+                        {{ test.name }}
+                    </div>
+                    </div>
+                {% endfor %}
+        {% endfor %}
+    {% endwith %}
+</div>

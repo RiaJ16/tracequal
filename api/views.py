@@ -339,14 +339,45 @@ def show_links(request, project_id, artifact_id, archive_=False):
             'test': 'tests',
         }
         graph_data_json = get_graph_data_json(project_id, all_links_, artifact)
+        link_map = {'design': [], 'code': [], 'test': [], artifact.type: []}
+        link_map[artifact.type].append(artifact)
+        for link in from_links:
+            la = link.to_art
+            if la.type == 'requirement':
+                link_map['requirement'] = link.to_art
+                req_links = Link.objects.filter(Q(archived=archive_) & (Q(from_art=la.id)))
+                for req_link in req_links:
+                    lra = req_link.to_art
+                    if lra.type == 'design':
+                        link_map['design'].append(lra)
+                    elif lra.type == 'code':
+                        link_map['code'].append({
+                            'code': lra,
+                            'test': []
+                        })
+                        code_links = Link.objects.filter(Q(archived=archive_) & (Q(from_art=lra.id)))
+                        i = 0
+                        for code_link in code_links:
+                            lca = code_link.to_art
+                            if lca.type == 'test':
+                                link_map['code'][i]['test'].append(lca)
+                                i += 0
+            elif la.type == 'design':
+                link_map['design'].append(link.to_art)
+            elif la.type == 'code':
+                link_map['code'].append(link.to_art)
+            elif la.type == 'test':
+                link_map['test'].append(link.to_art)
+        # print(link_map)
         data = {
             'from_links': from_links,
             'to_links': to_links,
             'artifact': artifact,
             'graph_data_json': graph_data_json,
             'view_name': views_dict[artifact.type],
-            "archive": archive_,
+            'archive': archive_,
             'role': request.session['role'],
+            'map': link_map,
         }
         return render(request, 'links.html', data)
     except Artifact.DoesNotExist:

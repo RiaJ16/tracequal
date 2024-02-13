@@ -13,6 +13,7 @@
     <script src="{% static 'js/graph.js' %}"></script>
     <link href="{% static 'styles.css' %}" rel="stylesheet">
     <link href="{% static 'graph.css' %}" rel="stylesheet">
+    <link href="{% static 'links_table.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
 {% endblock links %}
@@ -39,8 +40,11 @@
             {% endif %}
         </div>
         <p class="artifact_name">"{{ artifact.name }}."</p>
+{#        {% if from_links or to_links %}#}
+{#            {% include 'graph.html' %}#}
+{#        {% endif %}#}
         {% if from_links or to_links %}
-            {% include 'graph.html' %}
+            {% include 'life.html' %}
         {% endif %}
         {% if from_links %}
             <h5 class="direction">Links from the {{ artifact.type|replace_underscore }}</h5>

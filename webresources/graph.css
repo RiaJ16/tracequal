@@ -112,11 +112,11 @@
     color: #f1c40f;
 }
 
-.table td:first-child {
+.graph-table td:first-child {
     width: 0.5em;
 }
 
-.table td:last-child {
+.graph-table td:last-child {
     width: 15em;
 }
 

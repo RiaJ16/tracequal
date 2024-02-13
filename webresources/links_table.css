@@ -1,0 +1,81 @@
+td {
+  width: 20%;
+}
+
+.mini_artifact{
+    position: relative;
+    padding: 0.5em;
+    border-radius: 0.7em;
+    border: 0.1em solid white;
+    color: #000;
+    border-top: 1.5em solid white;
+    margin: 0.5em 0;
+}
+
+.mini_artifact.requirement, .mini_artifact.test{
+    margin-left: 2em;
+}
+
+.mini_artifact.user_story{
+    background-color: #cef3ea;
+    border-color: #1abc9c;
+}
+
+.mini_artifact.requirement{
+    background-color: #f1cccc;
+    border-color: #e74c3c;
+}
+
+.mini_artifact.design{
+    background-color: #cfdff6;
+    border-color: #3498db;
+}
+
+.mini_artifact.code{
+    background-color: #d3f6e3;
+    border-color: #2ecc71;
+}
+
+.mini_artifact.test{
+    background-color: #f4e6ff;
+    border-color: #9b59b6;
+}
+
+.mini_artifact small{
+    color: white;
+    font-size: 8pt;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    top: -2em;
+}
+
+.mini_artifact.user_story small{
+    color: #085746;
+}
+
+.mini_artifact.requirement small{
+    color: #5e0e04;
+}
+
+.mini_artifact.design small{
+    color: #0b4067;
+}
+
+.mini_artifact.code small{
+    color: #085426;
+}
+
+.mini_artifact.test small{
+    color: #390652;
+}
+
+.mini_artifact {
+    + .test, + .requirement{
+        &::before {
+            font-family: "Font Awesome 5 Free";
+            font-weight: 700;
+            content: "\f061" !important;
+        }
+    }
+}
