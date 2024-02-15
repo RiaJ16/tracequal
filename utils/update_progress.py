@@ -32,12 +32,15 @@ def update(project_id):
         code_progress = 0
     total_linked = 0
     for code in code_artifacts:
-        links = Link.objects.filter(from_art=code.id, to_art__type="test", archived="False")
+        links = Link.objects.filter(from_art=code.id, to_art__type="test", archived=False)
         for link in links:
-            linked_test = Test.objects.get(id=link.to_art.id)
-            if linked_test.verdict == "pass":
-                total_linked += 1
-                continue
+            try:
+                linked_test = Test.objects.get(id=link.to_art.id, archived=False)
+                if linked_test.verdict == "pass":
+                    total_linked += 1
+                    break
+            except Test.DoesNotExist:
+                pass
     if code_artifacts:
         test_progress = total_linked / len(code_artifacts) * 100
     else:
