@@ -33,6 +33,9 @@ def add_requirement(request, project_id, us_id):
     if request.method == 'POST':
         form = RequirementForm(dict_with_sequences(request.POST))
         if form.is_valid():
+            redirect_to_us = False
+            if us_id:
+                redirect_to_us = True
             requirement = form.save()
             us_ids = request.POST.getlist('user_story')
             for us_id in us_ids:
@@ -41,7 +44,10 @@ def add_requirement(request, project_id, us_id):
                     to_art=Artifact.objects.get(id=requirement.id),
                 )
                 link.save()
-            return redirect('requirements')
+            if redirect_to_us:
+                return redirect('user_stories')
+            else:
+                return redirect('requirements')
         else:
             raise Http404("Not valid")
     else:
@@ -63,6 +69,9 @@ def add_design(request, project_id, req_id):
     if request.method == 'POST':
         form = DesignForm(request.POST, request.FILES)
         if form.is_valid():
+            redirect_to_req = False
+            if req_id:
+                redirect_to_req = True
             design = form.save()
             req_ids = request.POST.getlist('requirement')
             for req_id in req_ids:
@@ -71,7 +80,10 @@ def add_design(request, project_id, req_id):
                     to_art=Artifact.objects.get(id=design.id),
                 )
                 link.save()
-            return redirect('design')
+            if redirect_to_req:
+                return redirect('requirements')
+            else:
+                return redirect('design')
         else:
             raise Http404("Not valid")
     else:
@@ -93,6 +105,9 @@ def add_code(request, project_id, req_id):
     if request.method == 'POST':
         form = CodeForm(request.POST)
         if form.is_valid():
+            redirect_to_req = False
+            if req_id:
+                redirect_to_req = True
             code = form.save()
             art_ids = request.POST.getlist('requirement')
             art_ids.extend(request.POST.getlist('design'))
@@ -102,7 +117,10 @@ def add_code(request, project_id, req_id):
                     to_art=Artifact.objects.get(id=code.id),
                 )
                 link.save()
-            return redirect('code')
+            if redirect_to_req:
+                return redirect('requirements')
+            else:
+                return redirect('code')
         else:
             raise Http404("Not valid")
     else:
