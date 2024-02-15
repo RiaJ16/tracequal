@@ -241,7 +241,7 @@ def add_link(request, project_id, artifact_id):
             for link_data in data:
                 target = Artifact.objects.get(
                     project_id=project_id, id=link_data['artifact'])
-                link = Link(from_art=artifact, to_art=target,
+                link = Link.objects.create(from_art=artifact, to_art=target,
                             type=types[link_data['type']])
                 link.save()
             return JsonResponse({'message': 'Success'})
@@ -250,7 +250,7 @@ def add_link(request, project_id, artifact_id):
     else:
         form = LinkForm()
         form.fields['from_art'].initial = artifact
-        artifacts = Artifact.objects.filter(project_id=project_id)
+        artifacts = Artifact.objects.filter(project_id=project_id, archived=False)
         links = Link.objects.filter(from_art=artifact)
         artifacts_to_exclude = [artifact.id]
         artifacts = [artifact for artifact in artifacts if

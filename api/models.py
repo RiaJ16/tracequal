@@ -10,6 +10,8 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils import timezone
 
+from .managers import LinkManager
+
 
 class Verdict(models.CharField):
     def db_type(self, connection):
@@ -231,6 +233,8 @@ class Link(models.Model):
     type = Litype(blank=True, null=True, default="evolution")
     date = models.DateTimeField(blank=True, null=True, default=timezone.now)
     archived = models.BooleanField(blank=True, default=0)
+
+    objects = LinkManager()
 
     class Meta:
         managed = False
