@@ -35,6 +35,7 @@ urlpatterns = [
     path('code/edit/<int:id>/', views.edit_code, name='edit_code'),
     path('code/archive/', views.archive_code, name='archive_code'),
     path('tests/add/', views.add_test, name='add_test'),
+    path('tests/add/<int:code_id>/', views.add_test, name='add_test_with_code'),
     path('tests/edit/<int:id>/', views.edit_test, name='edit_test'),
     path('tests/archive/', views.archive_test, name='archive_test'),
     re_path(r'^tests_applications/add/(?P<test_id>[\w-]+)?/$',

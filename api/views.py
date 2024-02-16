@@ -238,8 +238,8 @@ def archive_code(request, project_id):
 
 
 @project_required
-def add_test(request, project_id):
-    return add.add_test(request, project_id)
+def add_test(request, project_id, code_id=None):
+    return add.add_test(request, project_id, code_id)
 
 
 @project_required

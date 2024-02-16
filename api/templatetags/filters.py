@@ -22,7 +22,7 @@ def determine_article(user_input):
 @register.filter
 def sort_test_applications(test_applications):
     return sorted(
-        test_applications, key=lambda x: x.application_date, reverse=True)
+        test_applications, key=lambda x: (x.application_date, x.id), reverse=True)
 
 
 @register.filter

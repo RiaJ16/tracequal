@@ -140,7 +140,7 @@ def add_code(request, project_id, req_id):
     return render(request, 'add_code.html', context)
 
 
-def add_test(request, project_id):
+def add_test(request, project_id, code_id):
     if request.method == 'POST':
         form = TestForm(request.POST)
         if form.is_valid():
@@ -202,7 +202,7 @@ def update_test_veredict(ta):
     tapps = TestApplication.objects.filter(test=test)
     if tapps:
         tapps = sorted(
-            tapps, key=lambda x: x.application_date, reverse=True)
+            tapps, key=lambda x: (x.application_date, x.id), reverse=True)
         ta = tapps[0]
     test.verdict = ta.verdict
     test.application_date = ta.application_date
