@@ -16,7 +16,10 @@ def index(request):
             permissions.append(permission.role)
         totals = []
         for prog in progress_:
-            total = prog.progress_tests
+            total = (prog.progress_requirements +
+                     prog.progress_design +
+                     prog.progress_code +
+                     prog.progress_tests * 4) / (4 + 3)
             totals.append({
                 'total': total,
                 'color': calculate_gradient_color(total)

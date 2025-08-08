@@ -6,6 +6,8 @@ $(document).ready(function() {
     const width = container.width();
     const height = container.height();
     const graphData = JSON.parse($("#graph_data_json").html());
+    const typeOrder = ['user_story','requirement','design','code','test']; // <- match your d.type
+    const rank = Object.fromEntries(typeOrder.map((t,i)=>[t,i]));
 
     svg = d3.select('#graph-container').append('svg')
         .attr('width', width)
@@ -56,18 +58,69 @@ $(document).ready(function() {
     const nodes = graphData.nodes;
     const links = graphData.links;
 
-    const link = svg.selectAll('.link')
+    const viewport = svg.append('g').attr('class','viewport');
+
+    const link = viewport.append('g').attr('class','links').selectAll('path')
         .data(links)
-        .enter().append('line')
+        .enter().append('path')
         .attr('id', d => d.id)
         .attr('class', d => 'link ' + d.type)
-        .attr('marker-end', d => 'url(#arrowhead'+ d.arrowhead + ')');
+        .attr('fill', 'none')
+        .attr('stroke', '#3b6ea5')
+        .attr('stroke-width', 1.4)
+        .attr('marker-end', d => 'url(#arrowhead' + d.arrowhead + ')');
 
-    const node = svg.selectAll('.node')
+    function shrinkSegment(sx, sy, tx, ty, r1 = 0, r2 = 0, arrowPad = 0) {
+        const dx = tx - sx, dy = ty - sy;
+        const L = Math.hypot(dx, dy) || 1;
+        const ux = dx / L, uy = dy / L;
+        return {
+            sx: sx + ux * r1,
+            sy: sy + uy * r1,
+            tx: tx - ux * (r2 + arrowPad),
+            ty: ty - uy * (r2 + arrowPad)
+        };
+    }
+
+    function curvedPath(d) {
+        const s = d.source, t = d.target;
+        const { sx, sy, tx, ty } = shrinkSegment(s.x, s.y, t.x, t.y);
+        const dx = tx - sx, dy = ty - sy;
+        const dr = Math.hypot(dx, dy) * 0.30;
+        return `M${sx},${sy}C${sx + dr},${sy},${tx - dr},${ty},${tx},${ty}`;
+    }
+
+    const node = viewport.append('g').attr('class','nodes').selectAll('g')
         .data(nodes)
         .enter().append('g')  // Create a group element for each node
         .attr('class', 'node-group')
         .attr('transform', d => `translate(${d.x || 0}, ${d.y || 0})`);
+
+    // 3) add zoom/pan
+    const zoom = d3.zoom()
+        .scaleExtent([0.3, 3])               // min/max zoom
+        .on('zoom', (ev) => viewport.attr('transform', ev.transform));
+
+    svg.call(zoom);
+
+    const byType = d3.group(nodes, d => d.type);
+
+    /*for (const [type, arr] of byType) { // Sorting de los nodos
+        arr.sort((a,b) => d3.ascending(a.key, b.key));
+        arr.forEach((n,i) => n._lane = i);
+    }*/
+
+    function buildYTargets(h){
+        const targets = new Map();
+        for (const [type, arr] of byType) {
+            const padding = 30;
+            const spacing = Math.min(90, (h - padding*2) / (arr.length + 1));
+            const start = padding + spacing;
+            arr.forEach((n,i) => targets.set(n.id, start + i*spacing));
+        }
+        return targets;
+    }
+    let yTargets = buildYTargets(height);
 
     node.append('circle')
         .attr('class', 'node')
@@ -79,17 +132,17 @@ $(document).ready(function() {
         .attr('dy', -15)
         .text(d => d.key);
 
+    const xForType = t => (rank[t] + 0.5) * (width / typeOrder.length);
+
     simulation = d3.forceSimulation(nodes)
         .force('link', d3.forceLink(links).id(d => d.id).distance(100))
-        .force('charge', d3.forceManyBody().strength(-50))
-        .force('center', d3.forceCenter(width/2, height/2))
-        .force('collide', d3.forceCollide().strength(1).radius(10).iterations(20));
+        .force('charge', d3.forceManyBody().strength(-120))
+        .force('collide', d3.forceCollide().strength(1).radius(10).iterations(20))
+        .force('x', d3.forceX(d => xForType(d.type)).strength(0.35)) // columns
+        .force('y', d3.forceY(d => yTargets.get(d.id)).strength(0.25));
 
     simulation.on('tick', () => {
-        link.attr('x1', d => d.source.x)
-            .attr('y1', d => d.source.y)
-            .attr('x2', d => d.target.x)
-            .attr('y2', d => d.target.y);
+        link.attr('d', curvedPath);
 
         node.attr('transform', d => `translate(${d.x},${d.y})`);
         node.attr('cx', d => d.x)

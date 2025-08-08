@@ -58,7 +58,7 @@ def project(request, project_id=None):
     total = (progress_.progress_requirements +
              progress_.progress_design +
              progress_.progress_code +
-             progress_.progress_tests) / 4
+             progress_.progress_tests * 4) / (4+3)
     colors = {
         'r': calculate_gradient_color(progress_.progress_requirements),
         'd': calculate_gradient_color(progress_.progress_design),

@@ -1,0 +1,14 @@
+<div class="list-group-item container change">
+    <div class="row">
+        <div class="col">{{ changes|length }} total changes made</div>
+        <div class="col">
+            Last change:
+            <ul>
+                {% for atc in changes.0.changes_json %}
+                    <li>{{ atc.differences|safe }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col">Made by <span class="strong">{{ changes.0.user }}</span> on {{ changes.0.date|date:"F j, Y h:i A" }}</div>
+    </div>
+</div>

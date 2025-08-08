@@ -4,9 +4,9 @@
     <small class="key user_story">{{ prefix }}{{ user_story.key|stringformat:"02d" }}</small>
     <div class="d-flex align-items-center">
         <div class="number">{{ forloop.counter }}</div>
-        <div class="ml-3 strikable">As {{ user_story.role|determine_article }} <span class="field role">{{ user_story.role }}</span>
-        I want to <span class="field action">{{ user_story.actn }}</span>
-        so that <span class="field benefit">{{ user_story.benefit }}</span>
+        <div class="ml-3 strikable">Como un <span class="field role">{{ user_story.role }}</span>
+        quiero <span class="field action">{{ user_story.actn }}</span>
+        para <span class="field benefit">{{ user_story.benefit }}</span>
         <small class="date">{{ user_story.date|date:"F j, Y h:i A" }}</small>
         </div>
     </div>
@@ -18,7 +18,7 @@
             <a title="Traceability" href="{% url 'links' artifact_id=user_story.id %}"><i class="fa-solid fa-link"></i></a>
             <a title="Edit user story" href="{% url 'edit_user_story' us_id=user_story.id %}"><i class="fas fa-edit"></i></a>
             <a title="Archive user story" href="javascript:void(0)" class="archive" data-id="{{ user_story.id }}" data-archive="true"><i class="fas fa-trash"></i></a>
-            <a href="{% url 'add_requirement_with_us' us_id=user_story.id%}"><i class="fas fa-plus-circle" title="New linked design"></i></a>
+            <a href="{% url 'add_requirement_with_us' us_id=user_story.id%}"><i class="fas fa-plus-circle" title="New linked requirement"></i></a>
         {% endif %}
     </div>
 </div>

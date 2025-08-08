@@ -20,7 +20,7 @@
                 <div class="col-1 tq-back"><a href="{% url 'index' %}"><i class="fas fa-arrow-left fa-lg fa-inverse"></i></a></div>
                 <div class="col-11">
                     <div class="progress" role="progressbar" aria-valuenow="{{ progress.progress_tests }}" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar progress-bar-striped" style="width: {{ progress.progress_tests }}%; background-color: {{ colors.t }}"></div>
+                        <div class="progress-bar progress-bar-striped" style="width: {{ total }}%; background-color: {{ colors.total }}"></div>
                     </div>
                 </div>
             </div>
@@ -81,6 +81,7 @@
                 </div>
             </div>
         </div>
+        <small>*The progress bars show the percentage of artifacts from the previous phase that are linked to at least one artifact in the current phase.</small>
     </div>
 
 {% endblock content%}

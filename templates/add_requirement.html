@@ -38,7 +38,7 @@
                 {% for user_story in user_stories %}
                     <option value="{{ user_story.id }}"
                     {% if user_story.id == us_id %}selected{% endif %}>
-                        {{ prefix }}{{ user_story.key|stringformat:"02d" }} - {{ user_story.name }}
+                        {{ prefix }}{{ user_story.key|stringformat:"02d" }} - {{ user_story }}
                     </option>
                 {% endfor %}
             </select>

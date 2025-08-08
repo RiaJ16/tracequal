@@ -330,10 +330,12 @@ class UserStory(ArtifactBase):
         db_table = 'user_story'
 
     def __str__(self):
-        pid = 0
-        if self.project:
-            pid = self.project.id
+        pid = self.project.id if self.project else 0
         return f"User story {pid}{self.key:03d}: {self.role}, {self.actn}, {self.benefit}"
+
+    def save(self, *args, **kwargs):
+        self.name = f"{self.role}, {self.actn}, {self.benefit}"
+        super().save(*args, **kwargs)
 
 
 class Usr(AbstractBaseUser):
